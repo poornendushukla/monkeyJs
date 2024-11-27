@@ -15,6 +15,9 @@ export default [
       'pnpm-lock.yaml',
       'pnpm-workspace.yaml',
     ],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
+    },
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
