@@ -60,7 +60,7 @@ importers:
         specifier: ^5.7.2
         version: 5.7.2
 
-  packages/monkeyJs:
+  packages/monkeyts:
     devDependencies:
       typescript:
         specifier: ~5.6.2
@@ -74,6 +74,9 @@ importers:
 
   packages/react-monkeyjs:
     dependencies:
+      monkeyts:
+        specifier: workspace:*
+        version: link:../monkeyts
       react:
         specifier: ^18.3.1
         version: 18.3.1

@@ -1,5 +1,5 @@
 {
-  "name": "monkeyjs",
+  "name": "monkeyts",
   "main": "./dist/common.js",
   "types": "./dist/main.d.ts",
   "private": true,
