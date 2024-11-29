@@ -1,6 +1,7 @@
 import { PopoverBuilderConfig } from '../component/core/popover/PopoverBuilder';
 import PopoverManager from '../component/core/popover/PopoverManager';
-import TourController, {
+import {
+  TourController,
   TourControllerConfig,
 } from '../component/core/tour/TourController';
 
@@ -13,7 +14,7 @@ export type TourConfig = {
  * purpose of this class would be to integrate the process of creating the state for the tour
  * and integrate the process of updating the ui along with state
  */
-class Tour {
+export class Tour {
   private _tour: TourController;
   private _popover?: PopoverManager;
   constructor(config: TourConfig) {
@@ -36,5 +37,3 @@ class Tour {
     this._tour.distroyTour();
   }
 }
-
-export default Tour;

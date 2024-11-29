@@ -1,8 +1,8 @@
-import TourBuilder, { stepComponent } from './TourBuilder';
+import { stepComponent, TourBuilder } from './TourBuilder';
 export type TourControllerConfig = {
   steps: stepComponent[];
 };
-class TourController extends TourBuilder {
+export class TourController extends TourBuilder {
   private _currentStep: number;
   constructor({ steps }: TourControllerConfig) {
     super({ steps });
@@ -55,5 +55,3 @@ class TourController extends TourBuilder {
       );
   }
 }
-
-export default TourController;

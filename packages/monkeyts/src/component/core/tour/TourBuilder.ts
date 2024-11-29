@@ -11,7 +11,7 @@ export type TourBuilderConfig = {
  * this should exculsivly have the responsibility of building the tour, ie
  * initializing, adding steps, and ending the tour. registering key events
  */
-class TourBuilder {
+export class TourBuilder {
   protected _stepsComponent: stepComponent[] = [];
   constructor({ steps }: TourBuilderConfig) {
     this._stepsComponent = steps;

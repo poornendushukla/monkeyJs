@@ -44,14 +44,15 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
           arrowColor: '',
         },
       }),
-    [steps],
+    [steps.length],
   );
   useEffect(() => {
     if (tour) {
       tour.init();
       setTimeout(() => {
-        tour.start();
-      }, 1000);
+        console.log(tour);
+        // tour.start();
+      }, 3000);
     }
 
     return () => {

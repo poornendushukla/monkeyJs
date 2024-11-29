@@ -1,34 +1,17 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
-
+import TourContext from './context/TourProvider';
+import Demo from './demo/Demo';
+import { stepComponent } from 'monkeyts';
 function App() {
-  const [count, setCount] = useState(0);
-
+  const step: stepComponent[] = [
+    { description: 'discription 1', title: 'title one', element: '#step-1' },
+    { description: 'des 2', title: 'title 2', element: '#step-2' },
+    { description: 'des 23', title: 'title 2', element: '#step-3' },
+  ];
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <TourContext steps={step}>
+      <Demo />
+    </TourContext>
   );
 }
 

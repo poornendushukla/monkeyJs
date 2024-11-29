@@ -97,7 +97,6 @@ class PopoverBuilder implements ILifeCycle {
     if (!this.state.isInitialized) {
       this.createPopover();
       this.applyPopoverStyles();
-      this.appendPopoverToDocument();
     }
   }
   /**

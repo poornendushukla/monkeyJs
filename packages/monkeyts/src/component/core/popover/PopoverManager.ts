@@ -1,4 +1,4 @@
-import TourController from '../tour/TourController';
+import { TourController } from '../tour/TourController';
 import PopoverBuilder, { PopoverBuilderConfig } from './PopoverBuilder';
 import {
   POPOVER_POSITION_CONSTANT,
@@ -179,11 +179,11 @@ class PopoverManager {
   }
   public init(tourController: TourController) {
     this.tourInstance = tourController;
-    this.overlay.mount();
-    this.popover.mount();
     this.attachEventListners();
   }
   public start() {
+    this.overlay.mount();
+    this.popover.mount();
     this.updatePopover();
   }
   public distroy() {

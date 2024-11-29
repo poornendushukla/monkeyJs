@@ -286,7 +286,7 @@ class OverlayBuilder implements IOverlay {
       this._mask = mask;
     }
   }
-  mount(): void {
+  mount() {
     if (!this.state.isInitialized) {
       console.error('Overlay not initialize');
       return;
@@ -304,7 +304,7 @@ class OverlayBuilder implements IOverlay {
       throw new Error('Failed to mount overlay');
     }
   }
-  unmount(): void {
+  unmount() {
     if (!this.state.isInitialized) {
       console.error('Overlay is not initialized');
       return;
@@ -322,7 +322,7 @@ class OverlayBuilder implements IOverlay {
       throw new Error('Failed to unmoutn Overlay');
     }
   }
-  distroy(): void {
+  distroy() {
     try {
       if (this.state.isMounted) {
         this.unmount();

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTourContext } from '../context/TourProvider';
 
 const generateRandomStyle = () => {
   const width = Math.floor(Math.random() * 200) + 50; // Random width between 50px and 250px
@@ -19,12 +20,16 @@ const generateRandomStyle = () => {
 
 const Demo = () => {
   const divs = [];
-
+  const tour = useTourContext();
   // Create 15 divs with random styles
   for (let i = 0; i < 15; i++) {
-    divs.push(<div key={i} style={generateRandomStyle()} />);
+    divs.push(<div id={`step-${i}`} key={i} style={generateRandomStyle()} />);
   }
-
+  useEffect(() => {
+    setTimeout(() => {
+      tour.start();
+    }, 5000);
+  }, []);
   return <div>{divs}</div>;
 };
 
