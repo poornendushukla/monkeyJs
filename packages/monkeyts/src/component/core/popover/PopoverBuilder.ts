@@ -91,6 +91,12 @@ class PopoverBuilder implements ILifeCycle {
       ['progress-bar']: `
       
       `,
+      ['next-btn']: `
+
+      `,
+      ['prev-btn']: `
+      
+      `,
     });
   }
   private build() {
@@ -160,11 +166,13 @@ class PopoverBuilder implements ILifeCycle {
       footer.style.backgroundColor = this.options.progressBarColor || '';
       footer.append(progressBar);
     }
+    const nextBtnClassName = this.styleManager.getClassName('next-btn');
+    const prevBtnClassName = this.styleManager.getClassName('prev-btn');
     footer.appendChild(
       this.createButton(
         this.options.prevBtnText,
         'Previous',
-        'popover-prev-btn',
+        prevBtnClassName,
         POPOVERIDS.PREV_BTN,
       ),
     );
@@ -172,7 +180,7 @@ class PopoverBuilder implements ILifeCycle {
       this.createButton(
         this.options.nextBtnText,
         'Next',
-        'popover-next-btn',
+        nextBtnClassName,
         POPOVERIDS.NEXT_BTN,
       ),
     );

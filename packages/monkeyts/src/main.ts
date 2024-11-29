@@ -1,15 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const isEmpty = (data: any) => data === null || data === undefined;
-
-export const isObject = (data: any) => data && typeof data === 'object';
-
-export const isBlank = (data: any) =>
-  isEmpty(data) ||
-  (Array.isArray(data) && data.length === 0) ||
-  (isObject(data) && Object.keys(data).length === 0) ||
-  (typeof data === 'string' && data.trim().length === 0);
-
 export * from './controller/Tour';
 export * from './utils/utils';
 export * from './component/core/tour/TourController';
-export * from './component/core/tour/TourBuilder';
+export * from './component/core/tour/TourState';

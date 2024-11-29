@@ -1,23 +1,36 @@
-import { stepComponent, TourBuilder } from './TourBuilder';
+import { stepComponent, TourState } from './TourState';
 export type TourControllerConfig = {
   steps: stepComponent[];
 };
-export class TourController extends TourBuilder {
+export class TourController {
   private _currentStep: number;
-  constructor({ steps }: TourControllerConfig) {
-    super({ steps });
+  private tourState: TourState;
+  private static instance: TourController;
+  private constructor({ steps }: TourControllerConfig) {
+    this.tourState = new TourState({ steps });
     this._currentStep = 0;
   }
-  onNext() {
-    if (this._currentStep > this._stepsComponent.length) {
-      this.distroyTour();
+  static initInstance({ steps }: TourControllerConfig) {
+    if (!TourController.instance)
+      TourController.instance = new TourController({ steps });
+  }
+  static getInstance() {
+    if (!TourController.instance) {
+      throw new Error('Tour is not initialized yet! try refreshing🤞');
     }
-    this._currentStep++;
+    return TourController.instance;
+  }
+  onNext() {
+    if (this._currentStep < this.tourState._stepsComponent.length - 1) {
+      this._currentStep++;
+    } else {
+      this.endTour();
+    }
   }
   start() {
     const targetElement = this.getCurrentActiveStepElement();
     if (!targetElement) {
-      this.distroyTour();
+      this.endTour();
       console.error('No target element found');
       return;
     }
@@ -25,18 +38,18 @@ export class TourController extends TourBuilder {
   onPrev() {
     this._currentStep--;
     if (this._currentStep < 0) {
-      this.distroyTour();
+      this.endTour();
     }
   }
   onCancel() {
-    this.distroyTour();
-  }
-  onEnd() {}
-  distroyTour() {
     this.endTour();
   }
+  onEnd() {}
+  endTour() {
+    this.tourState.endTour();
+  }
   get totalSteps(): number {
-    return this._stepsComponent.length;
+    return this.tourState._stepsComponent.length;
   }
   get currentStep(): number {
     return this._currentStep;
@@ -45,13 +58,13 @@ export class TourController extends TourBuilder {
     return this._currentStep === this.totalSteps - 1;
   }
   getCurrentStepContent() {
-    if (this._stepsComponent[this._currentStep])
-      return this._stepsComponent[this._currentStep];
+    if (this.tourState._stepsComponent[this._currentStep])
+      return this.tourState._stepsComponent[this._currentStep];
   }
   getCurrentActiveStepElement() {
-    if (this._stepsComponent[this._currentStep])
+    if (this.tourState._stepsComponent[this._currentStep])
       return document.querySelector(
-        this._stepsComponent[this._currentStep].element,
+        this.tourState._stepsComponent[this._currentStep].element,
       );
   }
 }

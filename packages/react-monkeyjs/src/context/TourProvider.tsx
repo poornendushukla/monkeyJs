@@ -21,7 +21,7 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
         controllerConfig: { steps: steps },
         tourConfig: {
           isArrowVisible: true,
-          position: POPOVER_POSITION_CONSTANT.BOTTOM,
+          position: POPOVER_POSITION_CONSTANT.TOP,
           overlayConfig: {
             radius: 10,
             padding: {
@@ -51,13 +51,9 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
       tour.init();
       setTimeout(() => {
         console.log(tour);
-        // tour.start();
+        tour.start();
       }, 3000);
     }
-
-    return () => {
-      tour.distroy();
-    };
   }, []);
   return (
     <Context.Provider value={{ start: tour.start }}>

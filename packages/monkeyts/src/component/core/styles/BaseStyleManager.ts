@@ -97,6 +97,7 @@ class BaseStyleManager {
         border-radius: var(--monkey-popoverBorderRadius);
         box-shadow: var(--monkey-popoverBoxShadow);
         z-index: var(--monkey-baseZIndex);
+        color:var(--monkey-textColor);
         font-family: var(--monkey-fontFamily);
         padding:var(--monkey-popoverPadding);
         `,

@@ -3,6 +3,7 @@ import PopoverBuilder, { PopoverBuilderConfig } from './PopoverBuilder';
 import {
   POPOVER_POSITION_CONSTANT,
   popover_positions,
+  POPOVERIDS,
   TPopoverPosition,
 } from '../../../utils/utils';
 import OverlayBuilder from '../overlay/OverlayBuilder';
@@ -130,38 +131,38 @@ class PopoverManager {
     }
   }
   private updatePopover() {
-    if (this.tourInstance) {
-      const popoverContent = this.tourInstance?.getCurrentStepContent();
-      const targetElement = this.tourInstance?.getCurrentActiveStepElement();
-      if (popoverContent && targetElement) {
-        const boundingRect = targetElement.getBoundingClientRect();
-        const { description, title } = popoverContent;
-        this.overlay.update(boundingRect);
-        this.popover.updateContent(
-          title,
-          description,
-          this.tourInstance.currentStep,
-          this.tourInstance.isLastStep,
-          this.tourInstance.totalSteps,
-        );
-        this.updatePopoverPosition(boundingRect);
-      }
+    const tourInstance = TourController.getInstance();
+    const popoverContent = tourInstance.getCurrentStepContent();
+    const targetElement = tourInstance.getCurrentActiveStepElement();
+    if (popoverContent && targetElement) {
+      const boundingRect = targetElement.getBoundingClientRect();
+      const { description, title } = popoverContent;
+      this.overlay.update(boundingRect);
+      this.popover.updateContent(
+        title,
+        description,
+        tourInstance.currentStep,
+        tourInstance.isLastStep,
+        tourInstance.totalSteps,
+      );
+      this.updatePopoverPosition(boundingRect);
     }
   }
   private attachEventListners() {
-    const nextBtn = document.querySelector('.popover-next-btn');
-    const prevBtn = document.querySelector('.popover-prev-btn');
+    const nextBtn = document.querySelector(`#${POPOVERIDS.NEXT_BTN}`);
+    const prevBtn = document.querySelector(`#${POPOVERIDS.PREV_BTN}`);
+    const tourInstance = TourController.getInstance();
     window.addEventListener('resize', () => {
       this.updatePopover();
     });
     window.addEventListener('keydown', (event) => {
       switch (event.key) {
         case 'ArrowLeft':
-          this.tourInstance?.onPrev();
+          tourInstance.onPrev();
           this.updatePopover();
           break;
         case 'ArrowRight':
-          this.tourInstance?.onNext();
+          tourInstance.onNext();
           this.updatePopover();
           break;
         default:
@@ -169,21 +170,18 @@ class PopoverManager {
       }
     });
     nextBtn?.addEventListener('click', () => {
-      this.tourInstance?.onNext();
+      tourInstance.onNext();
       this.updatePopover();
     });
     prevBtn?.addEventListener('click', () => {
-      this.tourInstance?.onPrev();
+      tourInstance.onPrev();
       this.updatePopover();
     });
-  }
-  public init(tourController: TourController) {
-    this.tourInstance = tourController;
-    this.attachEventListners();
   }
   public start() {
     this.overlay.mount();
     this.popover.mount();
+    this.attachEventListners();
     this.updatePopover();
   }
   public distroy() {

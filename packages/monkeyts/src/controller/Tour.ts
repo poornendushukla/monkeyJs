@@ -15,25 +15,24 @@ export type TourConfig = {
  * and integrate the process of updating the ui along with state
  */
 export class Tour {
-  private _tour: TourController;
   private _popover?: PopoverManager;
   constructor(config: TourConfig) {
     const {
       controllerConfig: { steps },
       tourConfig,
     } = config;
-    this._tour = new TourController({ steps });
+    TourController.initInstance({ steps });
     this._popover = new PopoverManager(tourConfig);
   }
 
   init() {
-    if (this._popover) this._popover.init(this._tour);
+    //* keeping it here for no apparant reason
   }
   start() {
     this._popover?.start();
   }
   distroy() {
     if (this._popover) this._popover.distroy();
-    this._tour.distroyTour();
+    TourController.getInstance().endTour();
   }
 }

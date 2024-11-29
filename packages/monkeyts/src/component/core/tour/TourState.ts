@@ -11,8 +11,8 @@ export type TourBuilderConfig = {
  * this should exculsivly have the responsibility of building the tour, ie
  * initializing, adding steps, and ending the tour. registering key events
  */
-export class TourBuilder {
-  protected _stepsComponent: stepComponent[] = [];
+export class TourState {
+  public _stepsComponent: stepComponent[] = [];
   constructor({ steps }: TourBuilderConfig) {
     this._stepsComponent = steps;
   }
@@ -22,9 +22,7 @@ export class TourBuilder {
       return;
     }
   }
-  // addStepAfterCurrent(step:stepComponent){
-  //   this._stepsComponent.push(step)
-  // }
+
   protected refreshTour(targetElement: Element) {
     const boundingRect = targetElement.getBoundingClientRect();
     console.log('refreshed tour', boundingRect);
@@ -37,4 +35,4 @@ export class TourBuilder {
   }
 }
 
-export default TourBuilder;
+export default TourState;
