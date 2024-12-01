@@ -1,5 +1,8 @@
 import { PopoverBuilderConfig } from '../component/core/popover/PopoverBuilder';
 import PopoverManager from '../component/core/popover/PopoverManager';
+import BaseStyleManager, {
+  ThemeType,
+} from '../component/core/styles/BaseStyleManager';
 import {
   TourController,
   TourControllerConfig,
@@ -16,11 +19,14 @@ export type TourConfig = {
  */
 export class Tour {
   private _popover?: PopoverManager;
-  constructor(config: TourConfig) {
+  constructor(config: TourConfig, theme?: ThemeType) {
     const {
       controllerConfig: { steps },
       tourConfig,
     } = config;
+    if (theme) {
+      BaseStyleManager.overrideTheme(theme);
+    }
     TourController.initInstance({ steps });
     this._popover = new PopoverManager(tourConfig);
   }

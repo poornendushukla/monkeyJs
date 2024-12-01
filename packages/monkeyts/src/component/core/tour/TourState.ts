@@ -1,6 +1,7 @@
 export type stepComponent = {
   element: string;
   title: string;
+  isAsync?: boolean;
   description: string;
 };
 
@@ -13,8 +14,11 @@ export type TourBuilderConfig = {
  */
 export class TourState {
   public _stepsComponent: stepComponent[] = [];
+  public currentStep: number = 0;
+  public isTourActive: boolean = false;
   constructor({ steps }: TourBuilderConfig) {
     this._stepsComponent = steps;
+    this.isTourActive = true;
   }
   init() {
     if (this._stepsComponent && this._stepsComponent.length === 0) {
@@ -22,8 +26,13 @@ export class TourState {
       return;
     }
   }
-
-  protected refreshTour(targetElement: Element) {
+  incrementSteps() {
+    this.currentStep = this.currentStep + 1;
+  }
+  decrementSteps() {
+    this.currentStep = this.currentStep - 1;
+  }
+  refreshTour(targetElement: Element) {
     const boundingRect = targetElement.getBoundingClientRect();
     console.log('refreshed tour', boundingRect);
   }
@@ -31,6 +40,7 @@ export class TourState {
     this._stepsComponent.push(...steps);
   }
   endTour() {
+    this.isTourActive = false;
     this._stepsComponent = [];
   }
 }

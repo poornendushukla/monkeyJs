@@ -3,6 +3,7 @@ import { POPOVERIDS, TPopoverPosition } from '../../../utils/utils';
 import Arrow from './Arrow';
 import ComponentStyleManager from '../styles/ComponentStyleManager';
 import BaseStyleManager from '../styles/BaseStyleManager';
+import { TourController } from '../tour/TourController';
 interface ILifeCycle {
   initialize(): void;
   mount(): void;
@@ -67,7 +68,9 @@ class PopoverBuilder implements ILifeCycle {
     try {
       this.initializeStyles();
       this.build();
-      this.setupEventListeners();
+      if (this.eventListeners.length == 0) {
+        this.setupEventListeners();
+      }
       this.state.isInitialized = true;
     } catch (error) {
       console.error('Failed to initialize popoverBuilder', error);
@@ -76,6 +79,20 @@ class PopoverBuilder implements ILifeCycle {
   }
   private initializeStyles() {
     this.styleManager.addStyles({
+      base: `
+        display:flex;
+        flex-direction: column;
+        position: fixed;
+        background-color: var(--monkey-popoverBgColor);
+        border: 1px solid #ccc;
+        border-radius: var(--monkey-popoverBorderRadius);
+        box-shadow: var(--monkey-popoverBoxShadow);
+        z-index: var(--monkey-baseZIndex);
+        color:var(--monkey-textColor);
+        font-family: var(--monkey-fontFamily);
+        padding:var(--monkey-popoverPadding);
+        gap:10px;
+        `,
       animate: `
         opacity: 0; /* Start hidden */
         transform: translateY(10px); /* Start slightly down */
@@ -88,6 +105,9 @@ class PopoverBuilder implements ILifeCycle {
       title: `
         font-weight:700
       `,
+      description: `
+        inline-size:150px
+      `,
       ['progress-bar']: `
       
       `,
@@ -96,6 +116,10 @@ class PopoverBuilder implements ILifeCycle {
       `,
       ['prev-btn']: `
       
+      `,
+      ['btn-wrap']: `
+        display:flex;
+        gap:10px;
       `,
     });
   }
@@ -143,16 +167,17 @@ class PopoverBuilder implements ILifeCycle {
     if (!this.popoverElement) return;
     const title = this.createElement('header', {
       id: POPOVERIDS.POPOVER_TITLE,
-      className: 'popover-title',
+      className: this.styleManager.getClassName('title'),
     });
     const description = this.createElement('div', {
       id: POPOVERIDS.POPOVER_DESC,
-      className: 'popover-description',
+      className: this.styleManager.getClassName('description'),
     });
     this.popoverElement.append(title, description);
   }
   private buildFooter() {
     if (!this.popoverElement) return;
+    const tourInstance = TourController.getInstance();
     const footer = this.createElement('div', {
       id: POPOVERIDS.POPOVER_FOOTER,
     });
@@ -161,14 +186,20 @@ class PopoverBuilder implements ILifeCycle {
       const progressBar = this.createElement('div', {
         id: POPOVERIDS.POPOVER_PROGRESSBAR,
       });
-      progressBar.innerHTML = `<span>1 of 5</span>`;
+      const totalSteps = tourInstance.totalSteps;
+      const currentStep = tourInstance.currentStep;
+      progressBar.innerHTML = `<span>${currentStep + 1} of ${totalSteps}</span>`;
       progressBar.classList.add(this.styleManager.getClassName('progress-bar'));
       footer.style.backgroundColor = this.options.progressBarColor || '';
       footer.append(progressBar);
     }
+    const btnWrapper = this.createElement('div');
+    const btnWrapperClassName = this.styleManager.getClassName('btn-wrap');
+    btnWrapper.classList.add(btnWrapperClassName);
     const nextBtnClassName = this.styleManager.getClassName('next-btn');
     const prevBtnClassName = this.styleManager.getClassName('prev-btn');
-    footer.appendChild(
+
+    btnWrapper.appendChild(
       this.createButton(
         this.options.prevBtnText,
         'Previous',
@@ -176,7 +207,7 @@ class PopoverBuilder implements ILifeCycle {
         POPOVERIDS.PREV_BTN,
       ),
     );
-    footer.appendChild(
+    btnWrapper.appendChild(
       this.createButton(
         this.options.nextBtnText,
         'Next',
@@ -184,7 +215,7 @@ class PopoverBuilder implements ILifeCycle {
         POPOVERIDS.NEXT_BTN,
       ),
     );
-
+    footer.appendChild(btnWrapper);
     this.popoverElement.append(footer);
   }
 
@@ -224,8 +255,14 @@ class PopoverBuilder implements ILifeCycle {
       document.body.appendChild(this.popoverElement!);
     }
   }
-  private updatePopoverContent(title: string, description: string) {
+  private updatePopoverContent(
+    title: string,
+    description: string,
+    step: number,
+    totalSteps: number,
+  ) {
     if (!this.popoverElement) return;
+    // update title
     const popoverTitle = this.popoverElement.querySelector(
       `#${POPOVERIDS.POPOVER_TITLE}`,
     ) as HTMLDivElement;
@@ -233,12 +270,19 @@ class PopoverBuilder implements ILifeCycle {
       popoverTitle.classList.add(this.styleManager.getClassName('title'));
       popoverTitle.innerText = title;
     }
-
+    //updating description
     const popoverDescription = this.popoverElement.querySelector(
       `#${POPOVERIDS.POPOVER_DESC}`,
     ) as HTMLDivElement;
     if (popoverDescription) {
       popoverDescription.innerText = description;
+    }
+    //updating footer
+    const progressBar = this.popoverElement.querySelector(
+      `#${POPOVERIDS.POPOVER_PROGRESSBAR}`,
+    );
+    if (progressBar) {
+      progressBar.innerHTML = `<span>${step + 1} of ${totalSteps}</span>`;
     }
   }
   private markVisibiltyOfPopoverButtons(
@@ -255,8 +299,9 @@ class PopoverBuilder implements ILifeCycle {
       `#${POPOVERIDS.PREV_BTN}`,
     ) as HTMLButtonElement;
     if (isLastStep) {
-      nextBtn.style.display = 'none';
+      nextBtn.innerText = 'End';
     } else {
+      nextBtn.innerText = this.options.nextBtnText || 'Next';
       nextBtn.style.display = 'block';
     }
     if (step === 0) {
@@ -305,6 +350,8 @@ class PopoverBuilder implements ILifeCycle {
         left: 0,
         top: 0,
         popoverPosition: this.config.position,
+        width: 0,
+        height: 0,
       });
     }
   }
@@ -314,6 +361,8 @@ class PopoverBuilder implements ILifeCycle {
         left: 0,
         top: 0,
         popoverPosition: this.config.position,
+        width: 0,
+        height: 0,
       });
     }
   }
@@ -358,17 +407,25 @@ class PopoverBuilder implements ILifeCycle {
     isLastStep: boolean,
     totalSteps: number,
   ) {
-    this.updatePopoverContent(title, description);
+    this.updatePopoverContent(title, description, step, totalSteps);
     this.markVisibiltyOfPopoverButtons(step, isLastStep, totalSteps);
   }
   updatePosition(position: {
     left: number;
     top: number;
+    width: number;
+    height: number;
     popoverPosition: TPopoverPosition;
   }) {
-    const { left, top, popoverPosition } = position;
+    const { left, top, popoverPosition, width, height } = position;
     if (this.arrowInstance) {
-      this.arrowInstance.update({ position: popoverPosition });
+      this.arrowInstance.update({
+        position: popoverPosition,
+        left,
+        top,
+        width,
+        height,
+      });
     }
     //* idea is to synchroneously apply the style, update position and then eventually remove the css
     // ? is there a other/better way for handling animation

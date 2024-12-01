@@ -1,4 +1,4 @@
-type ThemeType = {
+export type ThemeType = {
   fontFamily: string;
   fontSize: string;
   textColor: string;
@@ -54,9 +54,6 @@ const globalAnimations: Record<string, string> = {
   }`,
 };
 
-/**
- *
- */
 class BaseStyleManager {
   private static instance: BaseStyleManager;
   private styleElement: HTMLStyleElement;
@@ -65,7 +62,7 @@ class BaseStyleManager {
   private styleSheetMap: Map<string, string> = new Map();
   private customProperties: Map<string, string> = new Map();
   private animations: Map<string, string> = new Map();
-  constructor(initialTheme: ThemeType) {
+  private constructor(initialTheme: ThemeType) {
     this.theme = initialTheme;
     this.styleElement = this.createStyle();
     this.initializeCustomProperties();
@@ -78,6 +75,9 @@ class BaseStyleManager {
     document.head.append(style);
     return style;
   }
+  public static overrideTheme(theme: ThemeType) {
+    BaseStyleManager.getInstance(theme);
+  }
   public static getInstance(
     initialTheme: ThemeType = defaultTheme,
   ): BaseStyleManager {
@@ -87,49 +87,11 @@ class BaseStyleManager {
     return BaseStyleManager.instance;
   }
   private generateBaseStyles() {
-    this.addComponentStyles('popover', {
-      base: `
-        display:flex;
-        flex-direction: column;
-        position: absolute;
-        background-color: var(--monkey-popoverBgColor);
-        border: 1px solid #ccc;
-        border-radius: var(--monkey-popoverBorderRadius);
-        box-shadow: var(--monkey-popoverBoxShadow);
-        z-index: var(--monkey-baseZIndex);
-        color:var(--monkey-textColor);
-        font-family: var(--monkey-fontFamily);
-        padding:var(--monkey-popoverPadding);
-        `,
-    });
-
-    this.addComponentStyles('overlay', {
-      base: `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: var(--monkey-overlayZIndex);
-        overflow: hidden;
-        fill-rule: evenodd;
-        clip-rule: evenodd;
-        stroke-linejoin: round;
-        `,
-    });
     this.addComponentStyles('mask', {
       base: `
         fill:var(--monkey-overlayColor);
         stroke:rgba(255, 0, 0, 0);
         stroke-width:2;
-        `,
-    });
-    this.addComponentStyles('popover-arrow', {
-      base: ` width: 0;
-        height: 0;
-        position: absolute;
-        border-style: solid;
-        z-index: 1000;
         `,
     });
   }

@@ -23,14 +23,20 @@ class Arrow implements IArrow {
   }
   private initializeStyles() {
     this.styleManager.addStyles({
+      base: ` width: 0;
+        height: 0;
+        position: absolute;
+        border-style: solid;
+        z-index: 1000;
+        `,
       bottom: `border-width: 10px 10px 0 10px; /* Triangular shape pointing up */
         border-color: var(--monkey-arrowColor, white) transparent transparent transparent; /* Only top border is colored */
         bottom: -10px; /* Position at the top of the popover */
-        left: calc(50% - 10px); /* Center horizontally */`,
+        left:  10px /* Center horizontally */`,
       top: ` border-width: 0 10px 10px 10px; /* Triangular shape pointing down */
         border-color: transparent transparent var(--monkey-arrowColor, white) transparent; /* Only bottom border is colored */
         top: -10px; /* Position at the bottom of the popover */
-        left: calc(50% - 10px); /* Center horizontally */`,
+        left: 10px; /* Center horizontally */`,
       right: ` border-width: 10px 0 10px 10px; /* Triangular shape pointing right */
         border-color: transparent transparent transparent var(--monkey-arrowColor, white); /* Only left border is colored */
         right: -10px; /* Position at the right side of the popover */
@@ -38,7 +44,7 @@ class Arrow implements IArrow {
       left: `  border-width: 10px 10px 10px 0; /* Triangular shape pointing left */
         border-color: transparent var(--monkey-arrowColor, white) transparent transparent; /* Only right border is colored */
         left: -10px; /* Position at the left side of the popover */
-        top: calc(50% - 10px); /* Center vertically */`,
+        top: 10px; /* Center vertically */`,
     });
   }
   private buildArrow() {
@@ -75,7 +81,13 @@ class Arrow implements IArrow {
     this.arrowElement = null;
   }
 
-  update(pos: { position: TPopoverPosition }) {
+  update(pos: {
+    position: TPopoverPosition;
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  }) {
     if (!this.arrowElement) {
       console.error('Arrow not itialized');
       return;

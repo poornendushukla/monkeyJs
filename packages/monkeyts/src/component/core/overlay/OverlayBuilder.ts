@@ -83,7 +83,9 @@ class OverlayBuilder implements IOverlay {
     try {
       this.initializeStyles();
       this.build();
-      this.setupEventListners();
+      if (this.eventListners.length == 0) {
+        this.setupEventListners();
+      }
       this.state.isInitialized = true;
     } catch (err) {
       console.error('Failed to initialize overlay', err);
@@ -92,6 +94,18 @@ class OverlayBuilder implements IOverlay {
   }
   private initializeStyles() {
     this.styleManger.addStyles({
+      base: `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: var(--monkey-overlayZIndex);
+        overflow: hidden;
+        fill-rule: evenodd;
+        clip-rule: evenodd;
+        stroke-linejoin: round;
+        `,
       mask: `
         fill:rgba(0,0,0,0.5);
         stroke:rgba(255, 0, 0, 0);

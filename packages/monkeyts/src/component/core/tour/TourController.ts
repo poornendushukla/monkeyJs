@@ -3,12 +3,10 @@ export type TourControllerConfig = {
   steps: stepComponent[];
 };
 export class TourController {
-  private _currentStep: number;
   private tourState: TourState;
-  private static instance: TourController;
+  private static instance: TourController | null;
   private constructor({ steps }: TourControllerConfig) {
     this.tourState = new TourState({ steps });
-    this._currentStep = 0;
   }
   static initInstance({ steps }: TourControllerConfig) {
     if (!TourController.instance)
@@ -21,13 +19,21 @@ export class TourController {
     return TourController.instance;
   }
   onNext() {
-    if (this._currentStep < this.tourState._stepsComponent.length - 1) {
-      this._currentStep++;
+    if (
+      this.tourState.currentStep <
+      this.tourState._stepsComponent.length - 1
+    ) {
+      this.tourState.incrementSteps();
     } else {
       this.endTour();
     }
   }
   start() {
+    if (this.tourState.isTourActive) {
+      throw new Error(
+        'Tour is active, are you trying to start same tour multiple times🤷‍♂️....',
+      );
+    }
     const targetElement = this.getCurrentActiveStepElement();
     if (!targetElement) {
       this.endTour();
@@ -36,8 +42,8 @@ export class TourController {
     }
   }
   onPrev() {
-    this._currentStep--;
-    if (this._currentStep < 0) {
+    this.tourState.decrementSteps();
+    if (this.tourState.currentStep < 0) {
       this.endTour();
     }
   }
@@ -47,24 +53,26 @@ export class TourController {
   onEnd() {}
   endTour() {
     this.tourState.endTour();
+    TourController.instance = null;
   }
   get totalSteps(): number {
     return this.tourState._stepsComponent.length;
   }
   get currentStep(): number {
-    return this._currentStep;
+    return this.tourState.currentStep;
   }
   get isLastStep(): boolean {
-    return this._currentStep === this.totalSteps - 1;
+    return this.tourState.currentStep === this.totalSteps - 1;
   }
   getCurrentStepContent() {
-    if (this.tourState._stepsComponent[this._currentStep])
-      return this.tourState._stepsComponent[this._currentStep];
+    if (this.tourState._stepsComponent[this.tourState.currentStep])
+      return this.tourState._stepsComponent[this.tourState.currentStep];
   }
   getCurrentActiveStepElement() {
-    if (this.tourState._stepsComponent[this._currentStep])
-      return document.querySelector(
-        this.tourState._stepsComponent[this._currentStep].element,
-      );
+    if (this.tourState._stepsComponent[this.tourState.currentStep])
+      console.log(this.tourState._stepsComponent, this.tourState.currentStep);
+    return document.querySelector(
+      `#${this.tourState._stepsComponent[this.tourState.currentStep].element}`,
+    );
   }
 }

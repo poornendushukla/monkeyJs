@@ -9,9 +9,13 @@ import {
 import OverlayBuilder from '../overlay/OverlayBuilder';
 
 class PopoverManager {
-  private tourInstance?: TourController;
   private popover!: PopoverBuilder;
   private overlay!: OverlayBuilder;
+  private eventListeners: Array<{
+    element: HTMLElement;
+    type: string;
+    handler: EventListener;
+  }> = [];
   constructor(config: PopoverBuilderConfig) {
     this.popover = new PopoverBuilder(config);
     this.overlay = new OverlayBuilder(config.overlayConfig);
@@ -127,7 +131,13 @@ class PopoverManager {
     if (this.popover.popoverElement) {
       const { left, top, popoverPosition } =
         this.repositionPopover(targetElement);
-      this.popover.updatePosition({ left, top, popoverPosition });
+      this.popover.updatePosition({
+        left,
+        top,
+        popoverPosition,
+        width: targetElement.width,
+        height: targetElement.height,
+      });
     }
   }
   private updatePopover() {
@@ -148,44 +158,107 @@ class PopoverManager {
       this.updatePopoverPosition(boundingRect);
     }
   }
-  private attachEventListners() {
-    const nextBtn = document.querySelector(`#${POPOVERIDS.NEXT_BTN}`);
-    const prevBtn = document.querySelector(`#${POPOVERIDS.PREV_BTN}`);
+  private removeEventListeners() {
+    this.eventListeners.forEach(({ element, type, handler }) => {
+      element.removeEventListener(type, handler);
+    });
+    this.eventListeners = [];
+  }
+  private addEventListenerWithCleanup(
+    element: HTMLElement | Window | Document,
+    type: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    handler: EventListener | ((event: any) => void),
+  ): void {
+    element.addEventListener(type, handler);
+    this.eventListeners.push({
+      element: element as HTMLElement,
+      type,
+      handler,
+    });
+  }
+  private handleNextBtnClick() {
     const tourInstance = TourController.getInstance();
-    window.addEventListener('resize', () => {
-      this.updatePopover();
-    });
-    window.addEventListener('keydown', (event) => {
-      switch (event.key) {
-        case 'ArrowLeft':
-          tourInstance.onPrev();
-          this.updatePopover();
-          break;
-        case 'ArrowRight':
-          tourInstance.onNext();
-          this.updatePopover();
-          break;
-        default:
-          break;
-      }
-    });
-    nextBtn?.addEventListener('click', () => {
+    // last step, end tour and if there is a End page we'll show that
+    if (tourInstance.isLastStep) {
+      this.popover.unmount();
+      this.overlay.unmount();
       tourInstance.onNext();
-      this.updatePopover();
-    });
-    prevBtn?.addEventListener('click', () => {
+      return;
+    }
+    tourInstance.onNext();
+    this.updatePopover();
+  }
+  private handlePrevBtnClick() {
+    const tourInstance = TourController.getInstance();
+    // first step, cant go back
+    if (tourInstance.currentStep === 0) {
+      this.popover.unmount();
+      this.overlay.unmount();
       tourInstance.onPrev();
-      this.updatePopover();
-    });
+      return;
+    }
+    tourInstance.onPrev();
+    this.updatePopover();
+  }
+  private setupEventListners() {
+    const nextBtn = document.querySelector(
+      `#${POPOVERIDS.NEXT_BTN}`,
+    ) as HTMLElement;
+    const prevBtn = document.querySelector(
+      `#${POPOVERIDS.PREV_BTN}`,
+    ) as HTMLElement;
+    //window resize event
+    this.addEventListenerWithCleanup(window, 'resize', () =>
+      this.updatePopover(),
+    );
+    //keydown event
+    this.addEventListenerWithCleanup(
+      window,
+      'keydown',
+      (event: KeyboardEvent) => {
+        switch (event.key) {
+          case 'ArrowLeft':
+            this.handlePrevBtnClick();
+            break;
+          case 'ArrowRight':
+            this.handleNextBtnClick();
+            break;
+          default:
+            break;
+        }
+      },
+    );
+
+    // next button click event
+    if (nextBtn) {
+      this.addEventListenerWithCleanup(
+        nextBtn,
+        'click',
+        this.handleNextBtnClick.bind(this),
+      );
+    }
+
+    // prev button click event
+    if (prevBtn) {
+      this.addEventListenerWithCleanup(
+        prevBtn,
+        'click',
+        this.handlePrevBtnClick.bind(this),
+      );
+    }
   }
   public start() {
     this.overlay.mount();
     this.popover.mount();
-    this.attachEventListners();
+    if (this.eventListeners.length == 0) {
+      this.setupEventListners();
+    }
     this.updatePopover();
   }
   public distroy() {
     if (this.popover) this.popover.destroy();
+    this.removeEventListeners();
   }
 }
 
