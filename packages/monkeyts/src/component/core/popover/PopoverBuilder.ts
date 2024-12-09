@@ -106,7 +106,7 @@ class PopoverBuilder implements ILifeCycle {
         font-weight:700
       `,
       description: `
-        inline-size:150px
+        inline-size:273px
       `,
       ['progress-bar']: `
       

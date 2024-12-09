@@ -1,6 +1,7 @@
 import { TourController } from '../tour/TourController';
 import PopoverBuilder, { PopoverBuilderConfig } from './PopoverBuilder';
 import {
+  bringInView,
   POPOVER_POSITION_CONSTANT,
   popover_positions,
   POPOVERIDS,
@@ -43,6 +44,7 @@ class PopoverManager {
       offsetX,
       offsetY,
     );
+    bringInView(this.popover.popoverElement);
     if (!this.isPopoverOverFlowing(targetRect, org_left, org_top)) {
       return { left: org_left, top: org_top, popoverPosition: position };
     }
@@ -210,6 +212,10 @@ class PopoverManager {
     ) as HTMLElement;
     //window resize event
     this.addEventListenerWithCleanup(window, 'resize', () =>
+      this.updatePopover(),
+    );
+    //scroll into view incase of scroll
+    this.addEventListenerWithCleanup(window, 'scroll', () =>
       this.updatePopover(),
     );
     //keydown event

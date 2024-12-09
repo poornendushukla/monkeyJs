@@ -19,7 +19,22 @@ export function isElementInView(element: Element) {
     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
 }
-
+export function hasVerticalScroll() {
+  const documentHeight = Math.max(
+    document.documentElement.scrollHeight,
+    document.body.scrollHeight,
+  );
+  const windowHeight = window.innerHeight;
+  return documentHeight > windowHeight;
+}
+export function hasHorizontalScroll() {
+  const documentWidth = Math.max(
+    document.documentElement.scrollWidth,
+    document.body.scrollWidth,
+  );
+  const windowWidth = window.innerWidth;
+  return documentWidth > windowWidth;
+}
 export enum POPOVERIDS {
   POPOVER_WRAPPER_ID = 'popover_wrapper_id',
   POPOVER_ELEMENT = 'popover_element',
