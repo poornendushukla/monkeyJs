@@ -8,12 +8,18 @@ export type ThemeType = {
   popoverBoxShadow: string;
   overlayColor: string;
   overlayOpacity: number;
+  overlayRadius: string;
+  overlayPadding: string;
+  primaryBtnBgColor: string;
+  primaryBtnColor: string;
+  secondaryBtnColor: string;
+  secondaryBtnBgColor: string;
   baseZIndex: number;
   overlayZIndex: number;
   arrowColor: string;
 };
 
-const defaultTheme: ThemeType = {
+const defaultTheme: Partial<ThemeType> = {
   fontFamily: 'Arial, sans-serif',
   fontSize: '14px',
   textColor: '#333',
@@ -22,7 +28,13 @@ const defaultTheme: ThemeType = {
   popoverBorderRadius: '4px',
   popoverBoxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
   overlayColor: 'rgba(0,0,0,0.5)',
+  overlayRadius: '10px',
   overlayOpacity: 0.5,
+  overlayPadding: '10px',
+  primaryBtnBgColor: 'black',
+  primaryBtnColor: 'white',
+  secondaryBtnColor: 'black',
+  secondaryBtnBgColor: 'white',
   baseZIndex: 1000,
   overlayZIndex: 99,
   arrowColor: 'white',
@@ -57,12 +69,12 @@ const globalAnimations: Record<string, string> = {
 class BaseStyleManager {
   private static instance: BaseStyleManager;
   private styleElement: HTMLStyleElement;
-  private theme: ThemeType;
+  private theme: Partial<ThemeType>;
   private styles: Map<string, Map<string, string>> = new Map();
   private styleSheetMap: Map<string, string> = new Map();
   private customProperties: Map<string, string> = new Map();
   private animations: Map<string, string> = new Map();
-  private constructor(initialTheme: ThemeType) {
+  private constructor(initialTheme: Partial<ThemeType>) {
     this.theme = initialTheme;
     this.styleElement = this.createStyle();
     this.initializeCustomProperties();
@@ -75,11 +87,11 @@ class BaseStyleManager {
     document.head.append(style);
     return style;
   }
-  public static overrideTheme(theme: ThemeType) {
+  public static overrideTheme(theme: Partial<ThemeType>) {
     BaseStyleManager.getInstance(theme);
   }
   public static getInstance(
-    initialTheme: ThemeType = defaultTheme,
+    initialTheme: Partial<ThemeType> = defaultTheme,
   ): BaseStyleManager {
     if (!BaseStyleManager.instance) {
       BaseStyleManager.instance = new BaseStyleManager(initialTheme);
