@@ -106,7 +106,7 @@ class PopoverBuilder implements ILifeCycle {
         font-weight:700
       `,
       description: `
-        inline-size:150px
+        inline-size:300px
       `,
       ['progress-bar']: `
       
@@ -290,8 +290,8 @@ class PopoverBuilder implements ILifeCycle {
     isLastStep: boolean,
     totalSteps: number,
   ) {
-    if (!this.popoverElement) return;
     console.log(totalSteps);
+    if (!this.popoverElement) return;
     const nextBtn = this.popoverElement.querySelector(
       `#${POPOVERIDS.NEXT_BTN}`,
     ) as HTMLButtonElement;

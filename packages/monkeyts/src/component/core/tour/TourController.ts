@@ -70,9 +70,8 @@ export class TourController {
   }
   getCurrentActiveStepElement() {
     if (this.tourState._stepsComponent[this.tourState.currentStep])
-      console.log(this.tourState._stepsComponent, this.tourState.currentStep);
-    return document.querySelector(
-      `#${this.tourState._stepsComponent[this.tourState.currentStep].element}`,
-    );
+      return document.querySelector(
+        `#${this.tourState._stepsComponent[this.tourState.currentStep].element}`,
+      );
   }
 }

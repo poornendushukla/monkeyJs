@@ -21,7 +21,7 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
         controllerConfig: { steps: steps },
         tourConfig: {
           isArrowVisible: true,
-          position: POPOVER_POSITION_CONSTANT.BOTTOM,
+          position: POPOVER_POSITION_CONSTANT.LEFT,
           overlayConfig: {
             radius: 10,
             padding: {
@@ -33,7 +33,7 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
           },
           popoverHeight: '',
           popoverWidth: '',
-          popoverPadding: '30px',
+          popoverPadding: '',
           progressBar: true,
           progressBarSteps: 0,
           progressBarColor: '',
@@ -41,7 +41,7 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
           prevBtnText: '',
           offsetX: 0,
           offsetY: 0,
-          arrowColor: '',
+          arrowColor: 'red',
         },
       }),
     [],
@@ -50,7 +50,6 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
     if (tour) {
       tour.init();
       setTimeout(() => {
-        console.log(tour);
         tour.start();
       }, 3000);
     }

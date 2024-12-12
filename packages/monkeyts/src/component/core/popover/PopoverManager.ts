@@ -20,18 +20,16 @@ class PopoverManager {
     this.popover = new PopoverBuilder(config);
     this.overlay = new OverlayBuilder(config.overlayConfig);
   }
-  private isPopoverOverFlowing(
-    popoverRect: DOMRect,
-    left: number,
-    top: number,
-  ) {
+  private isPopoverOverFlowing(left: number, top: number) {
+    const popoverRectCorrect =
+      this.popover.popoverElement.getBoundingClientRect();
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
     return (
       left < 0 ||
       top < 0 ||
-      left + popoverRect.width > windowWidth ||
-      top + popoverRect.height > windowHeight
+      left + popoverRectCorrect.width > windowWidth ||
+      top + popoverRectCorrect.height > windowHeight
     );
   }
   private repositionPopover(targetRect: DOMRect) {
@@ -43,7 +41,7 @@ class PopoverManager {
       offsetX,
       offsetY,
     );
-    if (!this.isPopoverOverFlowing(targetRect, org_left, org_top)) {
+    if (!this.isPopoverOverFlowing(org_left, org_top)) {
       return { left: org_left, top: org_top, popoverPosition: position };
     }
 
@@ -56,7 +54,7 @@ class PopoverManager {
         offsetX,
         offsetY,
       );
-      if (!this.isPopoverOverFlowing(targetRect, left, top)) {
+      if (!this.isPopoverOverFlowing(left, top)) {
         /**
          * ? based on the position add appropriate arrow
          */
@@ -106,13 +104,8 @@ class PopoverManager {
           offsetY;
         break;
       case POPOVER_POSITION_CONSTANT.LEFT:
-        left = targetRect.left - targetRect.width - padding.left;
-        top =
-          targetRect.top +
-          targetRect.height / 4 -
-          padding.top -
-          padding.bottom +
-          offsetY;
+        left = targetRect.left - popoverRect.width - padding.left;
+        top = targetRect.top + offsetY;
         break;
       case POPOVER_POSITION_CONSTANT.BOTTOM:
         left =
