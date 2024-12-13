@@ -1,5 +1,3 @@
-import { TourController } from '../tour/TourController';
-import PopoverBuilder, { PopoverBuilderConfig } from './PopoverBuilder';
 import {
   POPOVER_POSITION_CONSTANT,
   popover_positions,
@@ -7,6 +5,8 @@ import {
   TPopoverPosition,
 } from '../../../utils/utils';
 import OverlayBuilder from '../overlay/OverlayBuilder';
+import { TourController } from '../tour/TourController';
+import PopoverBuilder, { PopoverBuilderConfig } from './PopoverBuilder';
 
 class PopoverManager {
   private popover!: PopoverBuilder;
@@ -203,6 +203,10 @@ class PopoverManager {
     ) as HTMLElement;
     //window resize event
     this.addEventListenerWithCleanup(window, 'resize', () =>
+      this.updatePopover(),
+    );
+    //scroll into view incase of scroll
+    this.addEventListenerWithCleanup(window, 'scroll', () =>
       this.updatePopover(),
     );
     //keydown event
