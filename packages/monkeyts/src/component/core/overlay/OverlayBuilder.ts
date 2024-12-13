@@ -25,9 +25,6 @@ interface IOverlayState {
   isVisible: boolean;
 }
 export type OverlayBuilderConfig = {
-  backgroundColor?: string;
-  strokeWidth?: string;
-  strokeColor?: string;
   padding?: Padding;
   radius?: number;
 };
@@ -37,9 +34,6 @@ export type OverlayBuilderConfig = {
 class OverlayBuilder implements IOverlay {
   private _overlay?: SVGSVGElement;
   private _mask?: SVGPathElement;
-  private _overlayBackground?: string;
-  private _strokeWidth?: string;
-  private _strokeColor?: string;
   protected _padding!: Padding;
   private _radius?: number;
   private styleManger!: ComponentStyleManager;
@@ -55,21 +49,13 @@ class OverlayBuilder implements IOverlay {
   };
   constructor(overlayConfig: OverlayBuilderConfig) {
     if (overlayConfig) {
-      const {
-        backgroundColor,
-        strokeWidth,
-        strokeColor,
-        padding = { top: 10, left: 10, right: 10, bottom: 10 },
-        radius,
-      } = overlayConfig;
+      const { padding = { top: 10, left: 10, right: 10, bottom: 10 }, radius } =
+        overlayConfig;
       const globalStyleManager = BaseStyleManager.getInstance();
       this.styleManger = new ComponentStyleManager(
         globalStyleManager,
         'overlay',
       );
-      this._overlayBackground = backgroundColor;
-      this._strokeWidth = strokeWidth;
-      this._strokeColor = strokeColor;
       this._padding = padding;
       this._radius = radius;
     }
@@ -124,11 +110,6 @@ class OverlayBuilder implements IOverlay {
     const overlayClassName = this.styleManger.getClassName();
     overlay.setAttribute('class', overlayClassName);
     overlay.setAttribute('id', 'overlayId');
-    //overwrite in case of custom configuration provided
-    if (this._overlayBackground)
-      overlay.style.backgroundColor = this._overlayBackground;
-    if (this._strokeWidth) overlay.style.strokeWidth = this._strokeWidth;
-    if (this._strokeColor) overlay.style.fill = this._strokeColor;
     this._overlay = overlay;
     this.buildMask();
   }
@@ -353,8 +334,6 @@ class OverlayBuilder implements IOverlay {
     return {
       padding: this._padding,
       radius: this._radius,
-      strokeColor: this._strokeColor,
-      backgroundColor: this._overlayBackground,
     };
   }
 }

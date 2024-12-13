@@ -19,19 +19,14 @@ interface IPopoverState {
 
 export type PopoverBuilderConfig = {
   overlayConfig: OverlayBuilderConfig;
-  popoverHeight: string;
-  popoverWidth: string;
-  popoverPadding: string;
   progressBar: boolean;
   progressBarSteps: number;
-  progressBarColor: string;
   nextBtnText: string;
   prevBtnText: string;
   position: TPopoverPosition;
   offsetX: number;
   offsetY: number;
   isArrowVisible: boolean;
-  arrowColor: string;
 };
 
 class PopoverBuilder implements ILifeCycle {
@@ -126,7 +121,6 @@ class PopoverBuilder implements ILifeCycle {
   private build() {
     if (!this.state.isInitialized) {
       this.createPopover();
-      this.applyPopoverStyles();
     }
   }
   /**
@@ -190,7 +184,6 @@ class PopoverBuilder implements ILifeCycle {
       const currentStep = tourInstance.currentStep;
       progressBar.innerHTML = `<span>${currentStep + 1} of ${totalSteps}</span>`;
       progressBar.classList.add(this.styleManager.getClassName('progress-bar'));
-      footer.style.backgroundColor = this.options.progressBarColor || '';
       footer.append(progressBar);
     }
     const btnWrapper = this.createElement('div');
@@ -243,13 +236,7 @@ class PopoverBuilder implements ILifeCycle {
       this.addArrow();
     }
   }
-  private applyPopoverStyles() {
-    if (!this.popoverElement) return;
-    const { popoverWidth, popoverHeight, popoverPadding } = this.options;
-    if (popoverWidth) this.popoverElement.style.width = popoverWidth;
-    if (popoverHeight) this.popoverElement.style.height = popoverHeight;
-    if (popoverPadding) this.popoverElement.style.padding = popoverPadding;
-  }
+
   private appendPopoverToDocument() {
     if (this.popoverElement) {
       document.body.appendChild(this.popoverElement!);

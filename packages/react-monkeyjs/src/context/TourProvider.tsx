@@ -21,7 +21,7 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
         controllerConfig: { steps: steps },
         tourConfig: {
           isArrowVisible: true,
-          position: POPOVER_POSITION_CONSTANT.LEFT,
+          position: POPOVER_POSITION_CONSTANT.BOTTOM,
           overlayConfig: {
             radius: 10,
             padding: {
@@ -31,17 +31,12 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
               left: 10,
             },
           },
-          popoverHeight: '',
-          popoverWidth: '',
-          popoverPadding: '',
           progressBar: true,
           progressBarSteps: 0,
-          progressBarColor: '',
           nextBtnText: '',
           prevBtnText: '',
           offsetX: 0,
           offsetY: 0,
-          arrowColor: 'red',
         },
       }),
     [],
