@@ -1,5 +1,5 @@
-import BaseStyleManager from '../styles/BaseStyleManager';
-import ComponentStyleManager from '../styles/ComponentStyleManager';
+import BaseStyleManager from '../../../styles/BaseStyleManager';
+import ComponentStyleManager from '../../../styles/ComponentStyleManager';
 
 type Padding = {
   top: number;

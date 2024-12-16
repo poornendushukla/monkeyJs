@@ -16,6 +16,7 @@ export default [
       'pnpm-workspace.yaml',
     ],
     rules: {
+      'prettier/prettier': ['off', { singleQuote: true }],
       '@typescript-eslint/triple-slash-reference': 'off',
     },
   },

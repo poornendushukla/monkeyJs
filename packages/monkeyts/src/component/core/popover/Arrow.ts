@@ -3,8 +3,8 @@ import {
   TPopoverPosition,
   POPOVER_POSITION_CONSTANT,
 } from '../../../utils/utils';
-import BaseStyleManager from '../styles/BaseStyleManager';
-import ComponentStyleManager from '../styles/ComponentStyleManager';
+import BaseStyleManager from '../../../styles/BaseStyleManager';
+import ComponentStyleManager from '../../../styles/ComponentStyleManager';
 interface IArrow {
   initialize(): void;
   update(pos: { position: TPopoverPosition }): void;

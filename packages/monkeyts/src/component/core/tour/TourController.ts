@@ -1,12 +1,15 @@
+import MonkeyEvent from '../../../event/MonkeyEvent';
 import { stepComponent, TourState } from './TourState';
 export type TourControllerConfig = {
   steps: stepComponent[];
 };
 export class TourController {
   private tourState: TourState;
+  private eventEmitter: MonkeyEvent;
   private static instance: TourController | null;
   private constructor({ steps }: TourControllerConfig) {
     this.tourState = new TourState({ steps });
+    this.eventEmitter = new MonkeyEvent();
   }
   static initInstance({ steps }: TourControllerConfig) {
     if (!TourController.instance)
@@ -25,6 +28,7 @@ export class TourController {
     ) {
       this.tourState.incrementSteps();
     } else {
+      console.log('coming here');
       this.endTour();
     }
   }
@@ -53,6 +57,7 @@ export class TourController {
   onEnd() {}
   endTour() {
     this.tourState.endTour();
+    this.eventEmitter.monkeyDispatch('onEnd', {});
     TourController.instance = null;
   }
   get totalSteps(): number {

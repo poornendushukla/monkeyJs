@@ -194,6 +194,10 @@ class PopoverManager {
     tourInstance.onPrev();
     this.updatePopover();
   }
+  private handleEndTour() {
+    console.log('endTour announced');
+    this.removeEventListeners();
+  }
   private setupEventListners() {
     const nextBtn = document.querySelector(
       `#${POPOVERIDS.NEXT_BTN}`,
@@ -209,6 +213,10 @@ class PopoverManager {
     this.addEventListenerWithCleanup(window, 'scroll', () =>
       this.updatePopover(),
     );
+    // endTour Listner on window
+    this.addEventListenerWithCleanup(window, 'onEnd', () => {
+      this.handleEndTour.bind(this);
+    });
     //keydown event
     this.addEventListenerWithCleanup(
       window,

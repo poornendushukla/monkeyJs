@@ -1,8 +1,6 @@
 import { PopoverBuilderConfig } from '../component/core/popover/PopoverBuilder';
 import PopoverManager from '../component/core/popover/PopoverManager';
-import BaseStyleManager, {
-  ThemeType,
-} from '../component/core/styles/BaseStyleManager';
+import BaseStyleManager, { ThemeType } from '../styles/BaseStyleManager';
 import {
   TourController,
   TourControllerConfig,

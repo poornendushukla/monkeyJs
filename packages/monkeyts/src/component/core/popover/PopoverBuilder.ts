@@ -1,8 +1,8 @@
 import { OverlayBuilderConfig } from '../overlay/OverlayBuilder';
 import { POPOVERIDS, TPopoverPosition } from '../../../utils/utils';
 import Arrow from './Arrow';
-import ComponentStyleManager from '../styles/ComponentStyleManager';
-import BaseStyleManager from '../styles/BaseStyleManager';
+import ComponentStyleManager from '../../../styles/ComponentStyleManager';
+import BaseStyleManager from '../../../styles/BaseStyleManager';
 import { TourController } from '../tour/TourController';
 interface ILifeCycle {
   initialize(): void;
