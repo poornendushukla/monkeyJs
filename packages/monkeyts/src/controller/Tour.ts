@@ -1,22 +1,19 @@
-import { PopoverBuilderConfig } from '../component/core/popover/PopoverBuilder';
-import PopoverManager from '../component/core/popover/PopoverManager';
+import { PopoverBuilderConfig } from '../component/popover/PopoverBuilder';
+import PopoverManager from '../component/popover/PopoverManager';
 import BaseStyleManager, { ThemeType } from '../styles/BaseStyleManager';
 import {
   TourController,
   TourControllerConfig,
-} from '../component/core/tour/TourController';
+} from '../component/tour/TourController';
 
 export type TourConfig = {
   controllerConfig: TourControllerConfig;
   tourConfig: PopoverBuilderConfig;
 };
 
-/**
- * purpose of this class would be to integrate the process of creating the state for the tour
- * and integrate the process of updating the ui along with state
- */
 export class Tour {
   private _popover?: PopoverManager;
+  private tourConfig: PopoverBuilderConfig;
   constructor(config: TourConfig, theme?: ThemeType) {
     const {
       controllerConfig: { steps },
@@ -26,14 +23,17 @@ export class Tour {
       BaseStyleManager.overrideTheme(theme);
     }
     TourController.initInstance({ steps });
-    this._popover = new PopoverManager(tourConfig);
+    this.tourConfig = tourConfig;
   }
-
   init() {
-    //* keeping it here for no apparant reason
+    this._popover = new PopoverManager(this.tourConfig);
   }
   start() {
+    if (!this._popover) this.init();
     this._popover?.start();
+  }
+  get isTourActive(): boolean {
+    return TourController.getInstance().isTourActive;
   }
   distroy() {
     if (this._popover) this._popover.distroy();

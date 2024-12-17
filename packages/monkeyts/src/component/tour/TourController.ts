@@ -1,4 +1,4 @@
-import MonkeyEvent from '../../../event/MonkeyEvent';
+import MonkeyEvent from '../../event/MonkeyEvent';
 import { stepComponent, TourState } from './TourState';
 export type TourControllerConfig = {
   steps: stepComponent[];
@@ -6,14 +6,55 @@ export type TourControllerConfig = {
 export class TourController {
   private tourState: TourState;
   private eventEmitter: MonkeyEvent;
+  private eventListeners: Array<{
+    element: HTMLElement;
+    type: string;
+    handler: EventListener;
+  }> = [];
   private static instance: TourController | null;
   private constructor({ steps }: TourControllerConfig) {
     this.tourState = new TourState({ steps });
     this.eventEmitter = new MonkeyEvent();
   }
+  private removeEventListeners() {
+    this.eventListeners.forEach(({ element, type, handler }) => {
+      element.removeEventListener(type, handler);
+    });
+    this.eventListeners = [];
+  }
+  private addEventListenerWithCleanup(
+    element: HTMLElement | Window | Document,
+    type: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    handler: EventListener | ((event: any) => void),
+  ): void {
+    element.addEventListener(type, handler);
+    this.eventListeners.push({
+      element: element as HTMLElement,
+      type,
+      handler,
+    });
+  }
+  private handleKeydown(ev: KeyboardEvent) {
+    if (ev.key == 'Escape') {
+      this.endTour();
+    }
+  }
+  private setupEventListners() {
+    this.addEventListenerWithCleanup(window, 'keydown', (ev: KeyboardEvent) =>
+      this.handleKeydown(ev),
+    );
+  }
+  private distroy() {
+    this.tourState.endTour();
+    this.removeEventListeners();
+    TourController.instance = null;
+  }
   static initInstance({ steps }: TourControllerConfig) {
-    if (!TourController.instance)
+    if (!TourController.instance) {
       TourController.instance = new TourController({ steps });
+      TourController.instance.setupEventListners();
+    }
   }
   static getInstance() {
     if (!TourController.instance) {
@@ -41,7 +82,6 @@ export class TourController {
     const targetElement = this.getCurrentActiveStepElement();
     if (!targetElement) {
       this.endTour();
-      console.error('No target element found');
       return;
     }
   }
@@ -56,9 +96,8 @@ export class TourController {
   }
   onEnd() {}
   endTour() {
-    this.tourState.endTour();
     this.eventEmitter.onEndEvent();
-    TourController.instance = null;
+    this.distroy();
   }
   get totalSteps(): number {
     return this.tourState._stepsComponent.length;
@@ -68,6 +107,9 @@ export class TourController {
   }
   get isLastStep(): boolean {
     return this.tourState.currentStep === this.totalSteps - 1;
+  }
+  get isTourActive(): boolean {
+    return this.tourState.isTourActive;
   }
   getCurrentStepContent() {
     if (this.tourState._stepsComponent[this.tourState.currentStep])

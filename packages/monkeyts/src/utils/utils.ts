@@ -35,6 +35,7 @@ export function hasHorizontalScroll() {
   const windowWidth = window.innerWidth;
   return documentWidth > windowWidth;
 }
+// move to const or enum utils
 export enum POPOVERIDS {
   POPOVER_WRAPPER_ID = 'popover_wrapper_id',
   POPOVER_ELEMENT = 'popover_element',

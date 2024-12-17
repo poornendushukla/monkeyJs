@@ -1,8 +1,8 @@
 import { OverlayBuilderConfig } from '../overlay/OverlayBuilder';
-import { POPOVERIDS, TPopoverPosition } from '../../../utils/utils';
+import { POPOVERIDS, TPopoverPosition } from '../../utils/utils';
 import Arrow from './Arrow';
-import ComponentStyleManager from '../../../styles/ComponentStyleManager';
-import BaseStyleManager from '../../../styles/BaseStyleManager';
+import ComponentStyleManager from '../../styles/ComponentStyleManager';
+import BaseStyleManager from '../../styles/BaseStyleManager';
 import { TourController } from '../tour/TourController';
 interface ILifeCycle {
   initialize(): void;
@@ -353,11 +353,7 @@ class PopoverBuilder implements ILifeCycle {
       });
     }
   }
-  private handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && this.state.isVisible) {
-      this.unmount();
-    }
-  }
+
   private setupEventListeners() {
     // Window resize handler
     this.addEventListenerWithCleanup(
@@ -371,13 +367,6 @@ class PopoverBuilder implements ILifeCycle {
       document,
       'scroll',
       this.handleScroll.bind(this),
-    );
-
-    // ESC key handler
-    this.addEventListenerWithCleanup(
-      document,
-      'keydown',
-      this.handleKeydown.bind(this),
     );
   }
   get config() {

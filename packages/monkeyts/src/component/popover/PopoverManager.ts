@@ -3,7 +3,7 @@ import {
   popover_positions,
   POPOVERIDS,
   TPopoverPosition,
-} from '../../../utils/utils';
+} from '../../utils/utils';
 import OverlayBuilder from '../overlay/OverlayBuilder';
 import { TourController } from '../tour/TourController';
 import PopoverBuilder, { PopoverBuilderConfig } from './PopoverBuilder';
@@ -195,8 +195,7 @@ class PopoverManager {
     this.updatePopover();
   }
   private handleEndTour() {
-    console.log('endTour announced');
-    this.removeEventListeners();
+    this.distroy();
   }
   private setupEventListners() {
     const nextBtn = document.querySelector(
@@ -263,6 +262,7 @@ class PopoverManager {
   }
   public distroy() {
     if (this.popover) this.popover.destroy();
+    if (this.overlay) this.overlay.distroy();
     this.removeEventListeners();
   }
 }

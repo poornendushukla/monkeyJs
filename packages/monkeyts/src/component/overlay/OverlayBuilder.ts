@@ -1,5 +1,5 @@
-import BaseStyleManager from '../../../styles/BaseStyleManager';
-import ComponentStyleManager from '../../../styles/ComponentStyleManager';
+import BaseStyleManager from '../../styles/BaseStyleManager';
+import ComponentStyleManager from '../../styles/ComponentStyleManager';
 
 type Padding = {
   top: number;
@@ -37,11 +37,6 @@ class OverlayBuilder implements IOverlay {
   protected _padding!: Padding;
   private _radius?: number;
   private styleManger!: ComponentStyleManager;
-  private eventListners: Array<{
-    element: HTMLElement;
-    type: string;
-    handler: EventListener;
-  }> = [];
   private state: IOverlayState = {
     isInitialized: false,
     isMounted: false,
@@ -69,9 +64,6 @@ class OverlayBuilder implements IOverlay {
     try {
       this.initializeStyles();
       this.build();
-      if (this.eventListners.length == 0) {
-        this.setupEventListners();
-      }
       this.state.isInitialized = true;
     } catch (err) {
       console.error('Failed to initialize overlay', err);
@@ -213,50 +205,7 @@ class OverlayBuilder implements IOverlay {
 
     return `${outerPath}${innerPath}`;
   }
-  private cleanupEventListners() {
-    this.eventListners.forEach(({ element, type, handler }) => {
-      element.removeEventListener(type, handler);
-    });
-    this.eventListners = [];
-  }
-  private addEventListnersWithCleanup(
-    element: HTMLElement | Window | Document,
-    type: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    handler: EventListener | ((event: any) => void),
-  ) {
-    element.addEventListener(type, handler);
-    this.eventListners.push({ element: element as HTMLElement, type, handler });
-  }
-  private handleResize() {}
-  private handleScroll() {}
-  private handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && this.state.isVisible) {
-      this.unmount();
-    }
-  }
-  private setupEventListners() {
-    // window resize
-    this.addEventListnersWithCleanup(
-      window,
-      'resize',
-      this.handleResize.bind(this),
-    );
 
-    //Document scroll handler
-    this.addEventListnersWithCleanup(
-      document,
-      'scroll',
-      this.handleScroll.bind(this),
-    );
-
-    // Esc key handler
-    this.addEventListnersWithCleanup(
-      document,
-      'keydown',
-      this.handleKeyDown.bind(this),
-    );
-  }
   update(domRect: DOMRect) {
     const isOverlayVisible = this._overlay?.style.display;
     const maskPath: string = this.createSvgPathWithCutout(domRect);
@@ -323,7 +272,6 @@ class OverlayBuilder implements IOverlay {
         this.unmount();
       }
       this.resetState();
-      this.cleanupEventListners();
       this.removeDocumentReferences();
     } catch (err) {
       console.error('Failed to distroy overlay.', err);

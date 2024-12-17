@@ -42,8 +42,7 @@ const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
     [],
   );
   useEffect(() => {
-    if (tour) {
-      tour.init();
+    if (tour?.isTourActive) {
       setTimeout(() => {
         tour.start();
       }, 3000);
