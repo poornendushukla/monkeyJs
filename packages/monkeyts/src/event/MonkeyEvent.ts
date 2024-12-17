@@ -8,13 +8,23 @@ class MonkeyEvent extends EventTarget {
   constructor() {
     super();
   }
-  monkeyDispatch(eventType: EventType, payload: EventPayload): boolean {
+  private monkeyDispatch(eventType: EventType, payload: EventPayload): boolean {
     const event = new CustomEvent<EventPayload>(eventType, {
       detail: payload,
     });
-    console.log('event dispatched', event);
-    window.dispatchEvent(event);
-    return super.dispatchEvent(event);
+    return window.dispatchEvent(event);
+  }
+  onNextEvent(payload?: EventPayload) {
+    this.monkeyDispatch('onNext', payload || {});
+  }
+  onPrevEvent(payload?: EventPayload) {
+    this.monkeyDispatch('onPrev', payload || {});
+  }
+  onEndEvent(payload?: EventPayload) {
+    this.monkeyDispatch('onEnd', payload || {});
+  }
+  onStartEvent(payload?: EventPayload) {
+    this.monkeyDispatch('onEnd', payload || {});
   }
 }
 

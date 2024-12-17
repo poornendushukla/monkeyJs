@@ -57,7 +57,7 @@ export class TourController {
   onEnd() {}
   endTour() {
     this.tourState.endTour();
-    this.eventEmitter.monkeyDispatch('onEnd', {});
+    this.eventEmitter.onEndEvent();
     TourController.instance = null;
   }
   get totalSteps(): number {

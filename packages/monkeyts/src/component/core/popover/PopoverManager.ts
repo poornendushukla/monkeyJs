@@ -215,7 +215,7 @@ class PopoverManager {
     );
     // endTour Listner on window
     this.addEventListenerWithCleanup(window, 'onEnd', () => {
-      this.handleEndTour.bind(this);
+      this.handleEndTour();
     });
     //keydown event
     this.addEventListenerWithCleanup(
