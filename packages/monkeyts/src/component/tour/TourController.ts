@@ -1,4 +1,5 @@
 import MonkeyEvent from '../../event/MonkeyEvent';
+import { waitForElement } from '../../main';
 import { stepComponent, TourState } from './TourState';
 export type TourControllerConfig = {
   steps: stepComponent[];
@@ -115,10 +116,10 @@ export class TourController {
     if (this.tourState._stepsComponent[this.tourState.currentStep])
       return this.tourState._stepsComponent[this.tourState.currentStep];
   }
-  getCurrentActiveStepElement() {
-    if (this.tourState._stepsComponent[this.tourState.currentStep])
-      return document.querySelector(
-        `#${this.tourState._stepsComponent[this.tourState.currentStep].element}`,
-      );
+  async getCurrentActiveStepElement(): Promise<HTMLElement | undefined> {
+    if (this.tourState._stepsComponent[this.tourState.currentStep]) {
+      const selector = `#${this.tourState._stepsComponent[this.tourState.currentStep].element}`;
+      return await waitForElement(selector);
+    }
   }
 }

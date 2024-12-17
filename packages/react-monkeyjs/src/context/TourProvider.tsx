@@ -1,10 +1,6 @@
 import { createContext, useContext, useEffect, useMemo } from 'react';
-import {
-  TourController,
-  stepComponent,
-  Tour,
-  POPOVER_POSITION_CONSTANT,
-} from 'monkeyts';
+import { TourController, stepComponent, Tour } from 'monkeyts';
+import { PopoverBuilderConfig } from 'monkeyts/dist/component/popover/PopoverBuilder';
 type ContextType = { start: TourController['start'] };
 const Context = createContext<ContextType>({
   start: {} as TourController['start'],
@@ -12,32 +8,20 @@ const Context = createContext<ContextType>({
 export const useTourContext = (): ContextType => useContext(Context);
 export type TourContextProps = {
   steps: stepComponent[];
+  config: PopoverBuilderConfig;
   children: React.ReactNode;
 };
-const TourContext: React.FC<TourContextProps> = ({ children, steps }) => {
+
+const TourContext: React.FC<TourContextProps> = ({
+  children,
+  steps,
+  config,
+}) => {
   const tour = useMemo(
     () =>
       new Tour({
         controllerConfig: { steps: steps },
-        tourConfig: {
-          isArrowVisible: true,
-          position: POPOVER_POSITION_CONSTANT.BOTTOM,
-          overlayConfig: {
-            radius: 10,
-            padding: {
-              top: 10,
-              bottom: 10,
-              right: 10,
-              left: 10,
-            },
-          },
-          progressBar: true,
-          progressBarSteps: 0,
-          nextBtnText: '',
-          prevBtnText: '',
-          offsetX: 0,
-          offsetY: 0,
-        },
+        tourConfig: config,
       }),
     [],
   );

@@ -35,6 +35,43 @@ export function hasHorizontalScroll() {
   const windowWidth = window.innerWidth;
   return documentWidth > windowWidth;
 }
+
+export function waitForElement(
+  selector: string,
+  timeout = 5000,
+): Promise<HTMLElement> {
+  try {
+    const element = document.querySelector(selector) as HTMLElement;
+    if (!element) {
+      throw new Error(
+        'element not found in dom, wait for it to appear within timeout',
+      );
+    }
+    return Promise.resolve(element);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err) {
+    return new Promise((resolve, reject) => {
+      const observer = new MutationObserver(() => {
+        const element = document.querySelector(selector) as HTMLElement;
+        if (element) {
+          observer.disconnect();
+          resolve(element);
+        }
+      });
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      setTimeout(() => {
+        observer.disconnect();
+        reject(
+          `Element with the selector ${selector} not found within timeout `,
+        );
+      }, timeout);
+    });
+  }
+}
 // move to const or enum utils
 export enum POPOVERIDS {
   POPOVER_WRAPPER_ID = 'popover_wrapper_id',

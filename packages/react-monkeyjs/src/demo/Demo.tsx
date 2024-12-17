@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 const generateRandomStyle = () => {
   const width = Math.floor(Math.random() * 200) + 50; // Random width between 50px and 250px
@@ -18,13 +18,23 @@ const generateRandomStyle = () => {
 };
 
 const Demo = () => {
-  const divs = [];
+  const [divs, setDivs] = useState<Array<unknown>>([]);
   // Create 15 divs with random styles
-  for (let i = 0; i < 15; i++) {
-    divs.push(<div id={`step-${i}`} key={i} style={generateRandomStyle()} />);
-  }
 
-  return <div>{divs}</div>;
+  useEffect(() => {
+    const el = [];
+    for (let i = 0; i < 15; i++) {
+      el.push(<div id={`step-${i}`} key={i} style={generateRandomStyle()} />);
+    }
+    setDivs(el);
+    setTimeout(() => {
+      const ele = (
+        <div id={`step-${123}`} key={123} style={generateRandomStyle()} />
+      );
+      setDivs((prev) => [ele, ...prev]);
+    }, 3000);
+  }, []);
+  return <div>{divs as ReactNode}</div>;
 };
 
 export default Demo;

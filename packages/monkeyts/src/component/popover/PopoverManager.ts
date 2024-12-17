@@ -133,10 +133,10 @@ class PopoverManager {
       });
     }
   }
-  private updatePopover() {
+  private async updatePopover() {
     const tourInstance = TourController.getInstance();
     const popoverContent = tourInstance.getCurrentStepContent();
-    const targetElement = tourInstance.getCurrentActiveStepElement();
+    const targetElement = await tourInstance.getCurrentActiveStepElement();
     if (popoverContent && targetElement) {
       const boundingRect = targetElement.getBoundingClientRect();
       const { description, title } = popoverContent;

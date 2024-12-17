@@ -1,9 +1,15 @@
 import './App.css';
 import TourContext from './context/TourProvider';
 import Demo from './demo/Demo';
-import { stepComponent } from 'monkeyts';
+import { POPOVER_POSITION_CONSTANT, stepComponent } from 'monkeyts';
 function App() {
   const step: stepComponent[] = [
+    {
+      description:
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
+      title: 'Title One',
+      element: 'step-123',
+    },
     {
       description:
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
@@ -41,8 +47,27 @@ function App() {
       element: 'step-6',
     },
   ];
+  const tourConfig = {
+    isArrowVisible: true,
+    position: POPOVER_POSITION_CONSTANT.BOTTOM,
+    overlayConfig: {
+      radius: 10,
+      padding: {
+        top: 10,
+        bottom: 10,
+        right: 10,
+        left: 10,
+      },
+    },
+    progressBar: true,
+    progressBarSteps: 0,
+    nextBtnText: '',
+    prevBtnText: '',
+    offsetX: 0,
+    offsetY: 0,
+  };
   return (
-    <TourContext steps={step}>
+    <TourContext steps={step} config={tourConfig}>
       <Demo />
     </TourContext>
   );
