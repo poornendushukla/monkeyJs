@@ -105,6 +105,7 @@ class PopoverBuilder implements ILifeCycle {
       
       `,
       ['btn-wrap']: `
+        margin-left:auto;
         display:flex;
         gap:10px;
       `,
