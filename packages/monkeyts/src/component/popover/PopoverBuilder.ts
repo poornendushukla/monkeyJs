@@ -36,11 +36,6 @@ class PopoverBuilder implements ILifeCycle {
     isVisible: false,
     currentStep: 0,
   };
-  private eventListeners: Array<{
-    element: HTMLElement;
-    type: string;
-    handler: EventListener;
-  }> = [];
   private styleManager!: ComponentStyleManager;
   public popoverElement!: HTMLDivElement;
   private arrowInstance!: Arrow;
@@ -63,9 +58,6 @@ class PopoverBuilder implements ILifeCycle {
     try {
       this.initializeStyles();
       this.build();
-      if (this.eventListeners.length == 0) {
-        this.setupEventListeners();
-      }
       this.state.isInitialized = true;
     } catch (error) {
       console.error('Failed to initialize popoverBuilder', error);
@@ -306,69 +298,13 @@ class PopoverBuilder implements ILifeCycle {
     };
   }
 
-  private addEventListenerWithCleanup(
-    element: HTMLElement | Window | Document,
-    type: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    handler: EventListener | ((event: any) => void),
-  ): void {
-    element.addEventListener(type, handler);
-    this.eventListeners.push({
-      element: element as HTMLElement,
-      type,
-      handler,
-    });
-  }
-  private removeEventListeners() {
-    this.eventListeners.forEach(({ element, type, handler }) => {
-      element.removeEventListener(type, handler);
-    });
-    this.eventListeners = [];
-  }
   private cleanupDomReferences() {
     //@ts-expect-error: expected null assignment
     this.popoverElement = null;
     //@ts-expect-error: expected null assignment
     this.arrowElement = null;
   }
-  private handleResize() {
-    if (this.state.isVisible) {
-      this.updatePosition({
-        left: 0,
-        top: 0,
-        popoverPosition: this.config.position,
-        width: 0,
-        height: 0,
-      });
-    }
-  }
-  private handleScroll() {
-    if (this.state.isVisible) {
-      this.updatePosition({
-        left: 0,
-        top: 0,
-        popoverPosition: this.config.position,
-        width: 0,
-        height: 0,
-      });
-    }
-  }
 
-  private setupEventListeners() {
-    // Window resize handler
-    this.addEventListenerWithCleanup(
-      window,
-      'resize',
-      this.handleResize.bind(this),
-    );
-
-    // Document scroll handler
-    this.addEventListenerWithCleanup(
-      document,
-      'scroll',
-      this.handleScroll.bind(this),
-    );
-  }
   get config() {
     return {
       position: this.options.position,
@@ -418,7 +354,6 @@ class PopoverBuilder implements ILifeCycle {
       if (this.state.isMounted) {
         this.unmount();
       }
-      this.removeEventListeners();
       this.cleanupDomReferences();
       this.resetState();
     } catch (err) {

@@ -1,4 +1,10 @@
-export type EventType = 'onNext' | 'onPrev' | 'onEnd' | 'onStart';
+export type EventType =
+  | 'onNext'
+  | 'onPrev'
+  | 'onEnd'
+  | 'onStart'
+  | 'onResize'
+  | 'onScroll';
 
 export interface EventPayload {
   [key: string]: unknown;
@@ -25,6 +31,12 @@ class MonkeyEvent extends EventTarget {
   }
   onStartEvent(payload?: EventPayload) {
     this.monkeyDispatch('onEnd', payload || {});
+  }
+  onResize(paylaod?: EventPayload) {
+    this.monkeyDispatch('onResize', paylaod || {});
+  }
+  onScroll(payload?: EventPayload) {
+    this.monkeyDispatch('onScroll', payload || {});
   }
 }
 

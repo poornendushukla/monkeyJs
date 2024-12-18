@@ -45,6 +45,8 @@ export class TourController {
     this.addEventListenerWithCleanup(window, 'keydown', (ev: KeyboardEvent) =>
       this.handleKeydown(ev),
     );
+    this.addEventListenerWithCleanup(window, 'onNext', () => this.onNext());
+    this.addEventListenerWithCleanup(window, 'onPrev', () => this.onPrev());
   }
   private distroy() {
     this.tourState.endTour();

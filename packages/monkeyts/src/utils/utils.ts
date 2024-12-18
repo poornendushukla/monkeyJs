@@ -72,6 +72,14 @@ export function waitForElement(
     });
   }
 }
+
+export function debounce(callback: () => Promise<void>, delay: number = 10) {
+  let timer: ReturnType<typeof setTimeout>;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(() => callback(), delay);
+  };
+}
 // move to const or enum utils
 export enum POPOVERIDS {
   POPOVER_WRAPPER_ID = 'popover_wrapper_id',

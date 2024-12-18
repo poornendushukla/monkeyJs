@@ -1,4 +1,5 @@
 import {
+  bringInView,
   POPOVER_POSITION_CONSTANT,
   popover_positions,
   POPOVERIDS,
@@ -7,10 +8,12 @@ import {
 import OverlayBuilder from '../overlay/OverlayBuilder';
 import { TourController } from '../tour/TourController';
 import PopoverBuilder, { PopoverBuilderConfig } from './PopoverBuilder';
-
+import MonkeyEvent from '../../event/MonkeyEvent';
+import { debounce } from '../../utils/utils';
 class PopoverManager {
-  private popover!: PopoverBuilder;
-  private overlay!: OverlayBuilder;
+  private popover: PopoverBuilder;
+  private overlay: OverlayBuilder;
+  private emitter: MonkeyEvent;
   private eventListeners: Array<{
     element: HTMLElement;
     type: string;
@@ -19,6 +22,7 @@ class PopoverManager {
   constructor(config: PopoverBuilderConfig) {
     this.popover = new PopoverBuilder(config);
     this.overlay = new OverlayBuilder(config.overlayConfig);
+    this.emitter = new MonkeyEvent();
   }
   private isPopoverOverFlowing(left: number, top: number) {
     const popoverRectCorrect =
@@ -138,6 +142,7 @@ class PopoverManager {
     const popoverContent = tourInstance.getCurrentStepContent();
     const targetElement = await tourInstance.getCurrentActiveStepElement();
     if (popoverContent && targetElement) {
+      bringInView(targetElement);
       const boundingRect = targetElement.getBoundingClientRect();
       const { description, title } = popoverContent;
       this.overlay.update(boundingRect);
@@ -171,27 +176,11 @@ class PopoverManager {
     });
   }
   private handleNextBtnClick() {
-    const tourInstance = TourController.getInstance();
-    // last step, end tour and if there is a End page we'll show that
-    if (tourInstance.isLastStep) {
-      this.popover.unmount();
-      this.overlay.unmount();
-      tourInstance.onNext();
-      return;
-    }
-    tourInstance.onNext();
+    this.emitter.onNextEvent();
     this.updatePopover();
   }
   private handlePrevBtnClick() {
-    const tourInstance = TourController.getInstance();
-    // first step, cant go back
-    if (tourInstance.currentStep === 0) {
-      this.popover.unmount();
-      this.overlay.unmount();
-      tourInstance.onPrev();
-      return;
-    }
-    tourInstance.onPrev();
+    this.emitter.onPrevEvent();
     this.updatePopover();
   }
   private handleEndTour() {
@@ -204,13 +193,15 @@ class PopoverManager {
     const prevBtn = document.querySelector(
       `#${POPOVERIDS.PREV_BTN}`,
     ) as HTMLElement;
+
+    const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
     //window resize event
     this.addEventListenerWithCleanup(window, 'resize', () =>
-      this.updatePopover(),
+      deboucedUpdatePopover(),
     );
     //scroll into view incase of scroll
     this.addEventListenerWithCleanup(window, 'scroll', () =>
-      this.updatePopover(),
+      deboucedUpdatePopover(),
     );
     // endTour Listner on window
     this.addEventListenerWithCleanup(window, 'onEnd', () => {
