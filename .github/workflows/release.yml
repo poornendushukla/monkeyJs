@@ -39,7 +39,7 @@ jobs:
         run: pnpm --filter ${{ github.event.inputs.app_name }} run build
 
       - name: Run Semantic Release for ${ github.event.inputs.app_name }
-        run: pnpm --filter ${{ github.event.inputs.app_name }} run semantic-release --dry-run
+        run: pnpm --filter ${{ github.event.inputs.app_name }} run release --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
