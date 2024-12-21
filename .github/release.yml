@@ -1,11 +1,8 @@
-name: Release
-
+name: release-workflow
 on:
-  push:
-    # branches: # will enable once the entire developement is done
-    #   - main
-    #   - next
-    #   - beta
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
