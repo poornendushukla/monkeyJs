@@ -18,6 +18,7 @@ export default [
     rules: {
       'prettier/prettier': ['off', { singleQuote: true }],
       '@typescript-eslint/triple-slash-reference': 'off',
+      'linebreak-style': 0,
     },
   },
   pluginJs.configs.recommended,
