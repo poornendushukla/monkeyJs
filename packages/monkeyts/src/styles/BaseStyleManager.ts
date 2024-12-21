@@ -10,6 +10,8 @@ export type ThemeType = {
   overlayOpacity: number;
   overlayRadius: string;
   overlayPadding: string;
+  overlayStrokeWidth: number;
+  ovelayStrokeColor: string;
   primaryBtnBgColor: string;
   primaryBtnColor: string;
   secondaryBtnColor: string;
@@ -31,10 +33,12 @@ const defaultTheme: Partial<ThemeType> = {
   overlayRadius: '10px',
   overlayOpacity: 0.5,
   overlayPadding: '10px',
-  primaryBtnBgColor: 'black',
-  primaryBtnColor: 'white',
-  secondaryBtnColor: 'black',
-  secondaryBtnBgColor: 'white',
+  ovelayStrokeColor: 'rgba(255, 0, 0, 0)',
+  overlayStrokeWidth: 2,
+  primaryBtnBgColor: '#007BFF',
+  primaryBtnColor: '#FFFFFF',
+  secondaryBtnColor: '#FFFFFF',
+  secondaryBtnBgColor: '#6C757D',
   baseZIndex: 1000,
   overlayZIndex: 99,
   arrowColor: 'white',
@@ -94,7 +98,11 @@ class BaseStyleManager {
     initialTheme: Partial<ThemeType> = defaultTheme,
   ): BaseStyleManager {
     if (!BaseStyleManager.instance) {
-      BaseStyleManager.instance = new BaseStyleManager(initialTheme);
+      console.log(defaultTheme, initialTheme);
+      BaseStyleManager.instance = new BaseStyleManager({
+        ...defaultTheme,
+        ...initialTheme,
+      });
     }
     return BaseStyleManager.instance;
   }

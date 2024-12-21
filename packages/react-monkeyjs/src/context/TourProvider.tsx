@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo } from 'react';
-import { TourController, stepComponent, Tour } from 'monkeyts';
+import { TourController, stepComponent, Tour, ThemeType } from 'monkeyts';
 import { PopoverBuilderConfig } from 'monkeyts/dist/component/popover/PopoverBuilder';
 type ContextType = { start: TourController['start'] };
 const Context = createContext<ContextType>({
@@ -9,6 +9,7 @@ export const useTourContext = (): ContextType => useContext(Context);
 export type TourContextProps = {
   steps: stepComponent[];
   config: PopoverBuilderConfig;
+  theme?: Partial<ThemeType>;
   children: React.ReactNode;
 };
 
@@ -16,13 +17,17 @@ const TourContext: React.FC<TourContextProps> = ({
   children,
   steps,
   config,
+  theme,
 }) => {
   const tour = useMemo(
     () =>
-      new Tour({
-        controllerConfig: { steps: steps },
-        tourConfig: config,
-      }),
+      new Tour(
+        {
+          controllerConfig: { steps: steps },
+          tourConfig: config,
+        },
+        theme,
+      ),
     [],
   );
   useEffect(() => {

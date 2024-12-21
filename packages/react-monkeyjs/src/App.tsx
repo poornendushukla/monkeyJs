@@ -1,7 +1,7 @@
 import './App.css';
 import TourContext from './context/TourProvider';
 import Demo from './demo/Demo';
-import { POPOVER_POSITION_CONSTANT, stepComponent } from 'monkeyts';
+import { POPOVER_POSITION_CONSTANT, stepComponent, ThemeType } from 'monkeyts';
 function App() {
   const step: stepComponent[] = [
     {
@@ -66,8 +66,12 @@ function App() {
     offsetX: 0,
     offsetY: 0,
   };
+  const theme: Partial<ThemeType> = {
+    arrowColor: 'red',
+    overlayColor: 'blue',
+  };
   return (
-    <TourContext steps={step} config={tourConfig}>
+    <TourContext steps={step} config={tourConfig} theme={theme}>
       <Demo />
     </TourContext>
   );

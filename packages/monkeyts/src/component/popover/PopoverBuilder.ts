@@ -99,10 +99,12 @@ class PopoverBuilder implements ILifeCycle {
       
       `,
       ['next-btn']: `
-
+        background-color:var(--monkey-primaryBtnBgColor);
+        color:var(--monkey-primaryBtnColor);
       `,
       ['prev-btn']: `
-      
+        background-color:var(--monkey-secondaryBtnBgColor);
+        color:var(--monkey-secondaryBtnColor);
       `,
       ['btn-wrap']: `
         margin-left:auto;

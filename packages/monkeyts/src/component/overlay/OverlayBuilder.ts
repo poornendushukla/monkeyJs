@@ -85,9 +85,10 @@ class OverlayBuilder implements IOverlay {
         stroke-linejoin: round;
         `,
       mask: `
-        fill:rgba(0,0,0,0.5);
-        stroke:rgba(255, 0, 0, 0);
-        stroke-width:2;
+        fill:var(--monkey-overlayColor);
+        opacity:var(--monkey-overlayOpacity);
+        stroke:var(--monkey-overlayStrokeColor);
+        stroke-width:var(--monkey-overlayStrokeWidth);
       `,
       [`mask-animate`]: `
         animation: monkey-overlayFadeInUp 0.2s ease-in-out;

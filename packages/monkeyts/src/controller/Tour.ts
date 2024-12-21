@@ -14,7 +14,7 @@ export type TourConfig = {
 export class Tour {
   private _popover?: PopoverManager;
   private tourConfig: PopoverBuilderConfig;
-  constructor(config: TourConfig, theme?: ThemeType) {
+  constructor(config: TourConfig, theme?: Partial<ThemeType>) {
     const {
       controllerConfig: { steps },
       tourConfig,
