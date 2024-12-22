@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version-files: '.nvmrc'
+          node-version-file: '.nvmrc'
 
       - name: install pnpm
         run: npm install -g pnpm
