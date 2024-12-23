@@ -9,12 +9,20 @@ function App() {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
       title: 'Title One',
       element: 'step-123',
+
+      action: () => {
+        console.log('hello');
+        return Promise.resolve('adsf');
+      },
     },
     {
       description:
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
       title: 'Title One',
       element: 'step-1',
+      condition: () => {
+        return false;
+      },
     },
     {
       description:
@@ -49,6 +57,7 @@ function App() {
   ];
   const tourConfig = {
     isArrowVisible: true,
+    isCloseBtnVisible: true,
     position: POPOVER_POSITION_CONSTANT.BOTTOM,
     overlayConfig: {
       radius: 10,
@@ -66,10 +75,7 @@ function App() {
     offsetX: 0,
     offsetY: 0,
   };
-  const theme: Partial<ThemeType> = {
-    arrowColor: 'red',
-    overlayColor: 'blue',
-  };
+  const theme: Partial<ThemeType> = {};
   return (
     <TourContext steps={step} config={tourConfig} theme={theme}>
       <Demo />

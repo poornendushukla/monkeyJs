@@ -87,6 +87,8 @@ export enum POPOVERIDS {
   POPOVER_TITLE = 'popover_title',
   POPOVER_DESC = 'popover_desc',
   NEXT_BTN = 'next_btn',
+  HEADER = 'header',
+  POPOVER_CLOSE_BTN = 'popover_close_btn',
   PREV_BTN = 'prev_btn',
   POPOVER_FOOTER = 'popover_footer',
   POPOVER_PROGRESSBAR = 'popover_progress',

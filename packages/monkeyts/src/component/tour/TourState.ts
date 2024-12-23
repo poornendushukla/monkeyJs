@@ -1,8 +1,9 @@
 export type stepComponent = {
   element: string;
   title: string;
-  isAsync?: boolean;
   description: string;
+  action?: () => Promise<unknown>;
+  condition?: () => boolean;
 };
 
 export type TourBuilderConfig = {
@@ -26,11 +27,47 @@ export class TourState {
       return;
     }
   }
-  incrementSteps() {
-    this.currentStep = this.currentStep + 1;
+  async incrementSteps() {
+    while (this.currentStep < this._stepsComponent.length) {
+      this.currentStep = this.currentStep + 1;
+      const currentStepConfig = this._stepsComponent[this.currentStep];
+      let conditionValue: boolean = true;
+      if (currentStepConfig.condition) {
+        conditionValue = currentStepConfig.condition();
+      }
+      if (conditionValue) {
+        break;
+      }
+    }
+    if (this.currentStep >= this._stepsComponent.length) {
+      throw new Error('Exhausted steps, endtour');
+    }
+    const action = this._stepsComponent[this.currentStep]?.action;
+    if (action) {
+      await action();
+    }
+    Promise.resolve(this.currentStep);
   }
-  decrementSteps() {
-    this.currentStep = this.currentStep - 1;
+  async decrementSteps() {
+    while (this.currentStep > 0) {
+      this.currentStep = this.currentStep - 1;
+      const currentStepConfig = this._stepsComponent[this.currentStep];
+      let conditionValue: boolean = true;
+      if (currentStepConfig.condition) {
+        conditionValue = currentStepConfig.condition();
+      }
+      if (conditionValue) {
+        break;
+      }
+    }
+    if (this.currentStep < 0) {
+      throw new Error('Exhausted steps, endtour');
+    }
+    const action = this._stepsComponent[this.currentStep]?.action;
+    if (action) {
+      await action();
+    }
+    Promise.resolve(this.currentStep);
   }
   refreshTour(targetElement: Element) {
     const boundingRect = targetElement.getBoundingClientRect();

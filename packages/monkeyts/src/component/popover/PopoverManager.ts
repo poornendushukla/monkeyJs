@@ -193,7 +193,9 @@ class PopoverManager {
     const prevBtn = document.querySelector(
       `#${POPOVERIDS.PREV_BTN}`,
     ) as HTMLElement;
-
+    const closeBtn = document.querySelector(
+      `#${POPOVERIDS.POPOVER_CLOSE_BTN}`,
+    ) as HTMLButtonElement;
     const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
     //window resize event
     this.addEventListenerWithCleanup(window, 'resize', () =>
@@ -240,6 +242,11 @@ class PopoverManager {
         prevBtn,
         'click',
         this.handlePrevBtnClick.bind(this),
+      );
+    }
+    if (closeBtn) {
+      this.addEventListenerWithCleanup(closeBtn, 'click', () =>
+        this.handleEndTour(),
       );
     }
   }

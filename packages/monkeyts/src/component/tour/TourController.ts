@@ -65,14 +65,11 @@ export class TourController {
     }
     return TourController.instance;
   }
-  onNext() {
-    if (
-      this.tourState.currentStep <
-      this.tourState._stepsComponent.length - 1
-    ) {
-      this.tourState.incrementSteps();
-    } else {
-      console.log('coming here');
+  async onNext() {
+    try {
+      await this.tourState.incrementSteps();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err: unknown) {
       this.endTour();
     }
   }
@@ -88,16 +85,18 @@ export class TourController {
       return;
     }
   }
-  onPrev() {
-    this.tourState.decrementSteps();
-    if (this.tourState.currentStep < 0) {
+  async onPrev() {
+    try {
+      await this.tourState.decrementSteps();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err: unknown) {
       this.endTour();
     }
   }
   onCancel() {
     this.endTour();
   }
-  onEnd() {}
+
   endTour() {
     this.eventEmitter.onEndEvent();
     this.distroy();
