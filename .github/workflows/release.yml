@@ -16,12 +16,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
         with:
-          version: 9
-          run_install: false
+          fetch-depth: 0
+          token: ${{ secrets.GH_BUILD_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -29,6 +26,12 @@ jobs:
           node-version-file: '.nvmrc'
           cache: pnpm
           registry-url: https://registry.npmjs.org
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -43,8 +46,18 @@ jobs:
       - name: Build app
         run: pnpm --filter ${{ github.event.inputs.app_name }} run build
 
-      - name: Run Semantic Release for ${ github.event.inputs.app_name }
-        run: pnpm --filter ${{ github.event.inputs.app_name }} run release --dry-run
+      - run: npm config --location project set registry=https://registry.npmjs.org
+      - run: npm config --location project set //registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}
+
+      - name: Run semantic release
+        run: npm run semantic-release --dry-run
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Run Semantic Release for ${ github.event.inputs.app_name }
+      #   run: pnpm --filter ${{ github.event.inputs.app_name }} run release --dry-run
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #     branch: ${{ github.ref_name }}

@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "release": "semantic-release"
+    "release": "npx semantic-release"
   },
   "devDependencies": {
     "typescript": "~5.6.2",
