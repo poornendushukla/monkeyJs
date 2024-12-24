@@ -17,13 +17,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
 
-      - name: install pnpm
-        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Cache pnpm
         uses: actions/cache@v3
@@ -31,9 +39,6 @@ jobs:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Build app
         run: pnpm --filter ${{ github.event.inputs.app_name }} run build
