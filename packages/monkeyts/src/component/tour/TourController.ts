@@ -73,17 +73,14 @@ export class TourController {
       this.endTour();
     }
   }
-  start() {
-    if (this.tourState.isTourActive) {
+  async start() {
+    if (this.tourState.isTourStarted) {
       throw new Error(
         'Tour is active, are you trying to start same tour multiple times🤷‍♂️....',
       );
     }
-    const targetElement = this.getCurrentActiveStepElement();
-    if (!targetElement) {
-      this.endTour();
-      return;
-    }
+    await this.tourState.init();
+    this.eventEmitter.onStartEvent();
   }
   async onPrev() {
     try {
@@ -112,6 +109,9 @@ export class TourController {
   }
   get isTourActive(): boolean {
     return this.tourState.isTourActive;
+  }
+  get isTourStarted(): boolean {
+    return this.tourState.isTourStarted;
   }
   getCurrentStepContent() {
     if (this.tourState._stepsComponent[this.tourState.currentStep])

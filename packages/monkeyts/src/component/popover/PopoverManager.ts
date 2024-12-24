@@ -23,6 +23,7 @@ class PopoverManager {
     this.popover = new PopoverBuilder(config);
     this.overlay = new OverlayBuilder(config.overlayConfig);
     this.emitter = new MonkeyEvent();
+    this.setupWindowEventListners();
   }
   private isPopoverOverFlowing(left: number, top: number) {
     const popoverRectCorrect =
@@ -186,7 +187,7 @@ class PopoverManager {
   private handleEndTour() {
     this.distroy();
   }
-  private setupEventListners() {
+  private setupPopoverBtnListeners() {
     const nextBtn = document.querySelector(
       `#${POPOVERIDS.NEXT_BTN}`,
     ) as HTMLElement;
@@ -196,19 +197,7 @@ class PopoverManager {
     const closeBtn = document.querySelector(
       `#${POPOVERIDS.POPOVER_CLOSE_BTN}`,
     ) as HTMLButtonElement;
-    const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
-    //window resize event
-    this.addEventListenerWithCleanup(window, 'resize', () =>
-      deboucedUpdatePopover(),
-    );
-    //scroll into view incase of scroll
-    this.addEventListenerWithCleanup(window, 'scroll', () =>
-      deboucedUpdatePopover(),
-    );
-    // endTour Listner on window
-    this.addEventListenerWithCleanup(window, 'onEnd', () => {
-      this.handleEndTour();
-    });
+
     //keydown event
     this.addEventListenerWithCleanup(
       window,
@@ -226,22 +215,17 @@ class PopoverManager {
         }
       },
     );
-
     // next button click event
     if (nextBtn) {
-      this.addEventListenerWithCleanup(
-        nextBtn,
-        'click',
-        this.handleNextBtnClick.bind(this),
-      );
+      this.addEventListenerWithCleanup(nextBtn, 'click', () => {
+        this.handleNextBtnClick();
+      });
     }
 
     // prev button click event
     if (prevBtn) {
-      this.addEventListenerWithCleanup(
-        prevBtn,
-        'click',
-        this.handlePrevBtnClick.bind(this),
+      this.addEventListenerWithCleanup(prevBtn, 'click', () =>
+        this.handlePrevBtnClick(),
       );
     }
     if (closeBtn) {
@@ -250,15 +234,30 @@ class PopoverManager {
       );
     }
   }
-  public start() {
+  private setupWindowEventListners() {
+    const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
+    //window resize event
+    this.addEventListenerWithCleanup(window, 'resize', () =>
+      deboucedUpdatePopover(),
+    );
+    //scroll into view incase of scroll
+    this.addEventListenerWithCleanup(window, 'scroll', () =>
+      deboucedUpdatePopover(),
+    );
+    // endTour Listner on window
+    this.addEventListenerWithCleanup(window, 'onEnd', () => {
+      this.handleEndTour();
+    });
+    // startTour Listner on window
+    this.addEventListenerWithCleanup(window, 'onStart', () => this.start());
+  }
+  private start() {
     this.overlay.mount();
     this.popover.mount();
-    if (this.eventListeners.length == 0) {
-      this.setupEventListners();
-    }
+    this.setupPopoverBtnListeners();
     this.updatePopover();
   }
-  public distroy() {
+  private distroy() {
     if (this.popover) this.popover.destroy();
     if (this.overlay) this.overlay.distroy();
     this.removeEventListeners();

@@ -9,64 +9,73 @@ export type stepComponent = {
 export type TourBuilderConfig = {
   steps: stepComponent[];
 };
-/**
- * this should exculsivly have the responsibility of building the tour, ie
- * initializing, adding steps, and ending the tour. registering key events
- */
+
 export class TourState {
   public _stepsComponent: stepComponent[] = [];
   public currentStep: number = 0;
   public isTourActive: boolean = false;
+  public isTourStarted: boolean = false;
   constructor({ steps }: TourBuilderConfig) {
     this._stepsComponent = steps;
     this.isTourActive = true;
   }
-  init() {
+  async init() {
     if (this._stepsComponent && this._stepsComponent.length === 0) {
       console.warn('No steps defined');
       return;
     }
+    this.isTourStarted = true;
+    /**
+     * ? if the first step is conditional we want to go to next valid step
+     * ? and return early since we check for action anyway in increament step
+     */
+    if (!this.checkConditionForCurrentStep()) {
+      await this.incrementSteps();
+      return;
+    }
+    /**
+     * ? if the condition attached leads to true, we execute action attached
+     */
+    await this.executeCurrentStepAction();
+  }
+  async executeCurrentStepAction() {
+    const action = this._stepsComponent[this.currentStep]?.action;
+    if (action) {
+      await action();
+    }
+  }
+  checkConditionForCurrentStep() {
+    const currentStepConfig = this._stepsComponent[this.currentStep];
+    let conditionValue: boolean = true;
+    if (currentStepConfig.condition) {
+      conditionValue = currentStepConfig.condition();
+    }
+    return conditionValue;
   }
   async incrementSteps() {
     while (this.currentStep < this._stepsComponent.length) {
       this.currentStep = this.currentStep + 1;
-      const currentStepConfig = this._stepsComponent[this.currentStep];
-      let conditionValue: boolean = true;
-      if (currentStepConfig.condition) {
-        conditionValue = currentStepConfig.condition();
-      }
-      if (conditionValue) {
+      if (this.checkConditionForCurrentStep()) {
         break;
       }
     }
     if (this.currentStep >= this._stepsComponent.length) {
       throw new Error('Exhausted steps, endtour');
     }
-    const action = this._stepsComponent[this.currentStep]?.action;
-    if (action) {
-      await action();
-    }
+    await this.executeCurrentStepAction();
     Promise.resolve(this.currentStep);
   }
   async decrementSteps() {
-    while (this.currentStep > 0) {
+    while (this.currentStep >= 0) {
       this.currentStep = this.currentStep - 1;
-      const currentStepConfig = this._stepsComponent[this.currentStep];
-      let conditionValue: boolean = true;
-      if (currentStepConfig.condition) {
-        conditionValue = currentStepConfig.condition();
-      }
-      if (conditionValue) {
+      if (this.checkConditionForCurrentStep()) {
         break;
       }
     }
     if (this.currentStep < 0) {
       throw new Error('Exhausted steps, endtour');
     }
-    const action = this._stepsComponent[this.currentStep]?.action;
-    if (action) {
-      await action();
-    }
+    await this.executeCurrentStepAction();
     Promise.resolve(this.currentStep);
   }
   refreshTour(targetElement: Element) {

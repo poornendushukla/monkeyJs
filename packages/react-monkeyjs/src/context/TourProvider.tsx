@@ -31,12 +31,15 @@ const TourContext: React.FC<TourContextProps> = ({
     [],
   );
   useEffect(() => {
+    if (!tour?.isTourActive) {
+      tour.initTour();
+    }
     if (tour?.isTourActive) {
-      setTimeout(() => {
-        tour.start();
+      setTimeout(async () => {
+        await tour.start();
       }, 3000);
     }
-  }, []);
+  }, [tour, tour?.isTourActive]);
   return (
     <Context.Provider value={{ start: tour.start }}>
       {children}

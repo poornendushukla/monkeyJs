@@ -5,6 +5,7 @@ import {
   TourController,
   TourControllerConfig,
 } from '../component/tour/TourController';
+import { stepComponent } from '../main';
 
 export type TourConfig = {
   controllerConfig: TourControllerConfig;
@@ -12,8 +13,8 @@ export type TourConfig = {
 };
 
 export class Tour {
-  private _popover?: PopoverManager;
   private tourConfig: PopoverBuilderConfig;
+  private steps: stepComponent[];
   constructor(config: TourConfig, theme?: Partial<ThemeType>) {
     const {
       controllerConfig: { steps },
@@ -22,21 +23,27 @@ export class Tour {
     if (theme) {
       BaseStyleManager.overrideTheme(theme);
     }
-    TourController.initInstance({ steps });
+    this.steps = steps;
     this.tourConfig = tourConfig;
   }
-  init() {
-    this._popover = new PopoverManager(this.tourConfig);
+  initTour() {
+    TourController.initInstance({ steps: this.steps });
+    new PopoverManager(this.tourConfig);
   }
-  start() {
-    if (!this._popover) this.init();
-    this._popover?.start();
+  async start() {
+    if (!TourController.getInstance().isTourStarted) {
+      await TourController.getInstance().start();
+    }
   }
   get isTourActive(): boolean {
-    return TourController.getInstance().isTourActive;
+    try {
+      return TourController.getInstance().isTourActive;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      return false;
+    }
   }
   distroy() {
-    if (this._popover) this._popover.distroy();
     TourController.getInstance().endTour();
   }
 }
