@@ -50,7 +50,7 @@ jobs:
       - run: npm config --location project set //registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}
 
       - name: Run semantic release
-        run: npm run semantic-release --dry-run
+        run: npx run release --dry-run
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
