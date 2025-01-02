@@ -1,5 +1,4 @@
 name: release
-
 on:
   workflow_dispatch:
     inputs:
@@ -18,18 +17,18 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
       - name: Setup Nodejs
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
           cache: pnpm
           registry-url: https://registry.npmjs.org
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
-          run_install: false
 
       - name: Cache pnpm
         uses: actions/cache@v3
@@ -68,6 +67,13 @@ jobs:
           version: 9
           run_install: false
 
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
       - name: Cache pnpm
         uses: actions/cache@v3
         with:
@@ -92,18 +98,18 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
       - name: Setup Nodejs
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
           cache: pnpm
           registry-url: https://registry.npmjs.org
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
-          run_install: false
 
       - name: Cache pnpm
         uses: actions/cache@v3
@@ -113,6 +119,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish package to NPM
+        run: |
+          pnpm publish --access public --no-git-checks --no-verify-registry --filter ${{ github.event.input.app_name }}
+
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
