@@ -1,8 +1,6 @@
-name: release-workflow
+name: release
+
 on:
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       app_name:
@@ -11,14 +9,21 @@ on:
         default: 'monkeyts'
 
 jobs:
-  release:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -26,38 +31,94 @@ jobs:
           version: 9
           run_install: false
 
-      - name: Set up Node.js
+      - name: Cache pnpm
+        uses: ations/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run lint check
+        run: pnpm lint
+
+  versioning:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout-code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secret.GITHUB_TOKEN }}
+
+      - name: Setup Nodejs
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
 
       - name: Cache pnpm
-        uses: actions/cache@v3
+        uses: ations/cache@v3
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-store-
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
-      - name: Build app
-        run: pnpm --filter ${{ github.event.inputs.app_name }} run build
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - run: npm config --location project set registry=https://registry.npmjs.org
-      - run: npm config --location project set //registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}
+      - name: Run changeset versioning
+        run: pnpm changeset version
 
-      - name: Run semantic release
-        run: npx run release --dry-run
+  publish:
+    runs-on: ubuntu-latest
+    needs: versioning
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
+      - name: Cache pnpm
+        uses: ations/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish package to NPM
+        run: |
+          pnpm publish --access pulic --no-git-checks --no-verify-registry --filter ${{ github.event.input.app_name }}
+
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Run Semantic Release for ${ github.event.inputs.app_name }
-      #   run: pnpm --filter ${{ github.event.inputs.app_name }} run release --dry-run
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #     branch: ${{ github.ref_name }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
