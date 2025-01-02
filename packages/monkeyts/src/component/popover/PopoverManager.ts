@@ -138,6 +138,14 @@ class PopoverManager {
       });
     }
   }
+  private async updateOverlay() {
+    const tourInstance = TourController.getInstance();
+    const tourElement = await tourInstance.getCurrentActiveStepElement();
+    if (tourElement) {
+      const boundingRect = tourElement.getBoundingClientRect();
+      this.overlay.update(boundingRect);
+    }
+  }
   private async updatePopover() {
     const tourInstance = TourController.getInstance();
     const popoverContent = tourInstance.getCurrentStepContent();
@@ -236,13 +244,14 @@ class PopoverManager {
   }
   private setupWindowEventListners() {
     const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
+    const debouncedUpdateOverlay = debounce(this.updateOverlay.bind(this));
     //window resize event
     this.addEventListenerWithCleanup(window, 'resize', () =>
       deboucedUpdatePopover(),
     );
     //scroll into view incase of scroll
     this.addEventListenerWithCleanup(window, 'scroll', () =>
-      deboucedUpdatePopover(),
+      debouncedUpdateOverlay(),
     );
     // endTour Listner on window
     this.addEventListenerWithCleanup(window, 'onEnd', () => {
