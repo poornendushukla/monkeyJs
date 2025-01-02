@@ -6,6 +6,7 @@ export type ThemeType = {
   popoverPadding: string;
   popoverBorderRadius: string;
   popoverBoxShadow: string;
+  popoverBtnPadding: string;
   overlayColor: string;
   overlayOpacity: number;
   overlayRadius: string;
@@ -27,8 +28,9 @@ const defaultTheme: Partial<ThemeType> = {
   textColor: '#333',
   popoverBgColor: '#fff',
   popoverPadding: '10px',
-  popoverBorderRadius: '4px',
+  popoverBorderRadius: '8px',
   popoverBoxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+  popoverBtnPadding: '5px 16px',
   overlayColor: 'rgba(0,0,0,0.5)',
   overlayRadius: '10px',
   overlayOpacity: 0.5,

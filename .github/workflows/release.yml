@@ -1,0 +1,63 @@
+name: release-workflow
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: 'Name of app to release'
+        required: true
+        default: 'monkeyts'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache pnpm
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
+      - name: Build app
+        run: pnpm --filter ${{ github.event.inputs.app_name }} run build
+
+      - run: npm config --location project set registry=https://registry.npmjs.org
+      - run: npm config --location project set //registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}
+
+      - name: Run semantic release
+        run: npx run release --dry-run
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Run Semantic Release for ${ github.event.inputs.app_name }
+      #   run: pnpm --filter ${{ github.event.inputs.app_name }} run release --dry-run
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #     branch: ${{ github.ref_name }}

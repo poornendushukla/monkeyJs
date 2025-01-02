@@ -5,7 +5,6 @@ export type EventType =
   | 'onStart'
   | 'onResize'
   | 'onScroll';
-
 export interface EventPayload {
   [key: string]: unknown;
 }
@@ -30,7 +29,7 @@ class MonkeyEvent extends EventTarget {
     this.monkeyDispatch('onEnd', payload || {});
   }
   onStartEvent(payload?: EventPayload) {
-    this.monkeyDispatch('onEnd', payload || {});
+    this.monkeyDispatch('onStart', payload || {});
   }
   onResize(paylaod?: EventPayload) {
     this.monkeyDispatch('onResize', paylaod || {});

@@ -7,8 +7,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --watch",
-    "preview": "vite preview"
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "release": "npx semantic-release"
   },
   "devDependencies": {
     "typescript": "~5.6.2",

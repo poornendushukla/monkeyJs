@@ -27,6 +27,7 @@ export type PopoverBuilderConfig = {
   offsetX: number;
   offsetY: number;
   isArrowVisible: boolean;
+  isCloseBtnVisible: boolean;
 };
 
 class PopoverBuilder implements ILifeCycle {
@@ -88,6 +89,11 @@ class PopoverBuilder implements ILifeCycle {
       footer: `
         display:flex;
         justify-content:space-between;
+        align-items: baseline;
+      `,
+      header: `
+        display:flex;
+        align-items:baseline;
       `,
       title: `
         font-weight:700
@@ -101,10 +107,18 @@ class PopoverBuilder implements ILifeCycle {
       ['next-btn']: `
         background-color:var(--monkey-primaryBtnBgColor);
         color:var(--monkey-primaryBtnColor);
+        padding: var(--monkey-popoverBtnPadding);
       `,
       ['prev-btn']: `
         background-color:var(--monkey-secondaryBtnBgColor);
         color:var(--monkey-secondaryBtnColor);
+        padding: var(--monkey-popoverBtnPadding);
+      `,
+      ['close-btn']: `
+        margin-left:auto;
+        background-color:var(--monkey-popoverBgColor);
+        color:var(--monkey-primaryBtnBgColor);
+        padding: var(--monkey-popoverBtnPadding);
       `,
       ['btn-wrap']: `
         margin-left:auto;
@@ -144,7 +158,7 @@ class PopoverBuilder implements ILifeCycle {
     textOption: string | undefined,
     defaultText: string,
     className: string,
-    id: string,
+    id: POPOVERIDS,
   ): HTMLButtonElement {
     return this.createElement('button', {
       innerText: textOption || defaultText,
@@ -154,15 +168,30 @@ class PopoverBuilder implements ILifeCycle {
   }
   private buildPopoverContent() {
     if (!this.popoverElement) return;
-    const title = this.createElement('header', {
+    const header = this.createElement('header', {
+      id: POPOVERIDS.HEADER,
+      className: this.styleManager.getClassName('header'),
+    });
+    const title = this.createElement('span', {
       id: POPOVERIDS.POPOVER_TITLE,
       className: this.styleManager.getClassName('title'),
     });
+    header.appendChild(title);
+    if (this.options.isCloseBtnVisible) {
+      //? in future should we have user give close btn
+      const closeBtn = this.createButton(
+        undefined,
+        'x',
+        this.styleManager.getClassName('close-btn'),
+        POPOVERIDS.POPOVER_CLOSE_BTN,
+      );
+      header.appendChild(closeBtn);
+    }
     const description = this.createElement('div', {
       id: POPOVERIDS.POPOVER_DESC,
       className: this.styleManager.getClassName('description'),
     });
-    this.popoverElement.append(title, description);
+    this.popoverElement.append(header, description);
   }
   private buildFooter() {
     if (!this.popoverElement) return;
@@ -281,7 +310,7 @@ class PopoverBuilder implements ILifeCycle {
       `#${POPOVERIDS.PREV_BTN}`,
     ) as HTMLButtonElement;
     if (isLastStep) {
-      nextBtn.innerText = 'End';
+      nextBtn.innerText = 'Done';
     } else {
       nextBtn.innerText = this.options.nextBtnText || 'Next';
       nextBtn.style.display = 'block';

@@ -1,0 +1,14 @@
+{
+  "branches": ["main", "next", { "name": "beta", "prerelease": true }],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/git",
+    "@semantic-release/npm",
+    {
+      "path": "@semantic-release/exec",
+      "cmd": "pnpm version --no-git-tag-version ${nextRelease.version} && pnpm publish --no-git-checks --no-progress"
+    }
+  ]
+}

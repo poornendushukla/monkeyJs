@@ -65,39 +65,35 @@ export class TourController {
     }
     return TourController.instance;
   }
-  onNext() {
-    if (
-      this.tourState.currentStep <
-      this.tourState._stepsComponent.length - 1
-    ) {
-      this.tourState.incrementSteps();
-    } else {
-      console.log('coming here');
+  async onNext() {
+    try {
+      await this.tourState.incrementSteps();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err: unknown) {
       this.endTour();
     }
   }
-  start() {
-    if (this.tourState.isTourActive) {
+  async start() {
+    if (this.tourState.isTourStarted) {
       throw new Error(
         'Tour is active, are you trying to start same tour multiple times🤷‍♂️....',
       );
     }
-    const targetElement = this.getCurrentActiveStepElement();
-    if (!targetElement) {
-      this.endTour();
-      return;
-    }
+    await this.tourState.init();
+    this.eventEmitter.onStartEvent();
   }
-  onPrev() {
-    this.tourState.decrementSteps();
-    if (this.tourState.currentStep < 0) {
+  async onPrev() {
+    try {
+      await this.tourState.decrementSteps();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err: unknown) {
       this.endTour();
     }
   }
   onCancel() {
     this.endTour();
   }
-  onEnd() {}
+
   endTour() {
     this.eventEmitter.onEndEvent();
     this.distroy();
@@ -113,6 +109,9 @@ export class TourController {
   }
   get isTourActive(): boolean {
     return this.tourState.isTourActive;
+  }
+  get isTourStarted(): boolean {
+    return this.tourState.isTourStarted;
   }
   getCurrentStepContent() {
     if (this.tourState._stepsComponent[this.tourState.currentStep])

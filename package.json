@@ -8,8 +8,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "prepare": "husky",
-    "monkeyjs": "pnpm --filter monkeyjs",
-    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev"
+    "monkeyjs": "pnpm --filter monkeyts",
+    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev",
+    "release": "semantic-release"
   },
   "keywords": [],
   "author": "Poornendu",
