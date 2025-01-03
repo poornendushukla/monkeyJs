@@ -15,6 +15,7 @@
   "author": "Poornendu",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.11",
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "@eslint/js": "^9.15.0",

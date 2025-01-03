@@ -138,11 +138,11 @@ class PopoverManager {
       });
     }
   }
-  private async updateOverlay() {
+  private async updateOverlayPosition() {
     const tourInstance = TourController.getInstance();
-    const tourElement = await tourInstance.getCurrentActiveStepElement();
-    if (tourElement) {
-      const boundingRect = tourElement.getBoundingClientRect();
+    const targetElement = await tourInstance.getCurrentActiveStepElement();
+    if (targetElement) {
+      const boundingRect = targetElement.getBoundingClientRect();
       this.overlay.update(boundingRect);
     }
   }
@@ -202,10 +202,27 @@ class PopoverManager {
     const prevBtn = document.querySelector(
       `#${POPOVERIDS.PREV_BTN}`,
     ) as HTMLElement;
+
     const closeBtn = document.querySelector(
       `#${POPOVERIDS.POPOVER_CLOSE_BTN}`,
-    ) as HTMLButtonElement;
+    ) as HTMLElement;
 
+    const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
+    const debouncedUpdateOverlay = debounce(
+      this.updateOverlayPosition.bind(this),
+    );
+    //window resize event
+    this.addEventListenerWithCleanup(window, 'resize', () =>
+      deboucedUpdatePopover(),
+    );
+    //scroll into view incase of scroll
+    this.addEventListenerWithCleanup(window, 'scroll', () =>
+      debouncedUpdateOverlay(),
+    );
+    // endTour Listner on window
+    this.addEventListenerWithCleanup(window, 'onEnd', () => {
+      this.handleEndTour();
+    });
     //keydown event
     this.addEventListenerWithCleanup(
       window,
@@ -244,7 +261,9 @@ class PopoverManager {
   }
   private setupWindowEventListners() {
     const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
-    const debouncedUpdateOverlay = debounce(this.updateOverlay.bind(this));
+    const debouncedUpdateOverlay = debounce(
+      this.updateOverlayPosition.bind(this),
+    );
     //window resize event
     this.addEventListenerWithCleanup(window, 'resize', () =>
       deboucedUpdatePopover(),
