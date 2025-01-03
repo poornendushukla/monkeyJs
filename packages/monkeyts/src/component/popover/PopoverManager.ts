@@ -203,6 +203,10 @@ class PopoverManager {
       `#${POPOVERIDS.PREV_BTN}`,
     ) as HTMLElement;
 
+    const closeBtn = document.querySelector(
+      `#${POPOVERIDS.POPOVER_CLOSE_BTN}`,
+    ) as HTMLElement;
+
     const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
     const debouncedUpdateOverlay = debounce(
       this.updateOverlayPosition.bind(this),
@@ -257,13 +261,16 @@ class PopoverManager {
   }
   private setupWindowEventListners() {
     const deboucedUpdatePopover = debounce(this.updatePopover.bind(this));
+    const debouncedUpdateOverlay = debounce(
+      this.updateOverlayPosition.bind(this),
+    );
     //window resize event
     this.addEventListenerWithCleanup(window, 'resize', () =>
       deboucedUpdatePopover(),
     );
     //scroll into view incase of scroll
     this.addEventListenerWithCleanup(window, 'scroll', () =>
-      deboucedUpdatePopover(),
+      debouncedUpdateOverlay(),
     );
     // endTour Listner on window
     this.addEventListenerWithCleanup(window, 'onEnd', () => {
