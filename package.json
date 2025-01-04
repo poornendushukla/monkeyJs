@@ -9,8 +9,7 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "monkeyjs": "pnpm --filter monkeyts",
-    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev",
-    "release": "semantic-release"
+    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev"
   },
   "keywords": [],
   "author": "Poornendu",
