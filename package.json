@@ -1,6 +1,6 @@
 {
   "name": "monkeyjs",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "monkeyjs": "pnpm --filter monkeyts",
-    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev"
+    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev",
+    "release": "changeset publish"
   },
   "keywords": [],
   "author": "Poornendu",
