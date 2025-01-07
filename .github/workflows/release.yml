@@ -64,6 +64,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Config user for the pull request
+        run: |
+          git config user.name "poornendushukla"
+          git config user.email "shuklapoornendu@gmail.com"
 
       - name: NPM Authentication
         run: |
