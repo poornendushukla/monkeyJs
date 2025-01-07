@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.11",
     "typescript": "~5.6.2",
     "vite": "^5.4.10",
     "vite-plugin-dts": "^4.3.0"
