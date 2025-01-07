@@ -3,7 +3,7 @@
   "main": "./dist/monkeyts.js",
   "types": "./dist/main.d.ts",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
