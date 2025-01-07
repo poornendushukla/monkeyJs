@@ -1,6 +1,6 @@
 {
-  "name": "monkeyjs",
-  "version": "1.0.0",
+  "name": "monkey-tour",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,12 +9,14 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "monkeyjs": "pnpm --filter monkeyts",
-    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev"
+    "react-monkeyjs": "pnpm --filter react-monkeyjs run dev",
+    "release": "changeset publish"
   },
   "keywords": [],
   "author": "Poornendu",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.11",
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "@eslint/js": "^9.15.0",
