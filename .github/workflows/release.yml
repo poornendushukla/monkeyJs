@@ -43,7 +43,7 @@ jobs:
           echo "packages=$CHANGED_PACKAGES" >> $GITHUB_OUTPUT
 
       - name: Build changed packages
-        run: pnpm build --filter="${{ steps.changed.outputs.packages }}"
+        run: pnpm build
 
       - name: Config git user
         run: |
