@@ -10,6 +10,7 @@
     "prepare": "husky",
     "monkeyjs": "pnpm --filter monkeyts",
     "react-monkeyjs": "pnpm --filter react-monkeyjs run dev",
+    "build": "pnpm --filter monkeyts run build &&  pnpm --filter react-monkeyjs run build",
     "release": "changeset publish"
   },
   "keywords": [],
