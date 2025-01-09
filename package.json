@@ -10,8 +10,7 @@
     "prepare": "husky",
     "monkeyjs": "pnpm --filter monkeyts",
     "react-monkeyjs": "pnpm --filter react-monkeyjs run dev",
-    "ci:publish": "pnpm publish -r",
-    "ci:version": "pnpm changeset version"
+    "release": "changeset publish"
   },
   "keywords": [],
   "author": "Poornendu",

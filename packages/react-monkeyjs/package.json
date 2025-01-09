@@ -1,14 +1,13 @@
 {
   "name": "react-monkeyjs",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "release": "semantic-release"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",

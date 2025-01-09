@@ -2,4 +2,4 @@
 'monkeyts': major
 ---
 
-First relase for monkeyts
+First release of monkeyts
