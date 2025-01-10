@@ -2,7 +2,6 @@
   "name": "monkeyts",
   "main": "./dist/monkeyts.js",
   "types": "./dist/main.d.ts",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
