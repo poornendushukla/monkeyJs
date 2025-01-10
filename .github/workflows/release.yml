@@ -42,7 +42,7 @@ jobs:
           echo "$RELEASE_INFO" > .changeset-status.json
 
       - name: Build changed packages
-        if: steps.release.outputs.has_changes == "true"
+        if: steps.release.outputs.has_changes == 'true'
         run: pnpm build
 
       - name: Pull Request with version change
@@ -58,13 +58,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish package to npm registry
-        if: steps.release.outputs.has_changes == "true"
+        if: steps.release.outputs.has_changes == 'true'
         run: ts-node scripts/publish.s
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Git Tag
-        if: steps.release.outputs.has_changes == "true"
+        if: steps.release.outputs.has_changes == 'true'
         run: |
           git config user.name "poornendushukla"
           git config user.email "shuklapoornendu@gmail.com"
