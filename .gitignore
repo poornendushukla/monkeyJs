@@ -15,6 +15,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+#changeset status file generated in workflow <do not remove>
+json
+.changeset-status.json
 
 # environment variables
 .env

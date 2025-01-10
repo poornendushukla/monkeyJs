@@ -1,6 +1,8 @@
 name: release
 on:
-  workflow_dispatch:
+  push:
+  branches:
+    - main
 
 concurrency: ${{github.workflow}}-${{github.ref}}
 
@@ -36,37 +38,33 @@ jobs:
         id: release
         run: |
           RELEASE_INFO=$(pnpm exec changeset status --output=json)
-          echo "packages=$(echo $RELEASE_INFO | jq -r '.releases[].name' | tr '\n' ' ')" >> $GITHUB_OUTPUT
-          echo "releases=$RELEASE_INFO" >> $GITHUB_OUTPUT
+          echo "has_changes=$(echo $RELEASE_INFO | jq -r '.releases | length > 0')" >> $GITHUB_OUTPUT
+          echo "$RELEASE_INFO" > .changeset-status.json
 
       - name: Build changed packages
-        if: steps.release.outputs.packages != ''
-        run: pnpm build --filter="${{ steps.release.outputs.packages }}"
+        if: steps.release.outputs.has_changes == "true"
+        run: pnpm build
 
-      - name: Version packages
-        if: steps.release.outputs.packages != ''
-        run: |
-          echo '${{ steps.release.outputs.releases }}' | jq -r '.releases[] | "\(.name)@\(.type)"' | while read package_info; do
-            package_name=$(echo $package_info | cut -d@ -f1)
-            bump_type=$(echo $package_info | cut -d@ -f2)
-            cd packages/$package_name
-            npm version $bump_type
-            cd ../..
-          done
-
-      - name: Publish packages
-        if: steps.release.outputs.packages != ''
-        run: |
-          echo '${{ steps.release.outputs.releases }}' | jq -r '.releases[].name' | while read package; do
-            cd packages/$package
-            npm publish --access public
-            cd ../..
-          done
+      - name: Pull Request with version change
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          setupGitUser: false
+          commit: 'chore: version packages'
+          title: 'chore: version packages'
+          version: pnpm changeset version
+          publish: ''
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish package to npm registry
+        if: steps.release.outputs.has_changes == "true"
+        run: ts-node scripts/publish.s
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Git Tag
-        if: steps.release.outputs.packages != ''
+        if: steps.release.outputs.has_changes == "true"
         run: |
           git config user.name "poornendushukla"
           git config user.email "shuklapoornendu@gmail.com"
