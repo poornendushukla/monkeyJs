@@ -62,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish package to npm registry
-        run: ts-node scripts/publish.s
+        run: npx ts-node scripts/publish.s
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
