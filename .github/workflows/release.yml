@@ -1,8 +1,6 @@
 name: release
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 concurrency: ${{github.workflow}}-${{github.ref}}
 
@@ -15,18 +13,16 @@ permissions:
   pull-requests: write
 
 jobs:
-  versioning-and-publish:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: pnpm/action-setup@v2
         with:
           version: 9
-          run_install: false
 
       - uses: actions/setup-node@v3
         with:
@@ -36,28 +32,43 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Get changed packages
-        id: changed
+      - name: Get release info
+        id: release
         run: |
-          CHANGED_PACKAGES=$(pnpm exec changeset status --output=json | jq -r '.releases[].name' | tr '\n' ' ')
-          echo "packages=$CHANGED_PACKAGES" >> $GITHUB_OUTPUT
+          RELEASE_INFO=$(pnpm exec changeset status --output=json)
+          echo "packages=$(echo $RELEASE_INFO | jq -r '.releases[].name' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "releases=$RELEASE_INFO" >> $GITHUB_OUTPUT
 
       - name: Build changed packages
-        run: pnpm build
+        if: steps.release.outputs.packages != ''
+        run: pnpm build --filter="${{ steps.release.outputs.packages }}"
 
-      - name: Config git user
+      - name: Version packages
+        if: steps.release.outputs.packages != ''
+        run: |
+          echo '${{ steps.release.outputs.releases }}' | jq -r '.releases[] | "\(.name)@\(.type)"' | while read package_info; do
+            package_name=$(echo $package_info | cut -d@ -f1)
+            bump_type=$(echo $package_info | cut -d@ -f2)
+            cd packages/$package_name
+            npm version $bump_type
+            cd ../..
+          done
+
+      - name: Publish packages
+        if: steps.release.outputs.packages != ''
+        run: |
+          echo '${{ steps.release.outputs.releases }}' | jq -r '.releases[].name' | while read package; do
+            cd packages/$package
+            npm publish --access public
+            cd ../..
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git Tag
+        if: steps.release.outputs.packages != ''
         run: |
           git config user.name "poornendushukla"
           git config user.email "shuklapoornendu@gmail.com"
-
-      - name: Create versions or publish
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          setupGitUser: false
-          commit: 'chore: version packages'
-          title: 'chore: version packages'
-          publish: pnpm release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          git tag -a "release-$(date +'%Y%m%d%H%M%S')" -m "Release $(date +'%Y-%m-%d %H:%M:%S')"
+          git push --tags
