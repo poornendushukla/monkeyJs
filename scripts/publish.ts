@@ -18,8 +18,9 @@ async function publishPackages() {
       const changesetStatus = JSON.parse(data.toString()) as ChangesetStatus;
       for (const release of changesetStatus.releases) {
         const packagePath = join('packages', release.name);
+
         // Version
-        execSync('pnpm changeset version');
+        execSync(`npm version ${release.type}`, { cwd: packagePath });
         // Publish
         execSync('npm publish --access public', {
           cwd: packagePath,

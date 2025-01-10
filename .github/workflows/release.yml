@@ -49,15 +49,13 @@ jobs:
           git config user.name "poornendushukla"
           git config user.email "shuklapoornendu@gmail.com"
 
-      - name: Pull Request with version change
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          setupGitUser: false
-          commit: 'chore: version packages'
-          title: 'chore: version packages'
-          version: pnpm changeset version
-          publish: ''
+      - name: Create pull request with bumped version
+        run: |
+          git checkout -b version/version_bump
+          git add .
+          git commit -m "feat(release): Version update for the changed packages"
+          git push
+          gh pr create -B version/version_bump -H main --title 'Version change' --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
