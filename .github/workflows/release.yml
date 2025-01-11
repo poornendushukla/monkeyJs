@@ -53,7 +53,7 @@ jobs:
           git add .
           git commit -m "feat(release): Version update for the changed packages"
           git push
-          gh pr create -B version/version_bump -H main --title 'Version change' --body 'Created by Github action'
+          gh pr create -B version/version_bump -H main --title 'feat(release): Version update for the changed packages' --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
