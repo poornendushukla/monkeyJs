@@ -34,13 +34,6 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Get release info
-        id: release
-        run: |
-          RELEASE_INFO=$(pnpm exec changeset status --output=json)
-          echo "has_changes=$(echo $RELEASE_INFO | jq -r '.releases | length > 0')" >> $GITHUB_OUTPUT
-          echo "$RELEASE_INFO" > .changeset-status.json
-
       - name: Build changed packages
         run: pnpm build
 
@@ -65,7 +58,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Git Tag
-        if: steps.release.outputs.has_changes == 'true'
         run: |
           git config user.name "poornendushukla"
           git config user.email "shuklapoornendu@gmail.com"
