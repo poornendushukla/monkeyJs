@@ -18,8 +18,6 @@ async function publishPackages() {
       const changesetStatus = JSON.parse(data.toString()) as ChangesetStatus;
       for (const release of changesetStatus.releases) {
         const packagePath = join('packages', release.name);
-        // manually removing the react-monkeyts upload
-        if (release.name === 'react-monkeyjs') continue;
         // Version
         execSync(`npm version ${release.type}`, { cwd: packagePath });
         // Publish

@@ -1,9 +1,20 @@
 import { createContext, useContext, useEffect, useMemo } from 'react';
-import { TourController, stepComponent, Tour, ThemeType } from 'monkeyts';
-import { PopoverBuilderConfig } from 'monkeyts/dist/component/popover/PopoverBuilder';
-type ContextType = { start: TourController['start'] };
+import {
+  TourController,
+  stepComponent,
+  Tour,
+  ThemeType,
+  PopoverBuilderConfig,
+} from 'monkeyts';
+type ContextType = {
+  start: TourController['start'];
+  isTourActive: boolean;
+  distroy: TourController['distroy'];
+};
 const Context = createContext<ContextType>({
-  start: {} as TourController['start'],
+  start: {} as Tour['start'],
+  isTourActive: false,
+  distroy: {} as Tour['distroy'],
 });
 export const useTourContext = (): ContextType => useContext(Context);
 export type TourContextProps = {
@@ -13,7 +24,7 @@ export type TourContextProps = {
   children: React.ReactNode;
 };
 
-const TourContext: React.FC<TourContextProps> = ({
+export const TourContext: React.FC<TourContextProps> = ({
   children,
   steps,
   config,
@@ -34,17 +45,16 @@ const TourContext: React.FC<TourContextProps> = ({
     if (!tour?.isTourActive) {
       tour.initTour();
     }
-    if (tour?.isTourActive) {
-      setTimeout(async () => {
-        await tour.start();
-      }, 3000);
-    }
   }, [tour, tour?.isTourActive]);
   return (
-    <Context.Provider value={{ start: tour.start }}>
+    <Context.Provider
+      value={{
+        start: tour.start,
+        isTourActive: tour.isTourActive,
+        distroy: tour.distroy,
+      }}
+    >
       {children}
     </Context.Provider>
   );
 };
-
-export default TourContext;

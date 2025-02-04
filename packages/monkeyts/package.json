@@ -2,6 +2,9 @@
   "name": "monkeyts",
   "main": "./dist/monkeyts.js",
   "types": "./dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
   "version": "0.0.0",
   "type": "module",
   "scripts": {

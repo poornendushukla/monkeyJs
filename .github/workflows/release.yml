@@ -1,6 +1,9 @@
 name: release
 on:
   push:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
     branches:
       - main
 
