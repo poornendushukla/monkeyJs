@@ -1,19 +1,13 @@
-import * as React from 'react';
 import {
   AudioWaveform,
   BookOpen,
-  Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
   Settings2,
-  SquareTerminal,
 } from 'lucide-react';
+import * as React from 'react';
 
 import { NavMain } from '~/components/shadcn/nav-main';
-import { NavProjects } from '~/components/shadcn/nav-projects';
 import { NavUser } from '~/components/shadcn/nav-user';
 import { TeamSwitcher } from '~/components/shadcn/team-switcher';
 import {
@@ -24,21 +18,20 @@ import {
   SidebarRail,
 } from '~/components/shadcn/ui/sidebar';
 
-// This is sample data.
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
+    name: 'poornendu',
+    email: 'shuklapoornendu@gmail.com',
     avatar: '/avatars/shadcn.jpg',
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'monkeyts',
       logo: GalleryVerticalEnd,
       plan: 'Enterprise',
     },
     {
-      name: 'Acme Corp.',
+      name: 'React monkey ts',
       logo: AudioWaveform,
       plan: 'Startup',
     },
@@ -49,45 +42,6 @@ const data = {
     },
   ],
   navMain: [
-    {
-      title: 'Playground',
-      url: '#',
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
     {
       title: 'Documentation',
       url: '#',
@@ -112,7 +66,7 @@ const data = {
       ],
     },
     {
-      title: 'Settings',
+      title: 'API',
       url: '#',
       icon: Settings2,
       items: [
@@ -135,23 +89,6 @@ const data = {
       ],
     },
   ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -162,7 +99,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
