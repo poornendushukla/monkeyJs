@@ -1,9 +1,11 @@
 ---
+import Banner from "~/components/astro-components/Banner.astro"
+import Feature from "~/components/astro-components/Feature.astro"
+import Footer from "~/components/astro-components/Footer.astro"
+import Header from "~/components/astro-components/Header.astro"
 import "../styles/global.css"
-import Container from "~/components/container.astro"
-import Banner from "~/components/Banner.astro"
-import Footer from "~/components/Footer.astro"
-import Header from "~/components/Header.astro"
+import Container from "~/components/astro-components/container.astro"
+
 ---
 <html lang="en">
   <head>
@@ -17,6 +19,9 @@ import Header from "~/components/Header.astro"
       <Header />
     </Container>
     <Banner/>
-    <Footer/>
+    <Feature/>
+    <div class="pt-12">
+      <Footer/>
+    </div>
   </body>
   </html>
