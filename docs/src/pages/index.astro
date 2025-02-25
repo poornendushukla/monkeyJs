@@ -5,7 +5,8 @@ import Footer from "~/components/astro-components/Footer.astro"
 import Header from "~/components/astro-components/Header.astro"
 import "../styles/global.css"
 import Container from "~/components/astro-components/container.astro"
-
+import Installation from "~/components/astro-components/Installation.astro"
+import Usage from "~/components/astro-components/Usage.astro"
 ---
 <html lang="en">
   <head>
@@ -14,12 +15,14 @@ import Container from "~/components/astro-components/container.astro"
     <title>Docs - My Library</title>
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
-  <body class="font-sans bg-gray-50">
+  <body class="font-sans bg-white">
     <Container>
       <Header />
     </Container>
     <Banner/>
     <Feature/>
+    <Installation/>
+    <Usage/>
     <div class="pt-12">
       <Footer/>
     </div>

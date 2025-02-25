@@ -1,27 +1,39 @@
 ---
 import Container from "./container.astro";
-
-
 ---
 
-<footer>
+<footer class="bg-gray-900 text-gray-300 py-12">
     <Container>
-        <p class="text-lg w-full text-center">
-            MIT Licensed &copy; 2025
-            <span class="hidden sm:inline">
-              <span class="mx-3">&middot;</span>
-              <a href="/docs" class="">
-                Docs
-              </a>
-              <a href="https://github.com/poornendushukla/monkeyjs" target="_blank" class="ml-5">
-                GitHub
-                <img src="/arrow.svg" class="h-3 inline-block ml-2" alt="" />
-              </a>
-              <a href="#" target="_blank" class=" ml-5">
-                Twitter
-                <img src="/arrow.svg" class="h-3 inline-block ml-2" alt="" />
-              </a>
-            </span>
-          </p>
+        <div class="w-full text-center space-y-6 flex flex-col gap-4 content-center">
+            <!-- Fun Header with Monkey & Banana -->
+            <div class="text-xl flex justify-center items-center space-x-4">
+                <span class="text-purple-400 text-3xl">🐒</span>
+                <span class="text-white font-semibold">Monkey TS</span>
+                <span class="text-yellow-400 text-3xl">🍌</span>
+            </div>
+
+            <!-- Fun Slogan or Tagline -->
+            <div class="text-sm text-gray-500 font-medium">
+                Powered by monkeys, bananas, and TypeScript.
+            </div>
+
+            <!-- Links Section -->
+            <div class="space-x-5 text-sm">
+                <a href="/docs" class="text-gray-400 hover:text-purple-400 transition duration-300">Docs</a>
+                <a href="https://github.com/poornendushukla/monkeyjs" target="_blank" class="text-gray-400 hover:text-purple-400 transition duration-300">
+                    GitHub
+                    <img src="/arrow.svg" class="h-3 inline-block ml-2" alt="" />
+                </a>
+                <a href="#" target="_blank" class="text-gray-400 hover:text-purple-400 transition duration-300">
+                    Twitter
+                    <img src="/arrow.svg" class="h-3 inline-block ml-2" alt="" />
+                </a>
+            </div>
+
+            <!-- Footer Info -->
+            <p class="text-sm text-gray-500 mt-6">
+                MIT Licensed &copy; 2025
+            </p>
+        </div>
     </Container>
 </footer>
