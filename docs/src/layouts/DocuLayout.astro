@@ -1,5 +1,6 @@
 ---
-import Page from '../components/page'
+import { AppSidebar } from "~/components/app-sidebar";
+import { SidebarProvider } from "~/components/ui/sidebar";
 ---
 
 <html lang="en">
@@ -10,11 +11,13 @@ import Page from '../components/page'
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body class="font-sans bg-gray-50">
-    <div class="flex">
-      <Page client:load />
-      <main class="flex-1 p-8">
-        <slot />
-      </main>
-    </div>
+    <SidebarProvider >
+      <div class="flex">
+        <AppSidebar client:load/>
+        <main class="flex-1 p-8">
+          <slot />
+        </main>
+      </div>
+  </SidebarProvider>
   </body>
 </html>
