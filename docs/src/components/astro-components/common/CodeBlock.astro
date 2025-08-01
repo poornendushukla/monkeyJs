@@ -1,0 +1,50 @@
+---
+import '../../../styles/prism.css'; // We'll create this CSS file later
+import Prism from 'prismjs';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-tsx';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-json';
+
+interface Props {
+  code: string;
+  language: string;
+  filename?: string;
+}
+
+const { code, language, filename } = Astro.props;
+
+// Function to get Prism language class
+const getLanguageClass = (lang: string) => {
+  const langMap: Record<string, string> = {
+    js: 'javascript',
+    jsx: 'jsx',
+    ts: 'typescript',
+    tsx: 'tsx',
+    bash: 'bash',
+    shell: 'bash',
+    json: 'json',
+  };
+  
+  return langMap[lang] || lang;
+};
+
+const languageClass = getLanguageClass(language);
+const html = Prism.highlight(
+  code,
+  Prism.languages[languageClass] || Prism.languages.plaintext,
+  languageClass
+);
+---
+
+<div class="code-block-wrapper mt-4 overflow-hidden rounded-md">
+  {filename && (
+    <div class="code-filename bg-gray-700 text-gray-200 px-4 py-2 text-sm font-mono">
+      {filename}
+    </div>
+  )}
+  <pre class={`language-${languageClass} relative overflow-x-auto`}>
+    <code class={`language-${languageClass}`} set:html={html} />
+  </pre>
+</div>

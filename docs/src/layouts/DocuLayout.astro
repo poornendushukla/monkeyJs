@@ -1,20 +1,23 @@
 ---
 import { AppSidebar } from "~/components/app-sidebar";
 import { SidebarProvider } from "~/components/ui/sidebar";
+import Header from "~/components/astro-components/Header.astro"
+import '../styles/prism.css';
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Docs - My Library</title>
+    <title>MonkeyJs Documentation</title>
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body class="font-sans bg-gray-50">
+    <Header/>
     <SidebarProvider >
       <div class="flex">
         <AppSidebar client:load/>
-        <main class="flex-1 p-8">
+        <main class="flex-1 p-8 max-w-4xl">
           <slot />
         </main>
       </div>

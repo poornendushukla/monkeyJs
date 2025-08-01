@@ -1,0 +1,196 @@
+---
+import DocuLayout from "../../layouts/DocuLayout.astro";
+import '../../styles/global.css';
+import CodeBlock from "../../components/astro-components/common/CodeBlock.astro";
+
+// Define code blocks
+const tourConfigCode = `{
+  controllerConfig: TourControllerConfig,  // Configuration for the tour controller
+  tourConfig: PopoverBuilderConfig         // Configuration for the popovers
+}`;
+
+const tourControllerConfigCode = `{
+  steps: stepComponent[]  // Array of step configurations
+}`;
+
+const stepComponentCode = `{
+  target: string,            // CSS selector for the target element
+  title: string,             // Title of the step
+  content: string,           // Content/description for the step
+  placement?: string,        // Optional: Popover placement ('top', 'bottom', 'left', 'right')
+  showArrow?: boolean,       // Optional: Whether to show an arrow pointing to the target
+  showButtons?: boolean,     // Optional: Whether to show navigation buttons
+  onNext?: () => void,       // Optional: Callback function when moving to next step
+  onPrevious?: () => void,   // Optional: Callback function when moving to previous step
+  onComplete?: () => void    // Optional: Callback function when completing the tour
+}`;
+
+const popoverBuilderConfigCode = `{
+  className?: string,        // Optional: Custom CSS class for the popover
+  overlayClassName?: string, // Optional: Custom CSS class for the overlay
+  zIndex?: number,           // Optional: Z-index for the popover
+  closeOnOutsideClick?: boolean, // Optional: Close the tour when clicking outside
+  showOverlay?: boolean,     // Optional: Show a background overlay
+  overlayOpacity?: number,   // Optional: Opacity of the overlay (0-1)
+  animation?: {              // Optional: Animation settings
+    duration: number,        // Duration in milliseconds
+    easing: string           // CSS easing function
+  }
+}`;
+
+const themeTypeCode = `{
+  colors: {
+    primary: string,         // Primary color
+    secondary: string,       // Secondary color
+    text: string,            // Text color
+    background: string,      // Background color
+    overlay: string          // Overlay color
+  },
+  borderRadius: string,      // Border radius for components
+  fontFamily: string,        // Font family
+  spacing: {
+    small: string,           // Small spacing value
+    medium: string,          // Medium spacing value
+    large: string            // Large spacing value
+  }
+}`;
+
+const exampleConfigCode = `const tour = new Tour({
+  controllerConfig: {
+    steps: [
+      {
+        target: '#step-1',
+        title: 'Welcome',
+        content: 'This is the first step of your tour!',
+        placement: 'bottom',
+        showArrow: true,
+        onNext: () => console.log('Moving to next step')
+      },
+      {
+        target: '#step-2',
+        title: 'Features',
+        content: 'Here you can find all the features.',
+        placement: 'right',
+        showArrow: true,
+        onComplete: () => console.log('Tour completed')
+      }
+    ]
+  },
+  tourConfig: {
+    className: 'my-custom-tour',
+    zIndex: 1000,
+    showOverlay: true,
+    overlayOpacity: 0.5,
+    animation: {
+      duration: 300,
+      easing: 'ease-in-out'
+    }
+  }
+}, {
+  colors: {
+    primary: '#3b82f6',
+    secondary: '#6366f1',
+    text: '#1f2937',
+    background: '#ffffff',
+    overlay: '#000000'
+  },
+  borderRadius: '0.375rem',
+  fontFamily: 'system-ui, -apple-system, sans-serif',
+  spacing: {
+    small: '0.5rem',
+    medium: '1rem',
+    large: '1.5rem'
+  }
+});`;
+---
+
+<DocuLayout>
+  <h1 class="text-3xl font-bold text-gray-900">Configuration</h1>
+  <p class="mt-4 text-lg text-gray-700">
+    Learn about all the configuration options available in MonkeyJs.
+  </p>
+
+  <div class="mt-8 space-y-10">
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Tour Configuration</h2>
+      <p class="mt-2 text-gray-700">
+        The main configuration object used when creating a new tour.
+      </p>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourConfigCode} language="ts" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Controller Configuration</h2>
+      <p class="mt-2 text-gray-700">
+        Configuration options for the tour controller.
+      </p>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourControllerConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourControllerConfigCode} language="ts" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">stepComponent</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={stepComponentCode} language="ts" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Popover Configuration</h2>
+      <p class="mt-2 text-gray-700">
+        Configuration options for the tour popovers.
+      </p>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">PopoverBuilderConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={popoverBuilderConfigCode} language="ts" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Theme Configuration</h2>
+      <p class="mt-2 text-gray-700">
+        Customize the appearance of the tour components.
+      </p>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">ThemeType</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={themeTypeCode} language="ts" />
+        </div>
+      </div>
+    </section>
+    
+    <section class="pb-8">
+      <h2 class="text-2xl font-semibold text-gray-800">Example Configuration</h2>
+      <p class="mt-2 text-gray-700">
+        Here's a complete example of configuring a tour:
+      </p>
+      
+      <CodeBlock code={exampleConfigCode} language="ts" filename="tourConfig.ts" />
+    </section>
+  </div>
+</DocuLayout>

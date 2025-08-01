@@ -1,0 +1,151 @@
+---
+import DocuLayout from "../../layouts/DocuLayout.astro";
+import '../../styles/global.css';
+import CodeBlock from "../../components/astro-components/common/CodeBlock.astro";
+
+// Define code blocks
+const tourConstructor = `new Tour(config: TourConfig, theme?: Partial<ThemeType>)`;
+const initTourMethod = `initTour(): void`;
+const startMethod = `start(): Promise<void>`;
+const distroyMethod = `distroy(): void`;
+const isTourActiveProperty = `isTourActive: boolean`;
+
+const stepsProps = `steps: stepComponent[]`;
+const configProps = `config: PopoverBuilderConfig`;
+const themeProps = `theme?: Partial<ThemeType>`;
+const childrenProps = `children: React.ReactNode`;
+
+const useTourContextReturns = `{
+  start: () => Promise<void>,
+  isTourActive: boolean,
+  distroy: () => void
+}`;
+---
+
+<DocuLayout>
+  <h1 class="text-3xl font-bold text-gray-900">API Reference</h1>
+  <p class="mt-4 text-lg text-gray-700">
+    Explore the complete API documentation for MonkeyJs.
+  </p>
+
+  <div class="mt-8 space-y-10">
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Core API</h2>
+      
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">Tour Class</h3>
+        <p class="mt-2 text-gray-700">
+          The main class for creating and controlling tours.
+        </p>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Constructor</h4>
+          </div>
+          <div class="p-4">
+            <CodeBlock code={tourConstructor} language="ts" />
+            <p class="mt-2 text-gray-700">Creates a new tour instance with the provided configuration.</p>
+          </div>
+        </div>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Methods</h4>
+          </div>
+          <div class="p-4 space-y-4">
+            <div>
+              <CodeBlock code={initTourMethod} language="ts" />
+              <p class="mt-1 text-gray-700">Initializes the tour with the configured steps.</p>
+            </div>
+            
+            <div>
+              <CodeBlock code={startMethod} language="ts" />
+              <p class="mt-1 text-gray-700">Starts the tour if it's not already started.</p>
+            </div>
+            
+            <div>
+              <CodeBlock code={distroyMethod} language="ts" />
+              <p class="mt-1 text-gray-700">Ends and destroys the current tour.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Properties</h4>
+          </div>
+          <div class="p-4">
+            <div>
+              <CodeBlock code={isTourActiveProperty} language="ts" />
+              <p class="mt-1 text-gray-700">Returns true if the tour is currently active.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">React API</h2>
+      
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">TourContext Component</h3>
+        <p class="mt-2 text-gray-700">
+          React context provider for the tour functionality.
+        </p>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Props</h4>
+          </div>
+          <div class="p-4 space-y-4">
+            <div>
+              <CodeBlock code={stepsProps} language="ts" />
+              <p class="mt-1 text-gray-700">An array of step configurations for the tour.</p>
+            </div>
+            
+            <div>
+              <CodeBlock code={configProps} language="ts" />
+              <p class="mt-1 text-gray-700">Configuration for the tour popovers.</p>
+            </div>
+            
+            <div>
+              <CodeBlock code={themeProps} language="ts" />
+              <p class="mt-1 text-gray-700">Optional theme customization for the tour UI.</p>
+            </div>
+            
+            <div>
+              <CodeBlock code={childrenProps} language="ts" />
+              <p class="mt-1 text-gray-700">Child components that will have access to the tour context.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">useTourContext Hook</h3>
+        <p class="mt-2 text-gray-700">
+          React hook to access tour functionality within components.
+        </p>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Returns</h4>
+          </div>
+          <div class="p-4 space-y-4">
+            <div>
+              <CodeBlock code={useTourContextReturns} language="ts" />
+              <p class="mt-1 text-gray-700">Object containing tour control functions and state.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="pb-8">
+      <h2 class="text-2xl font-semibold text-gray-800">Types Reference</h2>
+      <p class="mt-2 text-gray-700">
+        For detailed type definitions, please refer to the complete <a href="/docs/types" class="text-blue-600 hover:underline">Types Documentation</a>.
+      </p>
+    </section>
+  </div>
+</DocuLayout>

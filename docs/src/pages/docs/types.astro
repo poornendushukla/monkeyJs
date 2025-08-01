@@ -1,0 +1,203 @@
+---
+import DocuLayout from "../../layouts/DocuLayout.astro";
+import '../../styles/global.css';
+import CodeBlock from "../../components/astro-components/common/CodeBlock.astro";
+
+// Define code blocks
+const tourConfigType = `type TourConfig = {
+  controllerConfig: TourControllerConfig;
+  tourConfig: PopoverBuilderConfig;
+};`;
+
+const tourControllerConfigType = `type TourControllerConfig = {
+  steps: stepComponent[];
+};`;
+
+const stepComponentType = `type stepComponent = {
+  target: string;
+  title: string;
+  content: string;
+  placement?: 'top' | 'bottom' | 'left' | 'right';
+  showArrow?: boolean;
+  showButtons?: boolean;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  onComplete?: () => void;
+};`;
+
+const popoverBuilderConfigType = `type PopoverBuilderConfig = {
+  className?: string;
+  overlayClassName?: string;
+  zIndex?: number;
+  closeOnOutsideClick?: boolean;
+  showOverlay?: boolean;
+  overlayOpacity?: number;
+  animation?: {
+    duration: number;
+    easing: string;
+  };
+};`;
+
+const themeType = `type ThemeType = {
+  colors: {
+    primary: string;
+    secondary: string;
+    text: string;
+    background: string;
+    overlay: string;
+  };
+  borderRadius: string;
+  fontFamily: string;
+  spacing: {
+    small: string;
+    medium: string;
+    large: string;
+  };
+};`;
+
+const tourEventsEnum = `enum TourEvents {
+  TOUR_START = 'tour:start',
+  TOUR_END = 'tour:end',
+  STEP_BEFORE = 'tour:step:before',
+  STEP_AFTER = 'tour:step:after',
+  STEP_SHOW = 'tour:step:show',
+  STEP_HIDE = 'tour:step:hide'
+}`;
+
+const tourEventDataType = `type TourEventData = {
+  step?: stepComponent;
+  index?: number;
+  totalSteps?: number;
+  tour?: Tour;
+}`;
+
+const tourContextPropsType = `type TourContextProps = {
+  steps: stepComponent[];
+  config: PopoverBuilderConfig;
+  theme?: Partial<ThemeType>;
+  children: React.ReactNode;
+};`;
+
+const tourContextValueType = `type TourContextValue = {
+  start: () => Promise<void>;
+  isTourActive: boolean;
+  distroy: () => void;
+};`;
+---
+
+<DocuLayout>
+  <h1 class="text-3xl font-bold text-gray-900">Types Reference</h1>
+  <p class="mt-4 text-lg text-gray-700">
+    Complete reference of TypeScript types used in MonkeyJs.
+  </p>
+
+  <div class="mt-8 space-y-10">
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="core-types">Core Types</h2>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourConfigType} language="ts" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourControllerConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourControllerConfigType} language="ts" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">stepComponent</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={stepComponentType} language="ts" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="ui-component-types">UI Component Types</h2>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">PopoverBuilderConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={popoverBuilderConfigType} language="ts" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">ThemeType</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={themeType} language="ts" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="event-types">Event Types</h2>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourEvents</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourEventsEnum} language="ts" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourEventData</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourEventDataType} language="ts" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="react-types">React Types</h2>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourContextProps</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourContextPropsType} language="ts" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourContextValue</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourContextValueType} language="ts" />
+        </div>
+      </div>
+    </section>
+    
+    <section class="pb-8">
+      <h2 class="text-2xl font-semibold text-gray-800">Additional Resources</h2>
+      <p class="mt-2 text-gray-700">
+        For more detailed information on using these types, refer to:
+      </p>
+      <ul class="mt-2 ml-6 list-disc text-gray-700 space-y-2">
+        <li><a href="/docs/api" class="text-blue-600 hover:underline">API Reference</a></li>
+        <li><a href="/docs/examples" class="text-blue-600 hover:underline">Code Examples</a></li>
+      </ul>
+    </section>
+  </div>
+</DocuLayout>

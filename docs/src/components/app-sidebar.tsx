@@ -16,141 +16,101 @@ import {
   SidebarRail,
 } from '~/components/ui/sidebar';
 
-// This is sample data.
+// MonkeyJs documentation structure
 const data = {
   navMain: [
     {
+      title: 'Introduction',
+      url: '/docs',
+      items: [],
+    },
+    {
       title: 'Getting Started',
-      url: '#',
+      url: '/docs/setup',
       items: [
         {
           title: 'Installation',
-          url: '#',
-        },
-        {
-          title: 'Project Structure',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Building Your Application',
-      url: '#',
-      items: [
-        {
-          title: 'Routing',
-          url: '#',
-        },
-        {
-          title: 'Data Fetching',
-          url: '#',
-          isActive: true,
-        },
-        {
-          title: 'Rendering',
-          url: '#',
-        },
-        {
-          title: 'Caching',
-          url: '#',
-        },
-        {
-          title: 'Styling',
-          url: '#',
-        },
-        {
-          title: 'Optimizing',
-          url: '#',
-        },
-        {
-          title: 'Configuring',
-          url: '#',
-        },
-        {
-          title: 'Testing',
-          url: '#',
-        },
-        {
-          title: 'Authentication',
-          url: '#',
-        },
-        {
-          title: 'Deploying',
-          url: '#',
-        },
-        {
-          title: 'Upgrading',
-          url: '#',
-        },
-        {
-          title: 'Examples',
-          url: '#',
+          url: '/docs/setup',
         },
       ],
     },
     {
       title: 'API Reference',
-      url: '#',
+      url: '/docs/api',
       items: [
         {
-          title: 'Components',
-          url: '#',
+          title: 'Core API',
+          url: '/docs/api#core-api',
         },
         {
-          title: 'File Conventions',
-          url: '#',
-        },
-        {
-          title: 'Functions',
-          url: '#',
-        },
-        {
-          title: 'next.config.js Options',
-          url: '#',
-        },
-        {
-          title: 'CLI',
-          url: '#',
-        },
-        {
-          title: 'Edge Runtime',
-          url: '#',
+          title: 'React API',
+          url: '/docs/api#react-api',
         },
       ],
     },
     {
-      title: 'Architecture',
-      url: '#',
+      title: 'Configuration',
+      url: '/docs/configuration',
       items: [
         {
-          title: 'Accessibility',
-          url: '#',
+          title: 'Tour Configuration',
+          url: '/docs/configuration#tour-configuration',
         },
         {
-          title: 'Fast Refresh',
-          url: '#',
+          title: 'Controller Configuration',
+          url: '/docs/configuration#controller-configuration',
         },
         {
-          title: 'Next.js Compiler',
-          url: '#',
+          title: 'Popover Configuration',
+          url: '/docs/configuration#popover-configuration',
         },
         {
-          title: 'Supported Browsers',
-          url: '#',
-        },
-        {
-          title: 'Turbopack',
-          url: '#',
+          title: 'Theme Configuration',
+          url: '/docs/configuration#theme-configuration',
         },
       ],
     },
     {
-      title: 'Community',
-      url: '#',
+      title: 'Examples',
+      url: '/docs/examples',
       items: [
         {
-          title: 'Contribution Guide',
-          url: '#',
+          title: 'Basic Tour Example',
+          url: '/docs/examples#basic-tour-example',
+        },
+        {
+          title: 'Custom Themed Tour',
+          url: '/docs/examples#custom-themed-tour',
+        },
+        {
+          title: 'React Integration Example',
+          url: '/docs/examples#react-integration-example',
+        },
+        {
+          title: 'Advanced Event Handling',
+          url: '/docs/examples#advanced-event-handling',
+        },
+      ],
+    },
+    {
+      title: 'Types Reference',
+      url: '/docs/types',
+      items: [
+        {
+          title: 'Core Types',
+          url: '/docs/types#core-types',
+        },
+        {
+          title: 'UI Component Types',
+          url: '/docs/types#ui-component-types',
+        },
+        {
+          title: 'Event Types',
+          url: '/docs/types#event-types',
+        },
+        {
+          title: 'React Types',
+          url: '/docs/types#react-types',
         },
       ],
     },
@@ -165,13 +125,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
-                <a href="#">
+                <a href="/docs">
                   <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                     <GalleryVerticalEnd className="size-4" />
                   </div>
                   <div className="flex flex-col gap-0.5 leading-none">
-                    <span className="font-medium">Documentation</span>
-                    <span className="">v1.0.0</span>
+                    <span className="font-medium">MonkeyJs</span>
+                    <span className="">Documentation</span>
                   </div>
                 </a>
               </SidebarMenuButton>

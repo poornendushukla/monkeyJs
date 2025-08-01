@@ -1,0 +1,140 @@
+---
+import DocuLayout from "../../layouts/DocuLayout.astro";
+import '../../styles/global.css';
+import CodeBlock from "../../components/astro-components/common/CodeBlock.astro";
+
+// Define code blocks
+const npmInstallTs = `npm install monkeyts`;
+const yarnInstallTs = `yarn add monkeyts`;
+const pnpmInstallTs = `pnpm add monkeyts`;
+
+const npmInstallReact = `npm install react-monkeyjs`;
+const yarnInstallReact = `yarn add react-monkeyjs`;
+const pnpmInstallReact = `pnpm add react-monkeyjs`;
+
+const tsExample = `import { Tour } from 'monkeyts';
+
+// Define your tour steps
+const steps = [
+  {
+    target: '#step-1',
+    title: 'Welcome',
+    content: 'This is the first step of your tour!'
+  },
+  {
+    target: '#step-2',
+    title: 'Features',
+    content: 'Here you can find all the features.'
+  }
+];
+
+// Initialize tour
+const tour = new Tour({
+  controllerConfig: { steps },
+  tourConfig: { /* your configuration */ }
+});
+
+// Start the tour
+tour.initTour();
+tour.start();`;
+
+const reactExample = `import { TourContext, useTourContext } from 'react-monkeyjs';
+
+// Define your tour steps
+const steps = [
+  {
+    target: '#step-1',
+    title: 'Welcome',
+    content: 'This is the first step of your tour!'
+  },
+  {
+    target: '#step-2',
+    title: 'Features',
+    content: 'Here you can find all the features.'
+  }
+];
+
+// Wrap your app with TourContext
+function App() {
+  return (
+    <TourContext 
+      steps={steps} 
+      config={{ /* your configuration */ }}
+    >
+      <YourApp />
+    </TourContext>
+  );
+}
+
+// Use the tour in your components
+function StartButton() {
+  const { start } = useTourContext();
+  
+  return (
+    <button onClick={start}>
+      Start Tour
+    </button>
+  );
+}`;
+---
+
+<DocuLayout>
+  <h1 class="text-3xl font-bold text-gray-900">Setup Guide</h1>
+  <p class="mt-4 text-lg text-gray-700">
+    Get started with MonkeyJs in your project. Choose your preferred implementation.
+  </p>
+
+  <div class="mt-8 space-y-10">
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Installation</h2>
+      <div class="mt-4 space-y-6">
+        <div>
+          <h3 class="text-xl font-medium text-gray-800">TypeScript Core (monkeyts)</h3>
+          <CodeBlock code={npmInstallTs} language="bash" />
+          <p class="mt-2 text-gray-700">or with yarn:</p>
+          <CodeBlock code={yarnInstallTs} language="bash" />
+          <p class="mt-2 text-gray-700">or with pnpm:</p>
+          <CodeBlock code={pnpmInstallTs} language="bash" />
+        </div>
+
+        <div>
+          <h3 class="text-xl font-medium text-gray-800">React Implementation (react-monkeyjs)</h3>
+          <CodeBlock code={npmInstallReact} language="bash" />
+          <p class="mt-2 text-gray-700">or with yarn:</p>
+          <CodeBlock code={yarnInstallReact} language="bash" />
+          <p class="mt-2 text-gray-700">or with pnpm:</p>
+          <CodeBlock code={pnpmInstallReact} language="bash" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Basic Usage</h2>
+      <p class="mt-2 text-gray-700">
+        Below are simple examples to get started with MonkeyJs. For more detailed usage, refer to our API documentation.
+      </p>
+
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">TypeScript Example</h3>
+        <CodeBlock code={tsExample} language="ts" filename="example.ts" />
+      </div>
+
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">React Example</h3>
+        <CodeBlock code={reactExample} language="tsx" filename="Example.tsx" />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800">Next Steps</h2>
+      <p class="mt-2 text-gray-700">
+        Now that you've set up MonkeyJs, learn more about:
+      </p>
+      <ul class="mt-2 ml-6 list-disc text-gray-700 space-y-2">
+        <li><a href="/docs/api" class="text-blue-600 hover:underline">API Reference</a> - Explore the full API</li>
+        <li><a href="/docs/configuration" class="text-blue-600 hover:underline">Configuration</a> - Learn about all configuration options</li>
+        <li><a href="/docs/examples" class="text-blue-600 hover:underline">Examples</a> - See more examples of MonkeyJs in action</li>
+      </ul>
+    </section>
+  </div>
+</DocuLayout>
