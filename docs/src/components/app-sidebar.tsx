@@ -16,7 +16,6 @@ import {
   SidebarRail,
 } from '~/components/ui/sidebar';
 
-// MonkeyJs documentation structure
 const data = {
   navMain: [
     {
@@ -105,10 +104,6 @@ const data = {
           url: '/docs/types#ui-component-types',
         },
         {
-          title: 'Event Types',
-          url: '/docs/types#event-types',
-        },
-        {
           title: 'React Types',
           url: '/docs/types#react-types',
         },
@@ -124,6 +119,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
+              <div className="flex flex-col items-center mb-2">
+                <img
+                  src="/monkeyjs.png"
+                  alt="MonkeyJs Logo"
+                  className="w-32 h-32 rounded-full  mb-2"
+                />
+              </div>
               <SidebarMenuButton size="lg" asChild>
                 <a href="/docs">
                   <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">

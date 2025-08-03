@@ -1,18 +1,33 @@
 ---
-import DocuLayout from "../../layouts/DocuLayout.astro";
-import '../../styles/global.css';
-import CodeBlock from "../../components/astro-components/common/CodeBlock.astro";
+layout: "../../layouts/DocuLayout.astro"
+title: "Setup Guide"
+import DocuLayout from '~/layouts/DocuLayout.astro';
+import CodeBlock from '../../components/astro-components/common/CodeBlock.astro';
 
-// Define code blocks
-const npmInstallTs = `npm install monkeyts`;
-const yarnInstallTs = `yarn add monkeyts`;
-const pnpmInstallTs = `pnpm add monkeyts`;
+const installationCore = `
+// Using npm
+npm install monkeyts
+// Using yarn
+yarn add monkeyts
+// Using pnpm
+pnpm add monkeyts
+// Using bun
+bun add monkeyts
+`;
 
-const npmInstallReact = `npm install react-monkeyjs`;
-const yarnInstallReact = `yarn add react-monkeyjs`;
-const pnpmInstallReact = `pnpm add react-monkeyjs`;
+const installationReact = `
+// Using npm
+npm install react-monkeyjs
+// Using yarn
+yarn add react-monkeyjs 
+// Using pnpm
+pnpm add react-monkeyjs
+// Using bun
+bun add react-monkeyjs
+`;
 
-const tsExample = `import { Tour } from 'monkeyts';
+const basicUsage = `
+import { Tour } from 'monkeyts';
 
 // Define your tour steps
 const steps = [
@@ -36,9 +51,10 @@ const tour = new Tour({
 
 // Start the tour
 tour.initTour();
-tour.start();`;
+tour.start();`
 
-const reactExample = `import { TourContext, useTourContext } from 'react-monkeyjs';
+const reactExample = `
+import { TourContext, useTourContext } from 'react-monkeyjs';
 
 // Define your tour steps
 const steps = [
@@ -75,35 +91,28 @@ function StartButton() {
       Start Tour
     </button>
   );
-}`;
+}`
 ---
 
 <DocuLayout>
+<div class="docs-content">
   <h1 class="text-3xl font-bold text-gray-900">Setup Guide</h1>
   <p class="mt-4 text-lg text-gray-700">
     Get started with MonkeyJs in your project. Choose your preferred implementation.
   </p>
 
   <div class="mt-8 space-y-10">
-    <section>
+    <section id="Installation">
       <h2 class="text-2xl font-semibold text-gray-800">Installation</h2>
       <div class="mt-4 space-y-6">
         <div>
           <h3 class="text-xl font-medium text-gray-800">TypeScript Core (monkeyts)</h3>
-          <CodeBlock code={npmInstallTs} language="bash" />
-          <p class="mt-2 text-gray-700">or with yarn:</p>
-          <CodeBlock code={yarnInstallTs} language="bash" />
-          <p class="mt-2 text-gray-700">or with pnpm:</p>
-          <CodeBlock code={pnpmInstallTs} language="bash" />
+          <CodeBlock code={installationCore} language="bash" />
         </div>
 
         <div>
           <h3 class="text-xl font-medium text-gray-800">React Implementation (react-monkeyjs)</h3>
-          <CodeBlock code={npmInstallReact} language="bash" />
-          <p class="mt-2 text-gray-700">or with yarn:</p>
-          <CodeBlock code={yarnInstallReact} language="bash" />
-          <p class="mt-2 text-gray-700">or with pnpm:</p>
-          <CodeBlock code={pnpmInstallReact} language="bash" />
+          <CodeBlock code={installationReact} language="bash" />
         </div>
       </div>
     </section>
@@ -111,17 +120,17 @@ function StartButton() {
     <section>
       <h2 class="text-2xl font-semibold text-gray-800">Basic Usage</h2>
       <p class="mt-2 text-gray-700">
-        Below are simple examples to get started with MonkeyJs. For more detailed usage, refer to our API documentation.
+        Below are simple examples to get started with MonkeyJs. For more detailed usage, refer to our <span><a href="/api" class="text-purple-600 hover:underline">API documentation</a></span>.
       </p>
 
       <div class="mt-6">
         <h3 class="text-xl font-medium text-gray-800">TypeScript Example</h3>
-        <CodeBlock code={tsExample} language="ts" filename="example.ts" />
+        <CodeBlock code={basicUsage} language="ts" filename="Example.ts" />
       </div>
 
       <div class="mt-6">
         <h3 class="text-xl font-medium text-gray-800">React Example</h3>
-        <CodeBlock code={reactExample} language="tsx" filename="Example.tsx" />
+        <CodeBlock code={reactExample} language="js" filename="Example.tsx" />
       </div>
     </section>
 
@@ -131,10 +140,11 @@ function StartButton() {
         Now that you've set up MonkeyJs, learn more about:
       </p>
       <ul class="mt-2 ml-6 list-disc text-gray-700 space-y-2">
-        <li><a href="/docs/api" class="text-blue-600 hover:underline">API Reference</a> - Explore the full API</li>
-        <li><a href="/docs/configuration" class="text-blue-600 hover:underline">Configuration</a> - Learn about all configuration options</li>
-        <li><a href="/docs/examples" class="text-blue-600 hover:underline">Examples</a> - See more examples of MonkeyJs in action</li>
+        <li><a href="/docs/api" class="text-purple-600 hover:underline">API Reference</a> - Explore the full API</li>
+        <li><a href="/docs/configuration" class="text-purple-600 hover:underline">Configuration</a> - Learn about all configuration options</li>
+        <li><a href="/docs/examples" class="text-purple-600 hover:underline">Examples</a> - See more examples of MonkeyJs in action</li>
       </ul>
     </section>
   </div>
+</div>
 </DocuLayout>

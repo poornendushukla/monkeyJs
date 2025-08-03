@@ -1,0 +1,65 @@
+---
+// StepComponentTable.astro
+---
+<div class="mt-4 overflow-x-auto">
+  <table class="min-w-full text-sm text-left border border-gray-300 rounded-lg shadow-sm bg-white">
+    <thead class="bg-gradient-to-r from-purple-100 to-blue-100">
+      <tr>
+        <th class="px-4 py-3 border-b border-gray-200 font-semibold text-gray-800">Property</th>
+        <th class="px-4 py-3 border-b border-gray-200 font-semibold text-gray-800">Type</th>
+        <th class="px-4 py-3 border-b border-gray-200 font-semibold text-gray-800">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">target</td>
+        <td class="px-4 py-3 border-b border-gray-100">string</td>
+        <td class="px-4 py-3 border-b border-gray-100">CSS selector for the element to highlight.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">title</td>
+        <td class="px-4 py-3 border-b border-gray-100">string</td>
+        <td class="px-4 py-3 border-b border-gray-100">Title displayed in the popover.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">content</td>
+        <td class="px-4 py-3 border-b border-gray-100">string</td>
+        <td class="px-4 py-3 border-b border-gray-100">Main content or description for the step.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">placement</td>
+        <td class="px-4 py-3 border-b border-gray-100">'top' | 'bottom' | 'left' | 'right'</td>
+        <td class="px-4 py-3 border-b border-gray-100">Preferred popover position relative to the target.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">showArrow</td>
+        <td class="px-4 py-3 border-b border-gray-100">boolean</td>
+        <td class="px-4 py-3 border-b border-gray-100">Show an arrow pointing to the target element.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">showButtons</td>
+        <td class="px-4 py-3 border-b border-gray-100">boolean</td>
+        <td class="px-4 py-3 border-b border-gray-100">Display navigation buttons in the popover.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">onNext</td>
+        <td class="px-4 py-3 border-b border-gray-100">() =&gt; void</td>
+        <td class="px-4 py-3 border-b border-gray-100">Callback when the "Next" button is clicked.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">onPrevious</td>
+        <td class="px-4 py-3 border-b border-gray-100">() =&gt; void</td>
+        <td class="px-4 py-3 border-b border-gray-100">Callback when the "Previous" button is clicked.</td>
+      </tr>
+      <tr class="hover:bg-purple-50">
+        <td class="px-4 py-3 border-b border-gray-100">onComplete</td>
+        <td class="px-4 py-3 border-b border-gray-100">() =&gt; void</td>
+        <td class="px-4 py-3 border-b border-gray-100">Callback when the tour is completed at this step.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p class="mt-4 text-sm text-yellow-800 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded shadow-sm">
+  <strong>Disclaimer:</strong> The <code>placement</code> property is calculated based on the current viewport size. In some cases, the popover may not appear at the exact desired location if there is not enough space to display it as specified.
+</p>

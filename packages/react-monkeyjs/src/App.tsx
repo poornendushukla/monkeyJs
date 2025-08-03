@@ -75,7 +75,11 @@ function App() {
     offsetX: 0,
     offsetY: 0,
   };
-  const theme: Partial<ThemeType> = {};
+  const theme: Partial<ThemeType> = {
+    primaryBtnBgColor: '#10b981',
+    secondaryBtnBgColor: '#c7cdd6ff',
+    textColor: '#212529',
+  };
   return (
     <TourContext steps={step} config={tourConfig} theme={theme}>
       <Demo />

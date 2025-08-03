@@ -1,19 +1,22 @@
 ---
-import DocuLayout from "../../layouts/DocuLayout.astro";
-import '../../styles/global.css';
-import CodeBlock from "../../components/astro-components/common/CodeBlock.astro";
+layout: '../../layouts/DocuLayout.astro'
+title: 'Configuration'
+import DocuLayout from '~/layouts/DocuLayout.astro';
+import CodeBlock from '../../components/astro-components/common/CodeBlock.astro';
 
-// Define code blocks
-const tourConfigCode = `{
+const tourConfig = `
+{
   controllerConfig: TourControllerConfig,  // Configuration for the tour controller
   tourConfig: PopoverBuilderConfig         // Configuration for the popovers
-}`;
+}`
 
-const tourControllerConfigCode = `{
+const controllerConfig = `
+{
   steps: stepComponent[]  // Array of step configurations
-}`;
+}`
 
-const stepComponentCode = `{
+const stepComponent = `
+{
   target: string,            // CSS selector for the target element
   title: string,             // Title of the step
   content: string,           // Content/description for the step
@@ -23,39 +26,47 @@ const stepComponentCode = `{
   onNext?: () => void,       // Optional: Callback function when moving to next step
   onPrevious?: () => void,   // Optional: Callback function when moving to previous step
   onComplete?: () => void    // Optional: Callback function when completing the tour
-}`;
+}`
+const popoverBuilderConfig = `
+{
+  overlayConfig: OverlayBuilderConfig; // Configuration for the overlay
+  progressBar: boolean;                // Show progress bar
+  progressBarSteps: number;            // Number of steps in the progress bar
+  nextBtnText: string;                 // Text for the next button
+  prevBtnText: string;                 // Text for the previous button
+  position: TPopoverPosition;          // Position of the popover
+  offsetX: number;                     // Horizontal offset for the popover
+  offsetY: number;                     // Vertical offset for the popover
+  isArrowVisible: boolean;             // Show arrow on the popover
+  isCloseBtnVisible: boolean;          // Show close button on the popover
+}`
 
-const popoverBuilderConfigCode = `{
-  className?: string,        // Optional: Custom CSS class for the popover
-  overlayClassName?: string, // Optional: Custom CSS class for the overlay
-  zIndex?: number,           // Optional: Z-index for the popover
-  closeOnOutsideClick?: boolean, // Optional: Close the tour when clicking outside
-  showOverlay?: boolean,     // Optional: Show a background overlay
-  overlayOpacity?: number,   // Optional: Opacity of the overlay (0-1)
-  animation?: {              // Optional: Animation settings
-    duration: number,        // Duration in milliseconds
-    easing: string           // CSS easing function
-  }
-}`;
-
-const themeTypeCode = `{
-  colors: {
-    primary: string,         // Primary color
-    secondary: string,       // Secondary color
-    text: string,            // Text color
-    background: string,      // Background color
-    overlay: string          // Overlay color
-  },
-  borderRadius: string,      // Border radius for components
-  fontFamily: string,        // Font family
-  spacing: {
-    small: string,           // Small spacing value
-    medium: string,          // Medium spacing value
-    large: string            // Large spacing value
-  }
-}`;
-
-const exampleConfigCode = `const tour = new Tour({
+const themeType = `
+{
+  fontFamily: string;
+  fontSize: string;
+  textColor: string;
+  popoverBgColor: string;
+  popoverPadding: string;
+  popoverBorderRadius: string;
+  popoverBoxShadow: string;
+  popoverBtnPadding: string;
+  overlayColor: string;
+  overlayOpacity: number;
+  overlayRadius: string;
+  overlayPadding: string;
+  overlayStrokeWidth: number;
+  ovelayStrokeColor: string;
+  primaryBtnBgColor: string;
+  primaryBtnColor: string;
+  secondaryBtnColor: string;
+  secondaryBtnBgColor: string;
+  baseZIndex: number;
+  overlayZIndex: number;
+  arrowColor: string;
+}`
+const example = `
+const tour = new Tour({
   controllerConfig: {
     steps: [
       {
@@ -101,10 +112,11 @@ const exampleConfigCode = `const tour = new Tour({
     medium: '1rem',
     large: '1.5rem'
   }
-});`;
+});`
 ---
 
 <DocuLayout>
+<div class="docs-content">
   <h1 class="text-3xl font-bold text-gray-900">Configuration</h1>
   <p class="mt-4 text-lg text-gray-700">
     Learn about all the configuration options available in MonkeyJs.
@@ -114,20 +126,20 @@ const exampleConfigCode = `const tour = new Tour({
     <section>
       <h2 class="text-2xl font-semibold text-gray-800">Tour Configuration</h2>
       <p class="mt-2 text-gray-700">
-        The main configuration object used when creating a new tour.
+        The main configuration object used when creating a new tour. It includes the <span><a href="#controller-configuration" class="text-purple-600 hover:underline">controller configuration</a></span> and <span><a href="#popover-configuration" class="text-purple-600 hover:underline">popover builder configuration</a></span>.
       </p>
       
       <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
         <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
-          <h3 class="font-medium text-gray-800">TourConfig</h3>
+          <h3 class="font-semibold  text-gray-800">Tour Configuration</h3>
         </div>
         <div class="p-4">
-          <CodeBlock code={tourConfigCode} language="ts" />
+          <CodeBlock code={tourConfig} language="js" />
         </div>
       </div>
     </section>
 
-    <section>
+    <section id="controller-configuration">
       <h2 class="text-2xl font-semibold text-gray-800">Controller Configuration</h2>
       <p class="mt-2 text-gray-700">
         Configuration options for the tour controller.
@@ -138,7 +150,7 @@ const exampleConfigCode = `const tour = new Tour({
           <h3 class="font-medium text-gray-800">TourControllerConfig</h3>
         </div>
         <div class="p-4">
-          <CodeBlock code={tourControllerConfigCode} language="ts" />
+          <CodeBlock code={controllerConfig} language="javascript" filename='controller config'/>
         </div>
       </div>
       
@@ -147,12 +159,12 @@ const exampleConfigCode = `const tour = new Tour({
           <h3 class="font-medium text-gray-800">stepComponent</h3>
         </div>
         <div class="p-4">
-          <CodeBlock code={stepComponentCode} language="ts" />
+          <CodeBlock code={stepComponent} language="javascript" />
         </div>
       </div>
     </section>
 
-    <section>
+    <section id="popover-configuration">
       <h2 class="text-2xl font-semibold text-gray-800">Popover Configuration</h2>
       <p class="mt-2 text-gray-700">
         Configuration options for the tour popovers.
@@ -163,12 +175,12 @@ const exampleConfigCode = `const tour = new Tour({
           <h3 class="font-medium text-gray-800">PopoverBuilderConfig</h3>
         </div>
         <div class="p-4">
-          <CodeBlock code={popoverBuilderConfigCode} language="ts" />
+          <CodeBlock code={popoverBuilderConfig} language="javascript" />
         </div>
       </div>
     </section>
 
-    <section>
+    <section id="theme-configuration">
       <h2 class="text-2xl font-semibold text-gray-800">Theme Configuration</h2>
       <p class="mt-2 text-gray-700">
         Customize the appearance of the tour components.
@@ -179,7 +191,7 @@ const exampleConfigCode = `const tour = new Tour({
           <h3 class="font-medium text-gray-800">ThemeType</h3>
         </div>
         <div class="p-4">
-          <CodeBlock code={themeTypeCode} language="ts" />
+          <CodeBlock code={themeType} language="javascript" />
         </div>
       </div>
     </section>
@@ -189,8 +201,16 @@ const exampleConfigCode = `const tour = new Tour({
       <p class="mt-2 text-gray-700">
         Here's a complete example of configuring a tour:
       </p>
-      
-      <CodeBlock code={exampleConfigCode} language="ts" filename="tourConfig.ts" />
+
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">tourConfig.js</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={example} language="javascript" />
+        </div>
+      </div>
     </section>
   </div>
+</div>
 </DocuLayout>

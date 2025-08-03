@@ -1,4 +1,5 @@
 ---
+import CodeBlock from "./common/CodeBlock.astro";
 import Container from "./container.astro";
 
 ---
@@ -19,16 +20,10 @@ import Container from "./container.astro";
             </div>
 
             <!-- Right Section: Input Field -->
-            <div class="bg-gray-800 p-4 rounded-lg text-white font-mono">
-                <pre class="whitespace-pre-wrap">
-                    <code>
-                    &lt;div class=&quot;usage-component&quot;&gt;
-                        &lt;h2&gt;Usage Example&lt;/h2&gt;
-                        &lt;p&gt;This is a simple usage description.&lt;/p&gt;
-                    &lt;/div&gt;
-                    </code>
-                </pre>
-              </div>
+            <div class=" p-6 rounded-xl shadow-lg flex flex-col gap-4 min-w-[320px]">
+                <span class="text-sm text-gray-400 mb-1">Terminal</span>
+                <CodeBlock code={`npm install monkeyts`} language="bash" />
+            </div>
         </div>
     </Container>
 </section>

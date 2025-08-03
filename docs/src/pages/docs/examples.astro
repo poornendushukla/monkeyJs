@@ -1,10 +1,11 @@
 ---
-import DocuLayout from "../../layouts/DocuLayout.astro";
-import '../../styles/global.css';
-import CodeBlock from "../../components/astro-components/common/CodeBlock.astro";
+layout: '../../layouts/DocuLayout.astro'
+title: 'Examples'
+import DocuLayout from '~/layouts/DocuLayout.astro';
+import CodeBlock from '../../components/astro-components/common/CodeBlock.astro';
 
-// Define code blocks
-const basicTourExample = `// HTML Structure
+const exampleConfig = `
+// HTML Structure
 // <div id="welcome-screen">Welcome to our app!</div>
 // <button id="features-button">Features</button>
 // <div id="settings-panel">Settings</div>
@@ -45,9 +46,10 @@ const tour = new Tour({
 
 // Start the tour
 tour.initTour();
-tour.start();`;
+tour.start();`
 
-const customThemedTour = `import { Tour } from 'monkeyts';
+const customThemeConfig = `
+import { Tour } from 'monkeyts';
 
 // Define your tour steps
 const steps = [
@@ -64,15 +66,9 @@ const steps = [
     placement: 'right'
   }
 ];
+// Define custom theme
 
-// Initialize tour with custom theme
-const tour = new Tour({
-  controllerConfig: { steps },
-  tourConfig: {
-    showOverlay: true,
-    overlayOpacity: 0.5
-  }
-}, {
+const customTheme = {
   colors: {
     primary: '#10b981', // Green primary color
     secondary: '#3b82f6', // Blue secondary color
@@ -87,13 +83,28 @@ const tour = new Tour({
     medium: '1.25rem',
     large: '2rem'
   }
+}
+
+// Tour configuration
+const tourConfig = {
+  showOverlay: true,
+  overlayOpacity: 0.5,
+};
+
+// Initialize tour with custom theme
+const tour = new Tour({
+  controllerConfig: { steps },
+  tourConfig,
+  theme: customTheme
 });
 
 // Start the tour
 tour.initTour();
-tour.start();`;
+tour.start();
+`
 
-const reactIntegrationExample = `import React, { useEffect } from 'react';
+const reactIntegrationExample = `
+import React, { useEffect } from 'react';
 import { TourContext, useTourContext } from 'react-monkeyjs';
 
 // Define your tour steps
@@ -134,49 +145,10 @@ function App() {
         className: 'app-tour'
       }}
     >
-      <Dashboard />
+      <YourComponent />
     </TourContext>
   );
-}
-
-// Dashboard component with tour trigger
-function Dashboard() {
-  const { start, isTourActive, distroy } = useTourContext();
-  
-  // Start tour automatically for first-time users
-  useEffect(() => {
-    const hasCompletedTour = localStorage.getItem('tourCompleted') === 'true';
-    if (!hasCompletedTour) {
-      start();
-    }
-  }, [start]);
-  
-  return (
-    <div>
-      <div id="dashboard">
-        {/* Dashboard content */}
-      </div>
-      
-      <button id="profile-button">
-        Profile
-      </button>
-      
-      <div id="notifications">
-        {/* Notifications content */}
-      </div>
-      
-      {/* Manual tour controls */}
-      <div className="tour-controls">
-        <button onClick={start} disabled={isTourActive}>
-          Start Tour
-        </button>
-        <button onClick={distroy} disabled={!isTourActive}>
-          End Tour
-        </button>
-      </div>
-    </div>
-  );
-}`;
+}}`
 
 const advancedEventHandling = `import { Tour } from 'monkeyts';
 
@@ -238,10 +210,11 @@ tour.initTour();
 const hasCompletedTour = localStorage.getItem('hasCompletedTour') === 'true';
 if (!hasCompletedTour) {
   tour.start();
-}`;
+}`
 ---
 
 <DocuLayout>
+<div class="docs-content">
   <h1 class="text-3xl font-bold text-gray-900">Examples</h1>
   <p class="mt-4 text-lg text-gray-700">
     Explore practical examples of using MonkeyJs in different scenarios.
@@ -254,7 +227,7 @@ if (!hasCompletedTour) {
         A simple example of creating a basic tour with MonkeyJs.
       </p>
       
-      <CodeBlock code={basicTourExample} language="ts" filename="basic-tour.ts" />
+      <CodeBlock code={exampleConfig} language="js" filename="basic-tour.ts" />
     </section>
 
     <section>
@@ -263,7 +236,7 @@ if (!hasCompletedTour) {
         An example of a tour with custom theming.
       </p>
       
-      <CodeBlock code={customThemedTour} language="ts" filename="themed-tour.ts" />
+      <CodeBlock code={customThemeConfig} language="js" filename="themed-tour.ts" />
     </section>
 
     <section>
@@ -272,7 +245,7 @@ if (!hasCompletedTour) {
         An example of using MonkeyJs with React.
       </p>
       
-      <CodeBlock code={reactIntegrationExample} language="tsx" filename="ReactTour.tsx" />
+      <CodeBlock code={reactIntegrationExample} language="js" filename="ReactTour.tsx" />
     </section>
 
     <section>
@@ -281,7 +254,7 @@ if (!hasCompletedTour) {
         An example showing how to use event callbacks with tour steps.
       </p>
       
-      <CodeBlock code={advancedEventHandling} language="ts" filename="event-handling.ts" />
+      <CodeBlock code={advancedEventHandling} language="js" filename="event-handling.ts" />
     </section>
     
     <section class="pb-8">
@@ -295,4 +268,5 @@ if (!hasCompletedTour) {
       </ul>
     </section>
   </div>
+</div>
 </DocuLayout>
