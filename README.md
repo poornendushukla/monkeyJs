@@ -15,3 +15,17 @@ MonkeyJs is a lightweight, customizable product tour library that helps you crea
 - **Easy Configuration**: Simple API for defining tour steps and behaviors
 
 MonkeyJs makes it easy to onboard new users, highlight new features, or provide contextual help within your application.
+
+## Documentation
+
+Visit our [documentation website](https://poornendushukla.github.io/monkeyJs/) to learn more about MonkeyJs, including:
+
+- Installation guides
+- API reference
+- Configuration options
+- Examples and demos
+- TypeScript types
+
+## Getting Started
+
+Check out the [setup guide](https://poornendushukla.github.io/monkeyJs/docs/setup) to get started with MonkeyJs.

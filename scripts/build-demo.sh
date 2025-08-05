@@ -1,0 +1,163 @@
+#!/bin/bash
+
+# Move to the monkeyts directory
+cd packages/monkeyts
+
+# Build UMD bundle
+npx vite build --config vite.umd.config.ts
+
+# Ensure the demo directory exists
+mkdir -p ../../docs/public/demo
+
+# Copy the UMD bundle to the docs/public/demo directory
+cp dist/monkeyts.umd.js ../../docs/public/demo/
+
+# Create demo CSS file
+cat > ../../docs/public/demo/monkeyts.css << 'EOF'
+/* MonkeyJS Demo CSS */
+:root {
+  --monkey-fontFamily: Arial, sans-serif;
+  --monkey-fontSize: 14px;
+  --monkey-textColor: #333;
+  --monkey-popoverBgColor: #fff;
+  --monkey-popoverPadding: 16px;
+  --monkey-popoverBorderRadius: 8px;
+  --monkey-popoverBoxShadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --monkey-popoverBtnPadding: 8px 16px;
+  --monkey-overlayColor: rgba(0, 0, 0, 0.5);
+  --monkey-overlayRadius: 10px;
+  --monkey-overlayOpacity: 0.5;
+  --monkey-overlayPadding: 10px;
+  --monkey-ovelayStrokeColor: rgba(255, 0, 0, 0);
+  --monkey-overlayStrokeWidth: 2px;
+  --monkey-primaryBtnBgColor: #7e3af2;
+  --monkey-primaryBtnColor: #FFFFFF;
+  --monkey-secondaryBtnColor: #FFFFFF;
+  --monkey-secondaryBtnBgColor: #6C757D;
+  --monkey-baseZIndex: 1000;
+  --monkey-overlayZIndex: 99;
+  --monkey-arrowColor: white;
+}
+
+.monkey-popover {
+  position: absolute;
+  background: var(--monkey-popoverBgColor);
+  padding: var(--monkey-popoverPadding);
+  border-radius: var(--monkey-popoverBorderRadius);
+  box-shadow: var(--monkey-popoverBoxShadow);
+  z-index: calc(var(--monkey-baseZIndex) + 1);
+  font-family: var(--monkey-fontFamily);
+  font-size: var(--monkey-fontSize);
+  color: var(--monkey-textColor);
+  max-width: 400px;
+  transition: all 0.3s ease;
+}
+
+.monkey-overlay {
+  position: absolute;
+  background: var(--monkey-overlayColor);
+  border-radius: var(--monkey-overlayRadius);
+  opacity: var(--monkey-overlayOpacity);
+  z-index: var(--monkey-overlayZIndex);
+  pointer-events: none;
+}
+
+.monkey-btn {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.monkey-next-btn {
+  background-color: var(--monkey-primaryBtnBgColor);
+  color: var(--monkey-primaryBtnColor);
+  padding: var(--monkey-popoverBtnPadding);
+}
+
+.monkey-prev-btn {
+  background-color: var(--monkey-secondaryBtnBgColor);
+  color: var(--monkey-secondaryBtnColor);
+  padding: var(--monkey-popoverBtnPadding);
+}
+
+.monkey-close-btn {
+  background-color: transparent;
+  color: #aaa;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.monkey-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.monkey-description {
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.monkey-btn-wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.monkey-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+}
+
+.monkey-arrow-top {
+  border-bottom-color: var(--monkey-arrowColor);
+  top: -16px;
+}
+
+.monkey-arrow-bottom {
+  border-top-color: var(--monkey-arrowColor);
+  bottom: -16px;
+}
+
+.monkey-arrow-left {
+  border-right-color: var(--monkey-arrowColor);
+  left: -16px;
+}
+
+.monkey-arrow-right {
+  border-left-color: var(--monkey-arrowColor);
+  right: -16px;
+}
+
+.monkey-progress-bar {
+  height: 4px;
+  background: #eee;
+  margin-top: 16px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.monkey-progress-fill {
+  height: 100%;
+  background: var(--monkey-primaryBtnBgColor);
+  transition: width 0.3s ease;
+}
+
+/* Animation for popover appearance */
+@keyframes monkeyFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.monkey-animate {
+  animation: monkeyFadeIn 0.3s ease forwards;
+}
+EOF
+
+echo "UMD bundle and CSS created in docs/public/demo/"

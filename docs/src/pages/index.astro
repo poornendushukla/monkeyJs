@@ -12,8 +12,9 @@ import Usage from "~/components/astro-components/Usage.astro"
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Docs - My Library</title>
-    <link rel="stylesheet" href="/styles/global.css" />
+    <title>MonkeyJS</title>
+    <link rel="icon" type="image/svg+xml" href="/monkeyJs/walking-monkey.svg" />
+    <link rel="stylesheet" href="/monkeyJs/styles/global.css" />
   </head>
   <body class="font-sans bg-white">
     <Container>
@@ -26,5 +27,125 @@ import Usage from "~/components/astro-components/Usage.astro"
     <div class="pt-12">
       <Footer/>
     </div>
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const demoButton = document.getElementById('init-demo');
+        
+        if (demoButton) {
+          demoButton.addEventListener('click', initMonkeyJsDemo);
+        }
+        
+        function initMonkeyJsDemo() {
+          // Load the MonkeyJS library script
+          const script = document.createElement('script');
+          script.src = '/monkeyJs/demo/monkeyts.umd.js'; // Path to your bundled library
+          script.onload = startTour;
+          script.onerror = () => {
+            console.error('Failed to load MonkeyJS library');
+            alert('Could not load the MonkeyJS demo. Please check if the library is available.');
+          };
+          document.head.appendChild(script);
+        }
+
+        function startTour() {
+          try {
+            // Access the global MonkeyJS object after the script is loaded
+            if (!window.MonkeyJS || !window.MonkeyJS.Tour) {
+              throw new Error('MonkeyJS not found in global scope');
+            }
+            
+            const Tour = window.MonkeyJS.Tour;
+            
+            // Define improved tour steps
+            const steps = [
+              {
+                title: 'Welcome to MonkeyJS!',  
+                description: 'A fun, framework-agnostic library for user tours and onboarding. Let’s take a quick tour of the page!',
+                element: 'monkey-banner-title',
+              },
+              {
+                title: 'What does MonkeyJS do?',
+                description: 'MonkeyJS helps you guide users through your app with delightful, customizable steps.',
+                element: 'monkey-banner-desc',
+              },
+              {
+                title: 'Get Started Instantly',
+                description: 'Click here to jump into the docs and start building your first tour!',
+                element: 'monkey-banner-get-started',
+              },
+              {
+                title: 'Extensible',
+                description: 'Easily add your own steps and plugins to fit your needs.',
+                element: 'monkey-feature-extensible',
+              },
+              {
+                title: 'Customizable',
+                description: 'Tweak the look and feel to match your brand or product style.',
+                element: 'monkey-feature-customizable',
+              },
+              {
+                title: 'Lightweight',
+                description: 'Minimal footprint for fast load times and smooth performance.',
+                element: 'monkey-feature-lightweight',
+              },
+              {
+                title: 'Developer Friendly',
+                description: 'TypeScript support, clear API, and easy integration.',
+                element: 'monkey-feature-developer-friendly',
+              },
+              {
+                title: 'Join the Community',
+                description: 'Star us on GitHub and help make MonkeyJS even better!',
+                element: 'monkey-love-github',
+              }
+            ];
+
+            // Configure the tour
+            const tourConfig = {
+              isArrowVisible: true,
+              isCloseBtnVisible: true,
+                position: 'right',
+                overlayConfig: {
+                radius: 16,
+                padding: {
+                  top: 16,
+                  bottom: 16,
+                  right: 16,
+                  left: 16,
+                },
+                color: '#7e3af226',
+              },
+              
+            };
+
+            const themeType = {
+              progressBar: true,
+              nextBtnText: 'Next 🍌',
+                prevBtnText: 'Back',
+                popoverBgColor: 'white', // shuttle yellow background
+                popoverBorderRadius: '16px',
+                popoverBoxShadow: '0 4px 6px #ffe561', // less deep shuttle yellow shadow
+              primaryBtnBgColor: '#7c3aed', // deep purple
+              primaryBtnColor: '#fff',
+              secondaryBtnBgColor: '#ede9fe', // light purple
+              secondaryBtnColor: '#7c3aed', // deep purple
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '1rem',
+            }
+            // Initialize and start the tour
+            const tour = new Tour({
+              controllerConfig: { steps },
+              tourConfig: tourConfig
+            },themeType);
+            
+            tour.initTour();
+            tour.start();
+          } catch (error) {
+            console.error('Failed to run MonkeyJS demo:', error);
+            alert('Could not start the MonkeyJS demo. Please check console for details.');
+          }
+        }
+      });
+    </script>
   </body>
   </html>

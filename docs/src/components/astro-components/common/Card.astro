@@ -1,8 +1,8 @@
 ---
-const { title, description, icon, borderColor='true' } = Astro.props;
+const { id,title, description, icon, borderColor='true' } = Astro.props;
 ---
 
-<div class=`max-w-sm rounded-xl overflow-hidden hover:border ${borderColor==='true'?'hover:border-purple-400':'hover:border-yellow-300'} bg-white p-6 `>
+<div id={id} class=`max-w-sm rounded-xl overflow-hidden hover:border ${borderColor==='true'?'hover:border-purple-400':'hover:border-yellow-300'} bg-white p-6 `>
   <!-- Icon Section: Separate Row, Positioned at the Top -->
   <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-gray-800 mx-auto mb-4 transform hover:scale-110 transition-transform duration-200 ease-in-out">
     <img src={icon}/> <!-- Dynamic icon passed from props -->

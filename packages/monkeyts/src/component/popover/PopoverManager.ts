@@ -93,32 +93,74 @@ class PopoverManager {
   } {
     const popoverRect = this.popover.popoverElement.getBoundingClientRect();
     const { padding } = this.overlay.config;
-    let left, top;
+    let left = targetRect.left;
+    let top = targetRect.top;
+    
+    // Standard gap between target and popover
+    const gap = 10;
+    
+    // Apply padding from overlay config if available
+    const padTop = padding?.top ?? 0;
+    const padBottom = padding?.bottom ?? 0;
+    const padLeft = padding?.left ?? 0;
+    const padRight = padding?.right ?? 0;
+    
     switch (position) {
       case POPOVER_POSITION_CONSTANT.TOP:
-        left = targetRect.left;
-        top = targetRect.top - popoverRect.height - padding.top * 2 + offsetY;
+        // Center horizontally over the target
+        left = targetRect.left + (targetRect.width / 2) - (popoverRect.width / 2);
+        // Position above the target with a gap plus padding
+        top = targetRect.top - popoverRect.height - gap - padTop;
+        // For TOP position, positive Y offset moves upward (away from target)
+        offsetY = offsetY ? -Math.abs(offsetY) : 0;
         break;
       case POPOVER_POSITION_CONSTANT.RIGHT:
-        left = targetRect.right + offsetX + padding.right * 2;
-        top =
-          targetRect.top +
-          targetRect.height / 4 -
-          padding.left -
-          padding.right +
-          offsetY;
+        // Position to the right of the target with a gap plus padding
+        left = targetRect.right + gap + padRight;
+        // Center vertically next to the target
+        top = targetRect.top + (targetRect.height / 2) - (popoverRect.height / 2);
+        // For RIGHT position, positive X offset moves rightward (away from target)
+        offsetX = offsetX ? Math.abs(offsetX) : 0;
         break;
       case POPOVER_POSITION_CONSTANT.LEFT:
-        left = targetRect.left - popoverRect.width - padding.left;
-        top = targetRect.top + offsetY;
+        // Position to the left of the target with a gap plus padding
+        left = targetRect.left - popoverRect.width - gap - padLeft;
+        // Center vertically next to the target
+        top = targetRect.top + (targetRect.height / 2) - (popoverRect.height / 2);
+        // For LEFT position, positive X offset moves leftward (away from target)
+        offsetX = offsetX ? -Math.abs(offsetX) : 0;
         break;
       case POPOVER_POSITION_CONSTANT.BOTTOM:
-        left =
-          targetRect.left + targetRect.width / 4 - padding.right - padding.left;
-        top = targetRect.bottom + padding.right + padding.left + offsetY;
+        // Center horizontally under the target
+        left = targetRect.left + (targetRect.width / 2) - (popoverRect.width / 2);
+        // Position below the target with a gap plus padding
+        top = targetRect.bottom + gap + padBottom;
+        // For BOTTOM position, positive Y offset moves downward (away from target)
+        offsetY = offsetY ? Math.abs(offsetY) : 0;
+        break;
+      default:
+        // fallback to top left if position is invalid
+        left = targetRect.left;
+        top = targetRect.top;
         break;
     }
-    return { top, left };
+    
+    // Apply user-defined directional offsets
+    left += (offsetX ?? 0);
+    top += (offsetY ?? 0);
+    
+    
+    console.log('Popover position calculated', {
+      left,
+      top,
+      offsetX,
+      offsetY,
+      position,
+      tleft: targetRect.left,
+      ttop: targetRect.top,
+      popoverRect,
+    });
+    return { top:Number(top), left:Number(left) };
   }
 
   /**

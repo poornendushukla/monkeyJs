@@ -6,6 +6,7 @@ import CodeBlock from '../../components/astro-components/common/CodeBlock.astro'
 import StepComponentTable from '../../components/StepComponentTable.astro';
 import ThemeTypeTable from '../../components/ThemeTypeTable.astro';
 import PopoverBuilderConfigTable from '../../components/PopoverBuilderConfigTable.astro';
+import OverlayBuilderConfigTable from '../../components/OverlayBuilderConfigTable.astro';
 
 const TourConfig = `
   type TourConfig = {
@@ -42,19 +43,16 @@ const StepComponent = `
   onComplete?: () => void;
 };`
 
-const popoverBuilderConfig = `
-  type PopoverBuilderConfig = {
-  className?: string;
-  overlayClassName?: string;
-  zIndex?: number;
-  closeOnOutsideClick?: boolean;
-  showOverlay?: boolean;
-  overlayOpacity?: number;
-  animation?: {
-    duration: number;
-    easing: string;
-  };
-};`
+const overlayBuilderConfig = `
+type OverlayBuilderConfig = {
+  radius: number;
+  padding: {
+    top: number;
+    bottom: number;
+    right: number;
+    left: number;
+  }
+}`
 
 const themeType = `
 type ThemeType = {
@@ -96,6 +94,7 @@ type TourContextValue = {
   distroy: () => void;
 };`
 ---
+
 <DocuLayout>
 <div class="docs-content">
   <h1 class="text-3xl font-bold text-gray-900">Types Reference</h1>
@@ -146,6 +145,15 @@ type TourContextValue = {
         <div class="p-4">
           <CodeBlock code={PopoverBuilderConfig} language="javascript" />
           <PopoverBuilderConfigTable />
+        </div>
+      </div>
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">OverlayBuilderConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={overlayBuilderConfig} language="javascript" />
+          <OverlayBuilderConfigTable />
         </div>
       </div>
       

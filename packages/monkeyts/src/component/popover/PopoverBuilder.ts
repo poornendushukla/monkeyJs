@@ -377,6 +377,7 @@ class PopoverBuilder implements ILifeCycle {
     this.popoverElement.classList.add(animationClass);
     this.popoverElement.style.left = `${left}px`;
     this.popoverElement.style.top = `${top}px`;
+    console.log('Popover position updated', top, left, position);
     setTimeout(() => {
       this.popoverElement.classList.remove(animationClass);
     }, 1000);
