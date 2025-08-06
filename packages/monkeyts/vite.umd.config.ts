@@ -11,7 +11,7 @@ export default defineConfig({
       fileName: (format) => format === 'umd' ? 'monkeyts.umd.js' : `monkeyts.${format}.js`,
       formats: ['umd'],
     },
-    outDir: '../../docs/public/demo',
+    outDir: 'public/demo',
     emptyOutDir: false,
   }
 });

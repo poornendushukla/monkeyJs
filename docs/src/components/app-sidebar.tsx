@@ -112,7 +112,14 @@ const data = {
   ],
 };
 
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // SSR-safe: fallback to '' if window is not defined
+  const [currentPath, setCurrentPath] = React.useState('');
+  React.useEffect(() => {
+    setCurrentPath(window.location.pathname + window.location.hash);
+  }, []);
+
   return (
     <SidebarProvider>
       <Sidebar {...props}>
@@ -120,11 +127,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <div className="flex flex-col items-center mb-2">
-                <img
-                  src="/monkeyjs.png"
-                  alt="MonkeyJs Logo"
-                  className="w-32 h-32 rounded-full  mb-2"
-                />
+                <a href='/'>
+                  <img
+                    src="/monkeyjs.png"
+                    alt="MonkeyJs Logo"
+                    className="w-32 h-32 rounded-full  mb-2"
+                  />
+                </a>
               </div>
               <SidebarMenuButton size="lg" asChild>
                 <a href="/docs">
@@ -143,29 +152,37 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarContent>
           <SidebarGroup>
             <SidebarMenu>
-              {data.navMain.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="font-medium">
-                      {item.title}
-                    </a>
-                  </SidebarMenuButton>
-                  {item.items?.length ? (
-                    <SidebarMenuSub>
-                      {item.items.map((item) => (
-                        <SidebarMenuSubItem key={item.title}>
-                          <SidebarMenuSubButton
-                            asChild
-                            isActive={item.isActive}
-                          >
-                            <a href={item.url}>{item.title}</a>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  ) : null}
-                </SidebarMenuItem>
-              ))}
+              {data.navMain.map((item) => {
+                // Mark main item active if currentPath starts with its url
+                const isMainActive = currentPath.startsWith('/monkeyJs' + item.url);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isMainActive}>
+                      <a href={item.url} className="font-medium">
+                        {item.title}
+                      </a>
+                    </SidebarMenuButton>
+                    {item.items?.length ? (
+                      <SidebarMenuSub>
+                        {item.items.map((subitem) => {
+                          const isSubActive = currentPath === subitem.url;
+                          return (
+                            <SidebarMenuSubItem key={subitem.title}>
+                                <SidebarMenuSubButton
+                                asChild
+                                isActive={isSubActive}
+                                
+                                >
+                                <a href={subitem.url}>{subitem.title}</a>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          );
+                        })}
+                      </SidebarMenuSub>
+                    ) : null}
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>

@@ -13,8 +13,9 @@ import Usage from "~/components/astro-components/Usage.astro"
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MonkeyJS</title>
-    <link rel="icon" type="image/svg+xml" href="/monkeyJs/walking-monkey.svg" />
-    <link rel="stylesheet" href="/monkeyJs/styles/global.css" />
+    <link rel="icon" type="image/svg+xml" href="/walking-monkey.svg" />
+    <link rel="stylesheet" href="/demo/monkeyts.css"  />
+    <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body class="font-sans bg-white">
     <Container>
@@ -29,6 +30,7 @@ import Usage from "~/components/astro-components/Usage.astro"
     </div>
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
+
         const demoButton = document.getElementById('init-demo');
         
         if (demoButton) {

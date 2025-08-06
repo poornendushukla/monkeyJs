@@ -3,7 +3,7 @@ import CodeBlock from "./common/CodeBlock.astro";
 import Container from "./container.astro";
 
 const usageExample = `
-<TourContext steps={steps} config={tourConfig}>
+<TourContext steps={steps} config={tourConfig} theme={theme}>
   <YourComponent />
 </TourContext>`
 ---
@@ -21,7 +21,7 @@ const usageExample = `
       
       <!-- Right Column: Code Snippet -->
       <div class="bg-gray-800 p-4 rounded-lg text-white font-mono">
-        <CodeBlock language="js" code={usageExample} />
+        <CodeBlock language="tsx" code={usageExample} />
       </div>
     </div>
     </Container>

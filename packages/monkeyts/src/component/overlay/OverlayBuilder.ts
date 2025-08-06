@@ -91,7 +91,7 @@ class OverlayBuilder implements IOverlay {
         stroke-width:var(--monkey-overlayStrokeWidth);
       `,
       [`mask-animate`]: `
-        animation: monkey-overlayFadeInUp 0.2s ease-in-out;
+        animation: monkey-overlayFadeInUp 0.5s ease forward;
       `,
     });
   }

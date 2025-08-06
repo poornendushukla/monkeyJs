@@ -1,0 +1,80 @@
+---
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | MonkeyJS Docs</title>
+    <link rel="icon" type="image/svg+xml" href="/monkeyJs/walking-monkey.svg" />
+    <link rel="stylesheet" href="/monkeyJs/styles/global.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ede9fe 0%, #f3f4f6 100%);
+      }
+      .monkey-404-container {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 32px #a78bfa44;
+        padding: 3rem 2.5rem 2.5rem 2.5rem;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .monkey-404-logo {
+        width: 96px;
+        height: 96px;
+        margin-bottom: 1.5rem;
+      }
+      .monkey-404-title {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #7c3aed;
+      }
+      .monkey-404-desc {
+        margin-bottom: 1.5rem;
+        font-size: 1.125rem;
+        color: #6b7280;
+      }
+      .monkey-404-btn {
+        display: inline-block;
+        padding: 0.75rem 2rem;
+        background: #7c3aed;
+        color: #fff;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: 0 2px 8px #a78bfa33;
+        transition: background 0.2s;
+        text-decoration: none;
+      }
+      .monkey-404-btn:hover {
+        background: #5b21b6;
+      }
+      .monkey-404-hanging {
+        animation: monkey-swing 2s infinite alternate cubic-bezier(.68,-0.55,.27,1.55);
+        transform-origin: top center;
+      }
+      @keyframes monkey-swing {
+        0% { transform: rotate(-10deg); }
+        100% { transform: rotate(10deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="monkey-404-container">
+      <img src="/hanging-monkey.svg" alt="Hanging Monkey" class="monkey-404-logo monkey-404-hanging" />
+      <h1 class="monkey-404-title">Oops! Page Lost in the Jungle</h1>
+      <p class="monkey-404-desc">Looks like this page swung away with the monkeys.<br />
+        Don't worry, you can always climb back to safety!</p>
+      <a href="/" class="monkey-404-btn">Back to Home Tree</a>
+    </div>
+  </body>
+</html>

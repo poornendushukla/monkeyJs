@@ -57,17 +57,13 @@ const globalAnimations: Record<string, string> = {
     }  
   }\n`,
   overlayFadeInUp: `{\n
-    0%{
+    from {
       opacity:0;
+      transform: translateY(10px);
     }\n
-    50%{
-      opacity:0.5;
-    }\n
-    75%{
-      opacity:.75;
-    }\n
-    100%{
-      opacity:1;
+    to {
+      opacity:1;  
+      transform: translateY(0); /* End at original position */\n
     }\n
   }`,
 };
@@ -116,6 +112,7 @@ class BaseStyleManager {
         stroke-width:2;
         `,
     });
+
   }
   private initializeCustomProperties() {
     for (const [key, value] of Object.entries(this.theme)) {
