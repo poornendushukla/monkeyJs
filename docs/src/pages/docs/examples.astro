@@ -1,0 +1,272 @@
+---
+layout: '../../layouts/DocuLayout.astro'
+title: 'Examples'
+import DocuLayout from '~/layouts/DocuLayout.astro';
+import CodeBlock from '../../components/astro-components/common/CodeBlock.astro';
+
+const exampleConfig = `
+// HTML Structure
+// <div id="welcome-screen">Welcome to our app!</div>
+// <button id="features-button">Features</button>
+// <div id="settings-panel">Settings</div>
+
+import { Tour } from 'monkeyts';
+
+// Define your tour steps
+const steps = [
+  {
+    target: '#welcome-screen',
+    title: 'Welcome',
+    content: 'Welcome to our application! This tour will guide you through the main features.',
+    placement: 'bottom'
+  },
+  {
+    target: '#features-button',
+    title: 'Features',
+    content: 'Click here to explore all the features available in our app.',
+    placement: 'right'
+  },
+  {
+    target: '#settings-panel',
+    title: 'Settings',
+    content: 'Access your account settings and preferences here.',
+    placement: 'left'
+  }
+];
+
+// Initialize tour
+const tour = new Tour({
+  controllerConfig: { steps },
+  tourConfig: {
+    showOverlay: true,
+    overlayOpacity: 0.6,
+    closeOnOutsideClick: false
+  }
+});
+
+// Start the tour
+tour.initTour();
+tour.start();`
+
+const customThemeConfig = `
+import { Tour } from 'monkeyts';
+
+// Define your tour steps
+const steps = [
+  {
+    target: '#step-1',
+    title: 'Custom Theme',
+    content: 'This tour uses a custom theme with different colors and styling.',
+    placement: 'bottom'
+  },
+  {
+    target: '#step-2',
+    title: 'Branding',
+    content: 'You can match the tour to your brand colors and design system.',
+    placement: 'right'
+  }
+];
+// Define custom theme
+
+const customTheme = {
+  colors: {
+    primary: '#10b981', // Green primary color
+    secondary: '#3b82f6', // Blue secondary color
+    text: '#1f2937',
+    background: '#ffffff',
+    overlay: '#000000'
+  },
+  borderRadius: '0.5rem',
+  fontFamily: 'Poppins, sans-serif',
+  spacing: {
+    small: '0.75rem',
+    medium: '1.25rem',
+    large: '2rem'
+  }
+}
+
+// Tour configuration
+const tourConfig = {
+  showOverlay: true,
+  overlayOpacity: 0.5,
+};
+
+// Initialize tour with custom theme
+const tour = new Tour({
+  controllerConfig: { steps },
+  tourConfig,
+  theme: customTheme
+});
+
+// Start the tour
+tour.initTour();
+tour.start();
+`
+
+const reactIntegrationExample = `
+import React, { useEffect } from 'react';
+import { TourContext, useTourContext } from 'react-monkeyjs';
+
+// Define your tour steps
+const steps = [
+  {
+    target: '#dashboard',
+    title: 'Dashboard',
+    content: 'This is your dashboard where you can see an overview of your activity.',
+    placement: 'bottom'
+  },
+  {
+    target: '#profile-button',
+    title: 'Profile',
+    content: 'Click here to view and edit your profile information.',
+    placement: 'right'
+  },
+  {
+    target: '#notifications',
+    title: 'Notifications',
+    content: 'Your notifications will appear here.',
+    placement: 'left',
+    onComplete: () => {
+      console.log('Tour completed!');
+      localStorage.setItem('tourCompleted', 'true');
+    }
+  }
+];
+
+// Main App component
+function App() {
+  return (
+    <TourContext 
+      steps={steps} 
+      config={{
+        showOverlay: true,
+        overlayOpacity: 0.6,
+        closeOnOutsideClick: false,
+        className: 'app-tour'
+      }}
+    >
+      <YourComponent />
+    </TourContext>
+  );
+}}`
+
+const advancedEventHandling = `import { Tour } from 'monkeyts';
+
+// Define your tour steps with event handlers
+const steps = [
+  {
+    target: '#login-form',
+    title: 'Login',
+    content: 'Enter your credentials here to log in.',
+    placement: 'bottom',
+    onNext: () => {
+      console.log('Moving from login step');
+      // Could trigger analytics event
+      window.analytics?.track('tour_step_login_viewed');
+    }
+  },
+  {
+    target: '#search-bar',
+    title: 'Search',
+    content: 'Use the search bar to find what you need quickly.',
+    placement: 'bottom',
+    onNext: () => {
+      console.log('Moving from search step');
+      // Could open the search field automatically
+      document.querySelector('#search-bar')?.focus();
+    },
+    onPrevious: () => {
+      console.log('Going back to login step');
+    }
+  },
+  {
+    target: '#help-button',
+    title: 'Help',
+    content: 'Click here if you need assistance at any time.',
+    placement: 'left',
+    onComplete: () => {
+      console.log('Tour completed');
+      // Save user progress
+      localStorage.setItem('hasCompletedTour', 'true');
+      // Show congratulation message
+      alert('Congratulations! You have completed the tour.');
+    }
+  }
+];
+
+// Initialize tour
+const tour = new Tour({
+  controllerConfig: { steps },
+  tourConfig: {
+    showOverlay: true,
+    overlayOpacity: 0.5
+  }
+});
+
+// Start the tour
+tour.initTour();
+
+// Check if user has completed the tour before
+const hasCompletedTour = localStorage.getItem('hasCompletedTour') === 'true';
+if (!hasCompletedTour) {
+  tour.start();
+}`
+---
+
+<DocuLayout>
+<div class="docs-content">
+  <h1 class="text-3xl font-bold text-gray-900">Examples</h1>
+  <p class="mt-4 text-lg text-gray-700">
+    Explore practical examples of using MonkeyJs in different scenarios.
+  </p>
+
+  <div class="mt-8 space-y-10">
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="basic-tour-example">Basic Tour Example</h2>
+      <p class="mt-2 text-gray-700">
+        A simple example of creating a basic tour with MonkeyJs.
+      </p>
+      
+      <CodeBlock code={exampleConfig} language="js" filename="basic-tour.ts" />
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="custom-themed-tour">Custom Themed Tour</h2>
+      <p class="mt-2 text-gray-700">
+        An example of a tour with custom theming.
+      </p>
+      
+      <CodeBlock code={customThemeConfig} language="js" filename="themed-tour.ts" />
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="react-integration-example">React Integration Example</h2>
+      <p class="mt-2 text-gray-700">
+        An example of using MonkeyJs with React.
+      </p>
+      
+      <CodeBlock code={reactIntegrationExample} language="js" filename="ReactTour.tsx" />
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="advanced-event-handling">Advanced Event Handling</h2>
+      <p class="mt-2 text-gray-700">
+        An example showing how to use event callbacks with tour steps.
+      </p>
+      
+      <CodeBlock code={advancedEventHandling} language="js" filename="event-handling.ts" />
+    </section>
+    
+    <section class="pb-8">
+      <h2 class="text-2xl font-semibold text-gray-800">Next Steps</h2>
+      <p class="mt-2 text-gray-700">
+        Now that you've seen these examples, you might want to explore:
+      </p>
+      <ul class="mt-2 ml-6 list-disc text-gray-700 space-y-2">
+        <li><a href="/monkeyJs/docs/api" class="text-purple-600 hover:underline">Complete API Reference</a></li>
+        <li><a href="/monkeyJs/docs/configuration" class="text-purple-600 hover:underline">Configuration Options</a></li>
+      </ul>
+    </section>
+  </div>
+</div>
+</DocuLayout>

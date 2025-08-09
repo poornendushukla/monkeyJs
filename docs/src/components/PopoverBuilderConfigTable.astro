@@ -1,0 +1,70 @@
+---
+// PopoverBuilderConfigTable.astro
+---
+<div class="mt-4 overflow-x-auto">
+  <table class="min-w-full text-sm text-left border border-gray-300 rounded-lg shadow-sm bg-white">
+    <thead class="bg-gradient-to-r from-pink-100 to-blue-100">
+      <tr>
+        <th class="px-4 py-3 border-b border-gray-200 font-semibold text-gray-800">Property</th>
+        <th class="px-4 py-3 border-b border-gray-200 font-semibold text-gray-800">Type</th>
+        <th class="px-4 py-3 border-b border-gray-200 font-semibold text-gray-800">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">overlayConfig</td>
+        <td class="px-4 py-3 border-b border-gray-100">OverlayBuilderConfig</td>
+        <td class="px-4 py-3 border-b border-gray-100">Configuration for the overlay appearance and behavior.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">progressBar</td>
+        <td class="px-4 py-3 border-b border-gray-100">boolean</td>
+        <td class="px-4 py-3 border-b border-gray-100">Show a progress bar in the popover.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">progressBarSteps</td>
+        <td class="px-4 py-3 border-b border-gray-100">number</td>
+        <td class="px-4 py-3 border-b border-gray-100">Number of steps to show in the progress bar.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">nextBtnText</td>
+        <td class="px-4 py-3 border-b border-gray-100">string</td>
+        <td class="px-4 py-3 border-b border-gray-100">Text for the next button.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">prevBtnText</td>
+        <td class="px-4 py-3 border-b border-gray-100">string</td>
+        <td class="px-4 py-3 border-b border-gray-100">Text for the previous button.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">position</td>
+        <td class="px-4 py-3 border-b border-gray-100">TPopoverPosition</td>
+        <td class="px-4 py-3 border-b border-gray-100">Popover position relative to the target element.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">offsetX</td>
+        <td class="px-4 py-3 border-b border-gray-100">number</td>
+        <td class="px-4 py-3 border-b border-gray-100">Horizontal offset for the popover.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">offsetY</td>
+        <td class="px-4 py-3 border-b border-gray-100">number</td>
+        <td class="px-4 py-3 border-b border-gray-100">Vertical offset for the popover.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">isArrowVisible</td>
+        <td class="px-4 py-3 border-b border-gray-100">boolean</td>
+        <td class="px-4 py-3 border-b border-gray-100">Show an arrow on the popover.</td>
+      </tr>
+      <tr class="hover:bg-pink-50">
+        <td class="px-4 py-3 border-b border-gray-100 font-bold">isCloseBtnVisible</td>
+        <td class="px-4 py-3 border-b border-gray-100">boolean</td>
+        <td class="px-4 py-3 border-b border-gray-100">Show a close button on the popover.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p class="mt-4 text-sm text-yellow-800 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded shadow-sm">
+  <strong>Note:</strong> Some properties may be optional or depend on your implementation. See the API docs for more details.
+</p>

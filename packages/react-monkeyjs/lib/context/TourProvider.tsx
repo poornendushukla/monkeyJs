@@ -45,6 +45,12 @@ export const TourContext: React.FC<TourContextProps> = ({
     if (!tour?.isTourActive) {
       tour.initTour();
     }
+    setTimeout(() => {
+      tour.start();
+    }, 1000);
+    return () => {
+      tour.distroy();
+    };
   }, [tour, tour?.isTourActive]);
   return (
     <Context.Provider

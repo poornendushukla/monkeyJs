@@ -1,0 +1,58 @@
+---
+import Card from "./common/Card.astro";
+import Container from "./container.astro";
+
+
+---
+
+<section class="w-full p-24 ">
+    <Container>
+        <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <h1 class="col-span-3 sm:col-span-2 md:col-span-3 mb-14 text-center text-3xl md:text-4xl xl:text-5xl font-bold mb-3 xl:mb-5">Features</h1>
+            <Card 
+              id="monkey-feature-extensible"
+              title="Extensible" 
+              description="MonkeyJs is designed to be easily extensible. You can add your own steps and plugins to the library to suit your needs." 
+              icon="/monkeyJs/hanging-monkey.svg"
+              path="/monkeyJs/docs/introduction"
+            />
+            <Card 
+            id="monkey-feature-customizable"
+              title="Customizable" 
+              description="MonkeyJs is designed to be easily customizable. You can customize the steps and plugins to suit your needs." 
+              icon="/monkeyJs/lightweight.svg"
+              path="/monkeyJs/docs/introduction"
+            />
+            <Card 
+              id="monkey-feature-lightweight"
+              title="Lightweight" 
+              description="MonkeyJs is designed to be lightweight and fast. It is designed to be used in any project and is not dependent on any other library." 
+              icon="/monkeyJs/walking-monkey.svg"
+              path="/monkeyJs/docs/introduction"
+            />
+            <Card 
+              id="monkey-feature-strongly-typed"
+              title="Strongly Typed" 
+              description="Written in Typescript, MonkeyJs is strongly typed and will give you type safety when using the library." 
+              icon="/monkeyJs/no-hear-monkey.svg"
+              path="/monkeyJs/docs/introduction"
+            />
+            <Card 
+              id="monkey-feature-developer-friendly"
+              title="Developer Friendly" 
+              description="MonkeyJs is designed to be developer friendly. It is designed to be easy to understand and use." 
+              icon="/monkeyJs/developer-monkey.svg"
+              path="/monkeyJs/docs/introduction"
+            />
+            <Card 
+              id="monkey-feature-open-source"
+              title="Open Source" 
+              description="MonkeyJs is open source and free to use. You can use it in any project and modify it to suit your needs." 
+              icon="/monkeyJs/open-source.svg"
+              path="/monkeyJs/docs/introduction"
+              borderColor=false
+            />
+          </div>
+          
+    </Container>
+</section>

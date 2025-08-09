@@ -81,7 +81,7 @@ export class TourState {
   refreshTour(targetElement: Element) {
     const boundingRect = targetElement.getBoundingClientRect();
     // this is just to avoid the warning from pre-commit hook
-    console.log(boundingRect);
+    return boundingRect
   }
   addStepsEnd(steps: stepComponent[]) {
     this._stepsComponent.push(...steps);

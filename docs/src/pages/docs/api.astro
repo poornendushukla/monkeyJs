@@ -1,0 +1,125 @@
+---
+layout: '../../layouts/docs.astro'
+title: 'API Reference'
+import DocuLayout from '~/layouts/DocuLayout.astro';
+import CodeBlock from '../../components/astro-components/common/CodeBlock.astro';
+
+ const coreTourConfig = `
+  initTour(): void   // Initializes the tour with the configured steps.
+  start(): Promise<void>   // Starts the tour if it's not already started.
+  destroy(): void   // Ends and destroys the current tour.
+ `
+
+ const reactTourProps = `
+  steps: stepComponent[]   // Array of tour steps to be displayed.
+  config: PopoverBuilderConfig   // Configuration for the popover builder.
+  theme?: Partial<ThemeType>   // Optional theme customization for the tour UI.
+  children: React.ReactNode   // Child components that will have access to the tour context.
+ `
+---
+
+<DocuLayout>
+<div class="docs-content">
+  <h1 class="text-3xl font-bold text-gray-900">API Reference</h1>
+  <p class="mt-4 text-lg text-gray-700">
+    Explore the complete API documentation for MonkeyJs.
+  </p>
+
+  <div class="mt-8 space-y-10">
+    <section id="core-api">
+      <h2 class="text-2xl font-semibold text-gray-800">Core API</h2>
+      
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">Tour Class</h3>
+        <p class="mt-2 text-gray-700">
+            The main class for creating and controlling tours. It manages the tour lifecycle, including initialization, starting, and cleanup, and provides methods to interact with the tour programmatically.
+        </p>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Constructor</h4>
+          </div>
+          <div class="p-4">
+            <CodeBlock code={`new Tour(config: TourConfig, theme?: Partial<ThemeType>)`} language="js" />
+            <p class="mt-2 text-gray-700">Creates a new tour instance with the provided configuration.</p>
+          </div>
+        </div>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Methods</h4>
+          </div>
+          <div class="p-4 space-y-4">
+            <div>
+              <CodeBlock code={coreTourConfig} language="js" />
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Properties</h4>
+          </div>
+          <div class="p-4">
+            <div>
+              <CodeBlock code={`isTourActive: boolean`} language="js" />
+              <p class="mt-1 text-gray-700">Returns true if the tour is currently active.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="react-api">
+      <h2 class="text-2xl font-semibold text-gray-800">React API</h2>
+      
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">TourContext Component</h3>
+        <p class="mt-2 text-gray-700">
+          React context provider for the tour functionality. Wrap your application with this component to enable tour features in your React components.
+          you can access the tour context using the `useTourContext` hook.
+        </p>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-semibold text-gray-800">Props</h4>
+          </div>
+          <div class="p-4 space-y-4">
+              <CodeBlock code={reactTourProps} language="js" />
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6">
+        <h3 class="text-xl font-medium text-gray-800">useTourContext Hook</h3>
+        <p class="mt-2 text-gray-700">
+          React hook to access tour functionality within components.
+        </p>
+        
+        <div class="mt-4 border border-gray-200 rounded-md overflow-hidden">
+          <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+            <h4 class="font-medium text-gray-800">Returns</h4>
+          </div>
+          <div class="p-4 space-y-4">
+            <div>
+              <CodeBlock code={`
+                {
+                  start: () => Promise<void>,
+                  isTourActive: boolean,
+                  distroy: () => void 
+                }`} language="js" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="pb-8">
+      <h2 class="text-2xl font-semibold text-gray-800">Types Reference</h2>
+      <p class="mt-2 text-gray-700">
+        For detailed type definitions, please refer to the complete <a href="/monkeyJs/docs/types" class="text-purple-600 hover:underline">Types Documentation</a>.
+      </p>
+    </section>
+  </div>
+</div>
+</DocuLayout>

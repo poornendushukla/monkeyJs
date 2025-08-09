@@ -1,0 +1,207 @@
+---
+layout: '../../layouts/DocuLayout.astro'
+title: 'Types Reference'
+import DocuLayout from '~/layouts/DocuLayout.astro';
+import CodeBlock from '../../components/astro-components/common/CodeBlock.astro';
+import StepComponentTable from '../../components/StepComponentTable.astro';
+import ThemeTypeTable from '../../components/ThemeTypeTable.astro';
+import PopoverBuilderConfigTable from '../../components/PopoverBuilderConfigTable.astro';
+import OverlayBuilderConfigTable from '../../components/OverlayBuilderConfigTable.astro';
+
+const TourConfig = `
+  type TourConfig = {
+  controllerConfig: TourControllerConfig;
+  tourConfig: PopoverBuilderConfig;
+};`
+const PopoverBuilderConfig = `
+type PopoverBuilderConfig = {
+    overlayConfig: OverlayBuilderConfig;
+    progressBar: boolean;
+    progressBarSteps: number;
+    nextBtnText: string;
+    prevBtnText: string;
+    position: TPopoverPosition;
+    offsetX: number;
+    offsetY: number;
+    isArrowVisible: boolean;
+    isCloseBtnVisible: boolean;
+  };`
+const TourControllerConfig = `
+  type TourControllerConfig = {
+  steps: stepComponent[];
+};`
+const StepComponent = `
+ type stepComponent = {
+  target: string;
+  title: string;
+  content: string;
+  placement?: 'top' | 'bottom' | 'left' | 'right';
+  showArrow?: boolean;
+  showButtons?: boolean;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  onComplete?: () => void;
+};`
+
+const overlayBuilderConfig = `
+type OverlayBuilderConfig = {
+  radius: number;
+  padding: {
+    top: number;
+    bottom: number;
+    right: number;
+    left: number;
+  }
+}`
+
+const themeType = `
+type ThemeType = {
+  fontFamily: string;
+  fontSize: string;
+  textColor: string;
+  popoverBgColor: string;
+  popoverPadding: string;
+  popoverBorderRadius: string;
+  popoverBoxShadow: string;
+  popoverBtnPadding: string;
+  overlayColor: string;
+  overlayOpacity: number;
+  overlayRadius: string;
+  overlayPadding: string;
+  overlayStrokeWidth: number;
+  ovelayStrokeColor: string;
+  primaryBtnBgColor: string;
+  primaryBtnColor: string;
+  secondaryBtnColor: string;
+  secondaryBtnBgColor: string;
+  baseZIndex: number;
+  overlayZIndex: number;
+  arrowColor: string;
+};`
+
+const tourContextProps = `
+type TourContextProps = {
+  steps: stepComponent[];
+  config: PopoverBuilderConfig;
+  theme?: Partial<ThemeType>;
+  children: React.ReactNode;
+};`
+
+const tourContextValue = `
+type TourContextValue = {
+  start: () => Promise<void>;
+  isTourActive: boolean;
+  distroy: () => void;
+};`
+---
+
+<DocuLayout>
+<div class="docs-content">
+  <h1 class="text-3xl font-bold text-gray-900">Types Reference</h1>
+  <p class="mt-4 text-lg text-gray-700">
+    Complete reference of TypeScript types used in MonkeyJs.
+  </p>
+
+  <div class="mt-8 space-y-10">
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="core-types">Core Types</h2>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">Tour Config</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={TourConfig} language="javascript" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">Tour Controller Config</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={TourControllerConfig} language="javascript" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">Step Component</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={StepComponent} language="javascript" />
+          <StepComponentTable />
+        </div>
+      </div>
+    </section>
+
+    <section >
+      <h2 class="text-2xl font-semibold text-gray-800" id="ui-component-types">UI Component Types</h2>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">PopoverBuilderConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={PopoverBuilderConfig} language="javascript" />
+          <PopoverBuilderConfigTable />
+        </div>
+      </div>
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">OverlayBuilderConfig</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={overlayBuilderConfig} language="javascript" />
+          <OverlayBuilderConfigTable />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">ThemeType</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={themeType} language="javascript" />
+          <ThemeTypeTable />
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section>
+      <h2 class="text-2xl font-semibold text-gray-800" id="react-types">React Types</h2>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourContextProps</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourContextProps} language="javascript" />
+        </div>
+      </div>
+      
+      <div class="mt-6 border border-gray-200 rounded-md overflow-hidden">
+        <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+          <h3 class="font-medium text-gray-800">TourContextValue</h3>
+        </div>
+        <div class="p-4">
+          <CodeBlock code={tourContextValue} language="javascript" />
+        </div>
+      </div>
+    </section>
+    
+    <section class="pb-8">
+      <h2 class="text-2xl font-semibold text-gray-800">Additional Resources</h2>
+      <p class="mt-2 text-gray-700">
+        For more detailed information on using these types, refer to:
+      </p>
+      <ul class="mt-2 ml-6 list-disc text-gray-700 space-y-2">
+        <li><a href="/monkeyJs/docs/api" class="text-purple-600 hover:underline">API Reference</a></li>
+        <li><a href="/monkeyJs/docs/examples" class="text-purple-600 hover:underline">Code Examples</a></li>
+      </ul>
+    </section>
+  </div>
+</div>
+</DocuLayout>

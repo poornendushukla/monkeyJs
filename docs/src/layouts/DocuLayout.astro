@@ -1,18 +1,25 @@
 ---
-import Page from '../components/page'
+import { AppSidebar } from "../components/app-sidebar";
+import Header from "../components/astro-components/Header.astro"
+import '../styles/prism.css';
+import '../styles/global.css';
+
+// Get frontmatter props
+const { title, frontmatter } = Astro.props;
+const pageTitle = title || frontmatter?.title || "MonkeyJs Documentation";
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/monkeyJs/open-source.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Docs - My Library</title>
-    <link rel="stylesheet" href="/styles/global.css" />
+    <title>{pageTitle}</title>
   </head>
   <body class="font-sans bg-gray-50">
     <div class="flex">
-      <Page />
-      <main class="flex-1 p-8">
+      <AppSidebar client:load />
+      <main class="p-8 ">
         <slot />
       </main>
     </div>

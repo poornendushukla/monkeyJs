@@ -1,0 +1,29 @@
+---
+import CodeBlock from "./common/CodeBlock.astro";
+import Container from "./container.astro";
+
+const usageExample = `
+<TourContext steps={steps} config={tourConfig} theme={theme}>
+  <YourComponent />
+</TourContext>`
+---
+
+<section class="w-full p-24 bg-white">
+    <Container>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Left Column: Description -->
+      <div class="flex flex-col gap-6">
+        <h1 class="text-5xl font-bold text-gray-800 flex items-center">Usage Example</h1>
+        <p class="text-gray-700">
+          This is a simple example to demonstrate how to use the component. The left column contains a brief explanation, while the right column shows the corresponding code snippet.
+        </p>
+      </div>
+      
+      <!-- Right Column: Code Snippet -->
+      <div class="bg-gray-800 p-4 rounded-lg text-white font-mono">
+        <CodeBlock language="tsx" code={usageExample} />
+      </div>
+    </div>
+    </Container>
+</section>
+  
