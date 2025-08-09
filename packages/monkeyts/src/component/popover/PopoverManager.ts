@@ -150,16 +150,7 @@ class PopoverManager {
     top += (offsetY ?? 0);
     
     
-    console.log('Popover position calculated', {
-      left,
-      top,
-      offsetX,
-      offsetY,
-      position,
-      tleft: targetRect.left,
-      ttop: targetRect.top,
-      popoverRect,
-    });
+    
     return { top:Number(top), left:Number(left) };
   }
 

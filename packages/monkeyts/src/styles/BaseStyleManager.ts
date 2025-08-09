@@ -96,7 +96,6 @@ class BaseStyleManager {
     initialTheme: Partial<ThemeType> = defaultTheme,
   ): BaseStyleManager {
     if (!BaseStyleManager.instance) {
-      console.log(defaultTheme, initialTheme);
       BaseStyleManager.instance = new BaseStyleManager({
         ...defaultTheme,
         ...initialTheme,
