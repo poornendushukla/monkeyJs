@@ -26,6 +26,6 @@ Visit our [documentation website](https://poornendushukla.github.io/monkeyJs/) t
 - Examples and demos
 - TypeScript types
 
-## Getting Started
+## Why another touring library?
 
-Check out the [setup guide](https://poornendushukla.github.io/monkeyJs/docs/setup) to get started with MonkeyJs.
+I developed this library with a strong emphasis on code readability and maintainability. While there are thousands of other libraries offering similar features, MonkeyJs stands out due to its highly modular and extensible codebase. Our approach ensures that developers can easily understand, extend, and contribute new features, making it an ideal choice for collaborative and long-term projects.

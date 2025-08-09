@@ -1,6 +1,5 @@
 ---
 import { AppSidebar } from "../components/app-sidebar";
-import { SidebarProvider } from "../components/ui/sidebar";
 import Header from "../components/astro-components/Header.astro"
 import '../styles/prism.css';
 import '../styles/global.css';
@@ -13,6 +12,7 @@ const pageTitle = title || frontmatter?.title || "MonkeyJs Documentation";
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/monkeyJs/open-source.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
   </head>

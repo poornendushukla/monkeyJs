@@ -20,7 +20,7 @@ const data = {
   navMain: [
     {
       title: 'Introduction',
-      url: '/docs',
+      url: '/docs/introduction',
       items: [],
     },
     {
@@ -109,13 +109,16 @@ const data = {
         },
       ],
     },
+    {
+      title: 'Contributing',
+      url: '/docs/contributing',
+    },
   ],
 };
 
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // SSR-safe: fallback to '' if window is not defined
   const [currentPath, setCurrentPath] = React.useState('');
+
   React.useEffect(() => {
     setCurrentPath(window.location.pathname + window.location.hash);
   }, []);
@@ -127,16 +130,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <div className="flex flex-col items-center mb-2">
-                <a href='/'>
+                <a href="/monkeyJs">
                   <img
-                    src="/monkeyjs.png"
+                    src="/monkeyJs/monkeyjs.png"
                     alt="MonkeyJs Logo"
-                    className="w-32 h-32 rounded-full  mb-2"
+                    className="w-32 h-32 rounded-full mb-2"
                   />
                 </a>
               </div>
               <SidebarMenuButton size="lg" asChild>
-                <a href="/docs">
+                <a href="/monkeyJs/docs">
                   <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                     <GalleryVerticalEnd className="size-4" />
                   </div>
@@ -153,27 +156,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroup>
             <SidebarMenu>
               {data.navMain.map((item) => {
-                // Mark main item active if currentPath starts with its url
-                const isMainActive = currentPath.startsWith('/monkeyJs' + item.url);
+                const isMainActive = currentPath.includes(
+                  '/monkeyJs' + item.url,
+                );
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={isMainActive}>
-                      <a href={item.url} className="font-medium">
-                        {item.title}
-                      </a>
+                    <SidebarMenuButton
+                      asChild
+                      className={`font-medium ${
+                        isMainActive
+                          ? 'text-purple-600 bg-purple-100'
+                          : 'text-gray-700 hover:text-purple-600'
+                      }`}
+                    >
+                      <a href={`/monkeyJs${item.url}`}>{item.title}</a>
                     </SidebarMenuButton>
                     {item.items?.length ? (
                       <SidebarMenuSub>
                         {item.items.map((subitem) => {
-                          const isSubActive = currentPath === subitem.url;
+                          const isSubActive = false;
                           return (
                             <SidebarMenuSubItem key={subitem.title}>
-                                <SidebarMenuSubButton
+                              <SidebarMenuSubButton
                                 asChild
-                                isActive={isSubActive}
-                                
-                                >
-                                <a href={subitem.url}>{subitem.title}</a>
+                                className={`${
+                                  isSubActive
+                                    ? 'text-purple-600 bg-purple-100'
+                                    : 'text-gray-700 hover:text-purple-600'
+                                }`}
+                              >
+                                <a href={`/monkeyJs${subitem.url}`}>
+                                  {subitem.title}
+                                </a>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                           );

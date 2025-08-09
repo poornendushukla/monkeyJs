@@ -148,6 +148,20 @@ function SidebarProvider({
   );
 }
 
+function SidebarToggleButton() {
+  const { toggleSidebar } = useSidebar();
+
+  return (
+    <button
+      onClick={toggleSidebar}
+      className="absolute top-2 left-2 z-20 p-2 bg-gray-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+      aria-label="Toggle Sidebar"
+    >
+      <PanelLeftIcon className="w-5 h-5 text-gray-700" />
+    </button>
+  );
+}
+
 function Sidebar({
   side = 'left',
   variant = 'sidebar',
@@ -172,6 +186,7 @@ function Sidebar({
         )}
         {...props}
       >
+        <SidebarToggleButton />
         {children}
       </div>
     );
@@ -192,6 +207,7 @@ function Sidebar({
           }
           side={side}
         >
+          <SidebarToggleButton />
           <SheetHeader className="sr-only">
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
@@ -211,7 +227,7 @@ function Sidebar({
       data-side={side}
       data-slot="sidebar"
     >
-      {/* This is what handles the sidebar gap on desktop */}
+      <SidebarToggleButton />
       <div
         className={cn(
           'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
@@ -684,7 +700,7 @@ function SidebarMenuSubButton({
         'data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground',
         size === 'sm' && 'text-xs',
         size === 'md' && 'text-sm',
-        
+
         'group-data-[collapsible=icon]:hidden',
         className,
       )}
