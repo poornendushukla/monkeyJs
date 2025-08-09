@@ -17,7 +17,7 @@ permissions:
 
 # Allow only one concurrent deployment
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: true
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
 
       - name: Build site
         run: cd docs && pnpm build
-        
+
       - name: Build demo files
         run: bash scripts/build-demo.sh
 
@@ -58,7 +58,7 @@ jobs:
           cp packages/monkeyts/dist/monkeyts.css docs/dist/demo/
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: docs/dist
 

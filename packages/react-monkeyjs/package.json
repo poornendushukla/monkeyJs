@@ -13,16 +13,15 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc --p ./tsconfig.build.json && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "prepublishOnly": "build"
   },
-  "dependencies": {
-    "monkeyts": "workspace:*"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "monkeyts": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
@@ -38,6 +37,7 @@
     "vite": "^5.4.10",
     "vite-plugin-dts": "^4.3.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "monkeyts": "workspace:*"
   }
 }
