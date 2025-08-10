@@ -37,7 +37,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: pnpm
-          cache-dependency-path: docs/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
