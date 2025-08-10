@@ -6,16 +6,13 @@ on:
       - main
     paths:
       - 'docs/**'
-  # Allow manual triggers from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: 'pages'
   cancel-in-progress: true
@@ -54,8 +51,10 @@ jobs:
       - name: Copy demo files
         run: |
           mkdir -p docs/dist/demo
-          cp doc/public/demo/monkeyts.umd.js docs/dist/demo/
-          cp doc/public/demo/monkeyts.css docs/dist/demo/
+          dev/docs-update
+          cp docs/public/demo/monkeyts.umd.js docs/dist/demo/
+          cp docs/public/demo/monkeyts.css docs/dist/demo/
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
