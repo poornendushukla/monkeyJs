@@ -54,8 +54,8 @@ jobs:
       - name: Copy demo files
         run: |
           mkdir -p docs/dist/demo
-          cp packages/monkeyts/dist/monkeyts.umd.js docs/dist/demo/
-          cp packages/monkeyts/dist/monkeyts.css docs/dist/demo/
+          cp doc/public/demo/monkeyts.umd.js docs/dist/demo/
+          cp doc/public/demo/monkeyts.css docs/dist/demo/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
