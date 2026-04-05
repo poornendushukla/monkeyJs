@@ -46,7 +46,9 @@ export const TourContext: React.FC<TourContextProps> = ({
         },
         theme,
       ),
-    // Tour instance is intentionally created once on mount
+    // Tour is created once on mount. Steps, config, and theme are read at
+    // initialization time. Re-mounting the component (or unmounting and
+    // remounting) will create a fresh tour with updated props.
     [],
   );
 
