@@ -1,22 +1,27 @@
-import { createContext, useContext, useEffect, useMemo } from 'react';
 import {
-  TourController,
-  stepComponent,
-  Tour,
-  ThemeType,
-  PopoverBuilderConfig,
-} from 'monkeyts';
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { stepComponent, Tour, ThemeType, PopoverBuilderConfig } from 'monkeyts';
+
 type ContextType = {
-  start: TourController['start'];
+  start: () => Promise<void>;
   isTourActive: boolean;
-  distroy: TourController['distroy'];
+  distroy: () => void;
 };
+
 const Context = createContext<ContextType>({
-  start: {} as Tour['start'],
+  start: async () => {},
   isTourActive: false,
-  distroy: {} as Tour['distroy'],
+  distroy: () => {},
 });
+
 export const useTourContext = (): ContextType => useContext(Context);
+
 export type TourContextProps = {
   steps: stepComponent[];
   config: PopoverBuilderConfig;
@@ -30,34 +35,53 @@ export const TourContext: React.FC<TourContextProps> = ({
   config,
   theme,
 }) => {
+  const [isTourActive, setIsTourActive] = useState(false);
+
   const tour = useMemo(
     () =>
       new Tour(
         {
-          controllerConfig: { steps: steps },
+          controllerConfig: { steps },
           tourConfig: config,
         },
         theme,
       ),
+    // Tour is created once on mount. Steps, config, and theme are read at
+    // initialization time. Re-mounting the component (or unmounting and
+    // remounting) will create a fresh tour with updated props.
     [],
   );
+
   useEffect(() => {
-    if (!tour?.isTourActive) {
-      tour.initTour();
-    }
-    setTimeout(() => {
-      tour.start();
-    }, 1000);
+    tour.initTour();
+
+    const handleStart = () => setIsTourActive(true);
+    const handleEnd = () => setIsTourActive(false);
+
+    window.addEventListener('onStart', handleStart);
+    window.addEventListener('onEnd', handleEnd);
+
     return () => {
+      window.removeEventListener('onStart', handleStart);
+      window.removeEventListener('onEnd', handleEnd);
       tour.distroy();
     };
-  }, [tour, tour?.isTourActive]);
+  }, [tour]);
+
+  const start = useCallback(async () => {
+    await tour.start();
+  }, [tour]);
+
+  const distroy = useCallback(() => {
+    tour.distroy();
+  }, [tour]);
+
   return (
     <Context.Provider
       value={{
-        start: tour.start,
-        isTourActive: tour.isTourActive,
-        distroy: tour.distroy,
+        start,
+        isTourActive,
+        distroy,
       }}
     >
       {children}
