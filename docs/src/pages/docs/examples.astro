@@ -10,27 +10,24 @@ const exampleConfig = `
 // <button id="features-button">Features</button>
 // <div id="settings-panel">Settings</div>
 
-import { Tour } from 'monkeyts';
+import { Tour, POPOVER_POSITION_CONSTANT } from 'monkeyts';
 
 // Define your tour steps
 const steps = [
   {
-    target: '#welcome-screen',
+    element: 'welcome-screen',
     title: 'Welcome',
-    content: 'Welcome to our application! This tour will guide you through the main features.',
-    placement: 'bottom'
+    description: 'Welcome to our application! This tour will guide you through the main features.'
   },
   {
-    target: '#features-button',
+    element: 'features-button',
     title: 'Features',
-    content: 'Click here to explore all the features available in our app.',
-    placement: 'right'
+    description: 'Click here to explore all the features available in our app.'
   },
   {
-    target: '#settings-panel',
+    element: 'settings-panel',
     title: 'Settings',
-    content: 'Access your account settings and preferences here.',
-    placement: 'left'
+    description: 'Access your account settings and preferences here.'
   }
 ];
 
@@ -38,9 +35,19 @@ const steps = [
 const tour = new Tour({
   controllerConfig: { steps },
   tourConfig: {
-    showOverlay: true,
-    overlayOpacity: 0.6,
-    closeOnOutsideClick: false
+    isArrowVisible: true,
+    isCloseBtnVisible: true,
+    position: POPOVER_POSITION_CONSTANT.BOTTOM,
+    progressBar: false,
+    progressBarSteps: 0,
+    nextBtnText: '',
+    prevBtnText: '',
+    offsetX: 0,
+    offsetY: 0,
+    overlayConfig: {
+      radius: 10,
+      padding: { top: 10, bottom: 10, right: 10, left: 10 }
+    }
   }
 });
 
@@ -49,54 +56,52 @@ tour.initTour();
 tour.start();`
 
 const customThemeConfig = `
-import { Tour } from 'monkeyts';
+import { Tour, POPOVER_POSITION_CONSTANT } from 'monkeyts';
 
 // Define your tour steps
 const steps = [
   {
-    target: '#step-1',
+    element: 'step-1',
     title: 'Custom Theme',
-    content: 'This tour uses a custom theme with different colors and styling.',
-    placement: 'bottom'
+    description: 'This tour uses a custom theme with different colors and styling.'
   },
   {
-    target: '#step-2',
+    element: 'step-2',
     title: 'Branding',
-    content: 'You can match the tour to your brand colors and design system.',
-    placement: 'right'
+    description: 'You can match the tour to your brand colors and design system.'
   }
 ];
-// Define custom theme
 
+// Define custom theme
 const customTheme = {
-  colors: {
-    primary: '#10b981', // Green primary color
-    secondary: '#3b82f6', // Blue secondary color
-    text: '#1f2937',
-    background: '#ffffff',
-    overlay: '#000000'
-  },
-  borderRadius: '0.5rem',
-  fontFamily: 'Poppins, sans-serif',
-  spacing: {
-    small: '0.75rem',
-    medium: '1.25rem',
-    large: '2rem'
-  }
-}
+  primaryBtnBgColor: '#10b981',
+  secondaryBtnBgColor: '#3b82f6',
+  textColor: '#1f2937',
+  fontFamily: 'Poppins, sans-serif'
+};
 
 // Tour configuration
 const tourConfig = {
-  showOverlay: true,
-  overlayOpacity: 0.5,
+  isArrowVisible: true,
+  isCloseBtnVisible: true,
+  position: POPOVER_POSITION_CONSTANT.BOTTOM,
+  progressBar: false,
+  progressBarSteps: 0,
+  nextBtnText: '',
+  prevBtnText: '',
+  offsetX: 0,
+  offsetY: 0,
+  overlayConfig: {
+    radius: 10,
+    padding: { top: 10, bottom: 10, right: 10, left: 10 }
+  }
 };
 
 // Initialize tour with custom theme
 const tour = new Tour({
   controllerConfig: { steps },
-  tourConfig,
-  theme: customTheme
-});
+  tourConfig
+}, customTheme);
 
 // Start the tour
 tour.initTour();
@@ -104,102 +109,118 @@ tour.start();
 `
 
 const reactIntegrationExample = `
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TourContext, useTourContext } from 'react-monkeyjs';
+import { POPOVER_POSITION_CONSTANT } from 'monkeyts';
 
 // Define your tour steps
 const steps = [
   {
-    target: '#dashboard',
+    element: 'dashboard',
     title: 'Dashboard',
-    content: 'This is your dashboard where you can see an overview of your activity.',
-    placement: 'bottom'
+    description: 'This is your dashboard where you can see an overview of your activity.'
   },
   {
-    target: '#profile-button',
+    element: 'profile-button',
     title: 'Profile',
-    content: 'Click here to view and edit your profile information.',
-    placement: 'right'
+    description: 'Click here to view and edit your profile information.'
   },
   {
-    target: '#notifications',
+    element: 'notifications',
     title: 'Notifications',
-    content: 'Your notifications will appear here.',
-    placement: 'left',
-    onComplete: () => {
-      console.log('Tour completed!');
-      localStorage.setItem('tourCompleted', 'true');
-    }
+    description: 'Your notifications will appear here.'
   }
 ];
 
 // Main App component
 function App() {
   return (
-    <TourContext 
-      steps={steps} 
+    <TourContext
+      steps={steps}
       config={{
-        showOverlay: true,
-        overlayOpacity: 0.6,
-        closeOnOutsideClick: false,
-        className: 'app-tour'
+        isArrowVisible: true,
+        isCloseBtnVisible: true,
+        position: POPOVER_POSITION_CONSTANT.BOTTOM,
+        progressBar: true,
+        progressBarSteps: steps.length,
+        nextBtnText: '',
+        prevBtnText: '',
+        offsetX: 0,
+        offsetY: 0,
+        overlayConfig: {
+          radius: 10,
+          padding: { top: 10, bottom: 10, right: 10, left: 10 }
+        }
       }}
     >
       <YourComponent />
     </TourContext>
   );
-}}`
+}
 
-const advancedEventHandling = `import { Tour } from 'monkeyts';
+// Start the tour from a child component
+function StartButton() {
+  const { start } = useTourContext();
 
-// Define your tour steps with event handlers
+  return (
+    <button onClick={start}>
+      Start Tour
+    </button>
+  );
+}`
+
+const advancedEventHandling = `import { Tour, POPOVER_POSITION_CONSTANT } from 'monkeyts';
+
+// Define your tour steps with actions
 const steps = [
   {
-    target: '#login-form',
+    element: 'login-form',
     title: 'Login',
-    content: 'Enter your credentials here to log in.',
-    placement: 'bottom',
-    onNext: () => {
-      console.log('Moving from login step');
-      // Could trigger analytics event
+    description: 'Enter your credentials here to log in.',
+    action: async () => {
+      console.log('Login step shown');
       window.analytics?.track('tour_step_login_viewed');
     }
   },
   {
-    target: '#search-bar',
+    element: 'search-bar',
     title: 'Search',
-    content: 'Use the search bar to find what you need quickly.',
-    placement: 'bottom',
-    onNext: () => {
-      console.log('Moving from search step');
-      // Could open the search field automatically
+    description: 'Use the search bar to find what you need quickly.',
+    action: async () => {
+      console.log('Search step shown');
       document.querySelector('#search-bar')?.focus();
-    },
-    onPrevious: () => {
-      console.log('Going back to login step');
     }
   },
   {
-    target: '#help-button',
+    element: 'help-button',
     title: 'Help',
-    content: 'Click here if you need assistance at any time.',
-    placement: 'left',
-    onComplete: () => {
-      console.log('Tour completed');
-      // Save user progress
-      localStorage.setItem('hasCompletedTour', 'true');
-      // Show congratulation message
-      alert('Congratulations! You have completed the tour.');
-    }
+    description: 'Click here if you need assistance at any time.'
   }
 ];
+
+// Listen for tour lifecycle events
+window.addEventListener('onEnd', () => {
+  console.log('Tour completed');
+  localStorage.setItem('hasCompletedTour', 'true');
+});
 
 // Initialize tour
 const tour = new Tour({
   controllerConfig: { steps },
   tourConfig: {
-    showOverlay: true,
-    overlayOpacity: 0.5
+    isArrowVisible: true,
+    isCloseBtnVisible: true,
+    position: POPOVER_POSITION_CONSTANT.BOTTOM,
+    progressBar: false,
+    progressBarSteps: 0,
+    nextBtnText: '',
+    prevBtnText: '',
+    offsetX: 0,
+    offsetY: 0,
+    overlayConfig: {
+      radius: 10,
+      padding: { top: 10, bottom: 10, right: 10, left: 10 }
+    }
   }
 });
 

@@ -31,16 +31,12 @@ const TourControllerConfig = `
   steps: stepComponent[];
 };`
 const StepComponent = `
- type stepComponent = {
-  target: string;
+type stepComponent = {
+  element: string;
   title: string;
-  content: string;
-  placement?: 'top' | 'bottom' | 'left' | 'right';
-  showArrow?: boolean;
-  showButtons?: boolean;
-  onNext?: () => void;
-  onPrevious?: () => void;
-  onComplete?: () => void;
+  description: string;
+  action?: () => Promise<unknown>;
+  condition?: () => boolean;
 };`
 
 const overlayBuilderConfig = `
